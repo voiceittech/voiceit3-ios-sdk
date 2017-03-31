@@ -12,7 +12,10 @@
 @interface CameraViewController ()
 @property (strong, nonatomic) SimpleCamera *camera;
 @property (strong, nonatomic) UILabel *errorLabel;
-@property (strong, nonatomic) UIButton *snapButton;
+@property (strong, nonatomic) NSTimer *countdownTimer;
+@property (strong, nonatomic) UILabel *timerLabel;
+@property int timeCounter;
+
 @end
 
 @implementation CameraViewController
@@ -29,17 +32,23 @@
     self.view.backgroundColor = [UIColor blackColor];
     [self.navigationController setNavigationBarHidden:YES animated:NO];
     
+    _timeCounter = 5;
     CGRect screenRect = [[UIScreen mainScreen] bounds];
-    
-    // ----- initialize camera -------- //
-    
-    // create camera vc
+    _timerLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width / 2.0, self.view.frame.size.height / 2.0, 0.0, 0.0)];
+    _timerLabel.text = @"5";
+    _timerLabel.textColor = [UIColor whiteColor];
+    _timerLabel.font = [UIFont fontWithName:@"Futura" size:120.0];
+    _timerLabel.alpha = 0.4;
+    [_timerLabel sizeToFit];
+    _timerLabel.frame = CGRectMake(self.view.frame.size.width / 2.0 - _timerLabel.frame.size.width/2.0, self.view.frame.size.height / 2.0 -  _timerLabel.frame.size.width/2.0, _timerLabel.frame.size.width, _timerLabel.frame.size.height);
+
     self.camera = [[SimpleCamera alloc] initWithQuality:AVCaptureSessionPresetHigh
                                                  position:LLCameraPositionFront
                                              videoEnabled:YES];
     
     // attach to a view controller
     [self.camera attachToViewController:self withFrame:CGRectMake(0, 0, screenRect.size.width, screenRect.size.height)];
+    [self.view addSubview:_timerLabel];
     
     // read: http://stackoverflow.com/questions/5427656/ios-uiimagepickercontroller-result-image-orientation-after-upload
     // you probably will want to set this to YES, if you are going view the image outside iOS.
@@ -95,7 +104,14 @@
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
 
+
 -(void)startRecording{
+    
+    _countdownTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
+                                     target:self
+                                   selector:@selector(decreaseTimer)
+                                   userInfo:nil
+                                    repeats:YES];
     // start recording
     NSURL *outputURL = [[[self applicationDocumentsDirectory]
                          URLByAppendingPathComponent:@"test1"] URLByAppendingPathExtension:@"mov"];
@@ -111,15 +127,26 @@
     });
 }
 
+-(void)decreaseTimer{
+    _timeCounter--;
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if( _timeCounter < 0){
+            [_countdownTimer invalidate];
+            _countdownTimer = nil;
+            _timerLabel.hidden = YES;
+        } else{
+            _timerLabel.text = [[NSString alloc] initWithFormat:@"%d",_timeCounter];
+        }
+    });
+    
+}
 /* other lifecycle methods */
 
 - (void)viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
-    
     self.camera.view.frame = self.view.contentBounds;
-    self.snapButton.center = self.view.contentCenter;
-    self.snapButton.bottom = self.view.height - 15.0f;
 }
 
 - (BOOL)prefersStatusBarHidden

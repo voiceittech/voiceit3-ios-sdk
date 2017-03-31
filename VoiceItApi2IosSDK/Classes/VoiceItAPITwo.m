@@ -52,6 +52,13 @@ NSString * const host = @"https://api.voiceit.io/";
 
 - (void)getUser:(NSString *)userId callback:(void (^)(NSString *))callback
 {
+    if([userId isEqualToString:@""] || ![[self getFirst:userId numChars:4] isEqualToString:@"usr_"]){
+        @throw [NSException exceptionWithName:@"Cannot Call Get User"
+                                       reason:@"Invalid userId passed"
+                                     userInfo:nil];
+        return;
+    }
+    
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
                                     initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@/%@",[self buildURL:@"users"], userId]]];
     NSURLSession *session = [NSURLSession sharedSession];
@@ -97,6 +104,14 @@ NSString * const host = @"https://api.voiceit.io/";
 }
 
 - (void)deleteUser: (NSString *)userId callback:(void (^)(NSString *))callback{
+    
+    if([userId isEqualToString:@""] || ![[self getFirst:userId numChars:4] isEqualToString:@"usr_"]){
+        @throw [NSException exceptionWithName:@"Cannot Call Delete User"
+                                       reason:@"Invalid userId passed"
+                                     userInfo:nil];
+        return;
+    }
+    
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
                                     initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@/%@",[self buildURL:@"users"], userId]]];
     NSURLSession *session = [NSURLSession sharedSession];
@@ -146,6 +161,13 @@ NSString * const host = @"https://api.voiceit.io/";
 
 - (void)getGroup:(NSString *)groupId callback:(void (^)(NSString *))callback
 {
+    if([groupId isEqualToString:@""] || ![[self getFirst:groupId numChars:4] isEqualToString:@"grp_"]){
+        @throw [NSException exceptionWithName:@"Cannot Call Get Group"
+                                       reason:@"Invalid groupId passed"
+                                     userInfo:nil];
+        return;
+    }
+    
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
                                     initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@/%@",[self buildURL:@"groups"], groupId]]];
 
@@ -163,7 +185,6 @@ NSString * const host = @"https://api.voiceit.io/";
                    NSString *result =
                    [[NSString alloc] initWithData:data
                                          encoding:NSUTF8StringEncoding];
-                   NSLog(@"getAllGroups Called and Returned: %@", result);
                    // Add Call to Callback function passing in result
                    callback(result);
                }];
@@ -192,7 +213,6 @@ NSString * const host = @"https://api.voiceit.io/";
         NSString *result =
         [[NSString alloc] initWithData:data
                               encoding:NSUTF8StringEncoding];
-        NSLog(@"createGroup Called and Returned: %@", result);
         // Add Call to Callback function passing in result
         callback(result);
     }];
@@ -202,6 +222,21 @@ NSString * const host = @"https://api.voiceit.io/";
 
 - (void)addUserToGroup:(NSString *)userId groupId:(NSString *)groupId callback:(void (^)(NSString *))callback
 {
+    if([userId isEqualToString:@""] || ![[self getFirst:userId numChars:4] isEqualToString:@"usr_"]){
+        @throw [NSException exceptionWithName:@"Cannot Call Add User from Group"
+                                       reason:@"Invalid userId passed"
+                                     userInfo:nil];
+        return;
+    }
+    
+    if([groupId isEqualToString:@""] || ![[self getFirst:groupId numChars:4] isEqualToString:@"grp_"]){
+        @throw [NSException exceptionWithName:@"Cannot Call Add User from Group"
+                                       reason:@"Invalid groupId passed"
+                                     userInfo:nil];
+        return;
+    }
+    
+    
     NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", _boundary];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
                                     initWithURL:[[NSURL alloc] initWithString:[self buildURL:@"groups/addUser"]]];
@@ -218,7 +253,6 @@ NSString * const host = @"https://api.voiceit.io/";
         NSString *result =
         [[NSString alloc] initWithData:data
                               encoding:NSUTF8StringEncoding];
-        NSLog(@"addUserToGroup Called and Returned: %@", result);
         // Add Call to Callback function passing in result
         callback(result);
     }];
@@ -227,6 +261,21 @@ NSString * const host = @"https://api.voiceit.io/";
 }
 
 - (void)removeUserFromGroup:(NSString *)userId groupId:(NSString *)groupId callback:(void (^)(NSString *))callback{
+    
+    if([userId isEqualToString:@""] || ![[self getFirst:userId numChars:4] isEqualToString:@"usr_"]){
+        @throw [NSException exceptionWithName:@"Cannot Call Remove User from Group"
+                                       reason:@"Invalid userId passed"
+                                     userInfo:nil];
+        return;
+    }
+    
+    if([groupId isEqualToString:@""] || ![[self getFirst:groupId numChars:4] isEqualToString:@"grp_"]){
+        @throw [NSException exceptionWithName:@"Cannot Call Remove User from Group"
+                                       reason:@"Invalid groupId passed"
+                                     userInfo:nil];
+        return;
+    }
+    
     NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", _boundary];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
                                     initWithURL:[[NSURL alloc] initWithString:[self buildURL:@"groups/removeUser"]]];
@@ -243,7 +292,6 @@ NSString * const host = @"https://api.voiceit.io/";
         NSString *result =
         [[NSString alloc] initWithData:data
                               encoding:NSUTF8StringEncoding];
-        NSLog(@"removeUserToGroup Called and Returned: %@", result);
         // Add Call to Callback function passing in result
         callback(result);
     }];
@@ -252,6 +300,15 @@ NSString * const host = @"https://api.voiceit.io/";
 }
 
 - (void)deleteGroup: (NSString *)groupId callback:(void (^)(NSString *))callback{
+    
+    if([groupId isEqualToString:@""] || ![[self getFirst:groupId numChars:4] isEqualToString:@"grp_"]){
+        @throw [NSException exceptionWithName:@"Cannot Call Delete Group"
+                                       reason:@"Invalid groupId passed"
+                                     userInfo:nil];
+        return;
+    }
+    
+    
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
                                     initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@/%@",[self buildURL:@"groups"], groupId]]];
     NSURLSession *session = [NSURLSession sharedSession];
@@ -266,7 +323,6 @@ NSString * const host = @"https://api.voiceit.io/";
                    NSString *result =
                    [[NSString alloc] initWithData:data
                                          encoding:NSUTF8StringEncoding];
-                   NSLog(@"deleteGroup Called and Returned: %@", result);
                    // Add Call to Callback function passing in result
                    callback(result);
                }];
@@ -275,6 +331,15 @@ NSString * const host = @"https://api.voiceit.io/";
 
 #pragma mark - Enrollment API Calls
 - (void)getAllEnrollmentsForUser:(NSString *)userId callback:(void (^)(NSString *))callback{
+    
+    if([userId isEqualToString:@""] || ![[self getFirst:userId numChars:4] isEqualToString:@"usr_"]){
+        @throw [NSException exceptionWithName:@"Cannot Get All Enrollment for User"
+                                       reason:@"Invalid userId passed"
+                                     userInfo:nil];
+        return;
+    }
+
+    
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
                                     initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@/%@",[self buildURL:@"enrollments"], userId]]];
     NSURLSession *session = [NSURLSession sharedSession];
@@ -289,7 +354,6 @@ NSString * const host = @"https://api.voiceit.io/";
                    NSString *result =
                    [[NSString alloc] initWithData:data
                                          encoding:NSUTF8StringEncoding];
-                   NSLog(@"getAllEnrollmentsForUser Called and Returned: %@", result);
                    // Add Call to Callback function passing in result
                    callback(result);
                }];
@@ -297,6 +361,14 @@ NSString * const host = @"https://api.voiceit.io/";
 }
 
 - (void)deleteEnrollmentsForUser:(NSString *)userId enrollmentId:(NSString *)enrollmentId callback:(void (^)(NSString *))callback{
+    
+    if([userId isEqualToString:@""] || ![[self getFirst:userId numChars:4] isEqualToString:@"usr_"]){
+        @throw [NSException exceptionWithName:@"Cannot Delete Enrollments for User"
+                                       reason:@"Invalid userId passed"
+                                     userInfo:nil];
+        return;
+    }
+    
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
                                     initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@/%@/%@",[self buildURL:@"enrollments"], userId, enrollmentId]]];
     NSURLSession *session = [NSURLSession sharedSession];
@@ -311,7 +383,6 @@ NSString * const host = @"https://api.voiceit.io/";
                    NSString *result =
                    [[NSString alloc] initWithData:data
                                          encoding:NSUTF8StringEncoding];
-                   NSLog(@"deleteEnrollmentForUser Called and Returned: %@", result);
                    // Add Call to Callback function passing in result
                    callback(result);
                }];
@@ -321,8 +392,16 @@ NSString * const host = @"https://api.voiceit.io/";
 - (void)createAudioEnrollment:(NSString *)userId
               contentLanguage:(NSString*)contentLanguage
               callback:(void (^)(NSString *))callback
- recordingFinished:(void (^)(NSString *))recordingFinished
+ recordingFinished:(void (^)(void))recordingFinished
 {
+    
+    if([userId isEqualToString:@""] || ![[self getFirst:userId numChars:4] isEqualToString:@"usr_"]){
+        @throw [NSException exceptionWithName:@"Cannot Create Audio Enrollment"
+                                       reason:@"Invalid userId passed"
+                                     userInfo:nil];
+        return;
+    }
+
     _uniqueId = userId;
     _contentLanguage = contentLanguage;
      _recType = enrollment;
@@ -356,8 +435,10 @@ NSString * const host = @"https://api.voiceit.io/";
         NSString *result =
         [[NSString alloc] initWithData:data
                               encoding:NSUTF8StringEncoding];
-        NSLog(@"createAudioEnrollment Called and Returned: %@", result);
-        self.audioEnrollmentCompleted(result);
+        if(self.audioEnrollmentCompleted){
+            self.audioEnrollmentCompleted(result);
+        }
+        
     }];
     
     [task resume];
@@ -368,6 +449,14 @@ NSString * const host = @"https://api.voiceit.io/";
                      callback:(void (^)(NSString *))callback
  recordingFinished:(void (^)(void))recordingFinished
 {
+    
+    if([userId isEqualToString:@""] || ![[self getFirst:userId numChars:4] isEqualToString:@"usr_"]){
+        @throw [NSException exceptionWithName:@"Cannot Create Video Enrollment"
+                                       reason:@"Invalid userId passed"
+                                     userInfo:nil];
+        return;
+    }
+    
     _uniqueId = userId;
     _contentLanguage = contentLanguage;
     _recType = enrollment;
@@ -375,8 +464,11 @@ NSString * const host = @"https://api.voiceit.io/";
     _recordingCompleted = recordingFinished;
     dispatch_async(dispatch_get_main_queue(), ^{
         CameraViewController * vc = [[CameraViewController alloc] init:^(NSString * filePath){
-            NSLog(@"File Path is %@", filePath);
-            self.recordingCompleted();
+            
+            if(self.recordingCompleted){
+                self.recordingCompleted();
+            }
+            
             NSString *fileName = @"RecordedFile"; // Changed it So It Keeps Replacing File
             _recordingFilePath = [NSTemporaryDirectory()
                                   stringByAppendingPathComponent:[NSString
@@ -394,7 +486,6 @@ NSString * const host = @"https://api.voiceit.io/";
         }];
         
         [self.masterViewController presentViewController:vc animated:true completion:^{
-            NSLog(@"Presented Camera View Controller");
         }];
     });
     
@@ -423,8 +514,9 @@ NSString * const host = @"https://api.voiceit.io/";
         NSString *result =
         [[NSString alloc] initWithData:data
                               encoding:NSUTF8StringEncoding];
-        NSLog(@"createVideoEnrollment Called and Returned: %@", result);
-        self.videoEnrollmentCompleted(result);
+        if(self.videoEnrollmentCompleted){
+            self.videoEnrollmentCompleted(result);
+        }
     }];
     
     [task resume];
@@ -437,6 +529,13 @@ NSString * const host = @"https://api.voiceit.io/";
           contentLanguage:(NSString*)contentLanguage callback:(void (^)(NSString *))callback
  recordingFinished:(void (^)(void))recordingFinished
 {
+    if([userId isEqualToString:@""] || ![[self getFirst:userId numChars:4] isEqualToString:@"usr_"]){
+        @throw [NSException exceptionWithName:@"Cannot Call Audio Verification"
+                                       reason:@"Invalid userId passed"
+                                     userInfo:nil];
+        return;
+    }
+    
     _uniqueId = userId;
     _contentLanguage = contentLanguage;
     _recType = verification;
@@ -468,9 +567,10 @@ NSString * const host = @"https://api.voiceit.io/";
         NSString *result =
         [[NSString alloc] initWithData:data
                               encoding:NSUTF8StringEncoding];
-        NSLog(@"audioVerification Called and Returned: %@", result);
-        //self.audioVerificationCompleted(result);
-        self.audioVerificationCompleted(result);
+        
+        if(self.audioVerificationCompleted){
+            self.audioVerificationCompleted(result);
+        }
     }];
     
     [task resume];
@@ -480,6 +580,13 @@ NSString * const host = @"https://api.voiceit.io/";
           contentLanguage:(NSString*)contentLanguage callback:(void (^)(NSString *))callback
  recordingFinished:(void (^)(void))recordingFinished
 {
+    if([userId isEqualToString:@""] || ![[self getFirst:userId numChars:4] isEqualToString:@"usr_"]){
+        @throw [NSException exceptionWithName:@"Cannot Call Video Verification"
+                                       reason:@"Invalid userId passed"
+                                     userInfo:nil];
+        return;
+    }
+    
     _uniqueId = userId;
     _contentLanguage = contentLanguage;
     _recType = verification;
@@ -487,8 +594,11 @@ NSString * const host = @"https://api.voiceit.io/";
     _recordingCompleted = recordingFinished;
     dispatch_async(dispatch_get_main_queue(), ^{
         CameraViewController * vc = [[CameraViewController alloc] init:^(NSString * filePath){
-            self.recordingCompleted();
-            NSLog(@"File Path is %@", filePath);
+            
+            if(self.recordingCompleted){
+                self.recordingCompleted();
+            }
+            
             NSString *fileName = @"RecordedFile"; // Changed it So It Keeps Replacing File
             _recordingFilePath = [NSTemporaryDirectory()
                                   stringByAppendingPathComponent:[NSString
@@ -506,7 +616,6 @@ NSString * const host = @"https://api.voiceit.io/";
         }];
         
         [self.masterViewController presentViewController:vc animated:true completion:^{
-            NSLog(@"Presented Camera View Controller");
         }];
     });
 }
@@ -533,8 +642,9 @@ NSString * const host = @"https://api.voiceit.io/";
         NSString *result =
         [[NSString alloc] initWithData:data
                               encoding:NSUTF8StringEncoding];
-        NSLog(@"videoVerification Called and Returned: %@", result);
-        self.videoVerificationCompleted(result);
+        if(self.videoVerificationCompleted){
+            self.videoVerificationCompleted(result);
+        }
     }];
     
     [task resume];
@@ -545,6 +655,14 @@ NSString * const host = @"https://api.voiceit.io/";
             contentLanguage:(NSString*)contentLanguage callback:(void (^)(NSString *))callback
  recordingFinished:(void (^)(void))recordingFinished
     {
+        
+        if([groupId isEqualToString:@""] || ![[self getFirst:groupId numChars:4] isEqualToString:@"grp_"]){
+            @throw [NSException exceptionWithName:@"Cannot Call Audio Identification"
+                                           reason:@"Invalid groupId passed"
+                                         userInfo:nil];
+            return;
+        }
+        
     _uniqueId = groupId;
     _contentLanguage = contentLanguage;
     _recType = identification;
@@ -576,8 +694,9 @@ NSString * const host = @"https://api.voiceit.io/";
         NSString *result =
         [[NSString alloc] initWithData:data
                               encoding:NSUTF8StringEncoding];
-        NSLog(@"audioIdentification Called and Returned: %@", result);
-        self.audioIdentificationCompleted(result);
+        if(self.audioIdentificationCompleted){
+            self.audioIdentificationCompleted(result);
+        }
     }];
     
     [task resume];
@@ -587,6 +706,14 @@ NSString * const host = @"https://api.voiceit.io/";
             contentLanguage:(NSString*)contentLanguage callback:(void (^)(NSString *))callback
  recordingFinished:(void (^)(void))recordingFinished
     {
+    
+        if([groupId isEqualToString:@""] || ![[self getFirst:groupId numChars:4] isEqualToString:@"grp_"]){
+            @throw [NSException exceptionWithName:@"Cannot Call Video Identification"
+                                           reason:@"Invalid groupId passed"
+                                         userInfo:nil];
+            return;
+        }
+        
     _uniqueId = groupId;
     _contentLanguage = contentLanguage;
     _recType = identification;
@@ -595,8 +722,11 @@ NSString * const host = @"https://api.voiceit.io/";
         
     dispatch_async(dispatch_get_main_queue(), ^{
         CameraViewController * vc = [[CameraViewController alloc] init:^(NSString * filePath){
-            self.recordingCompleted();
-            NSLog(@"File Path is %@", filePath);
+            
+            if(self.recordingCompleted){
+                self.recordingCompleted();
+            }
+            
             NSString *fileName = @"RecordedFile"; // Changed it So It Keeps Replacing File
             _recordingFilePath = [NSTemporaryDirectory()
                                   stringByAppendingPathComponent:[NSString
@@ -614,7 +744,6 @@ NSString * const host = @"https://api.voiceit.io/";
         }];
         
         [self.masterViewController presentViewController:vc animated:true completion:^{
-            NSLog(@"Presented Camera View Controller");
         }];
     });
 }
@@ -641,14 +770,20 @@ NSString * const host = @"https://api.voiceit.io/";
         NSString *result =
         [[NSString alloc] initWithData:data
                               encoding:NSUTF8StringEncoding];
-        NSLog(@"videoIdentification Called and Returned: %@", result);
-        self.videoIdentificationCompleted(result);
+        if(self.videoIdentificationCompleted){
+            self.videoIdentificationCompleted(result);
+        }
+
     }];
     
     [task resume];
 }
 
 #pragma mark - Utilities
+-(NSString*)getFirst:(NSString *)str numChars:(int)numChars{
+    return [str substringWithRange:NSMakeRange(0, numChars)];
+}
+
 -(NSString*)buildURL:(NSString*)endpoint
 {
     return [[NSString alloc] initWithFormat:@"%@%@", host, endpoint];
@@ -672,7 +807,6 @@ NSString * const host = @"https://api.voiceit.io/";
     NSError*    error;
     
     if(NO == [dstCompositionTrack insertTimeRange:timeRange ofTrack:srcTrack atTime:kCMTimeZero error:&error]) {
-        NSLog(@"track insert failed: %@\n", error);
         return;
     }
 
@@ -683,7 +817,6 @@ NSString * const host = @"https://api.voiceit.io/";
     
     [exportSesh exportAsynchronouslyWithCompletionHandler:^{
         AVAssetExportSessionStatus  status = exportSesh.status;
-        NSLog(@"exportAsynchronouslyWithCompletionHandler: %li\n", (long) status);
         callback(dstPath);
         if(AVAssetExportSessionStatusFailed == status) {
             NSLog(@"FAILURE: %@\n", exportSesh.error);
@@ -819,7 +952,6 @@ NSString * const host = @"https://api.voiceit.io/";
     [_recorder setDelegate:self];
     [_recorder prepareToRecord];
     [_recorder recordForDuration:5.0];
-    NSLog(@"After Record for Duration 5 Seconds");
 }
 
 - (NSData *)createBodyWithBoundary:(NSString *)boundary
@@ -868,15 +1000,12 @@ NSString * const host = @"https://api.voiceit.io/";
     assert(mimetype != NULL);
     
     CFRelease(UTI);
-    
-    NSLog(@"Mime Type is %@", mimetype);
     return mimetype;
 }
 
 #pragma mark - AVAudioRecorderDelegate Methods
 
 - (void)audioRecorderDidFinishRecording:(AVAudioRecorder *)recorder successfully:(BOOL)flag{
-    NSLog(@"Audio Finished Recording");
     AVAudioSession *audioSession = [AVAudioSession sharedInstance];
     NSError *err;
     [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord error:&err];
@@ -893,7 +1022,9 @@ NSString * const host = @"https://api.voiceit.io/";
         NSLog(@"audio data: %@ %ld %@", [err domain], (long)[err code], [[err userInfo] description]);
     }
     
-    self.recordingCompleted();
+    if (self.recordingCompleted){
+        self.recordingCompleted();
+    }
     
     switch (_recType) {
         case enrollment:

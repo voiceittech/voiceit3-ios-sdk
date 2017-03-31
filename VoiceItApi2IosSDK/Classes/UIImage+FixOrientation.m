@@ -1,4 +1,6 @@
-// http://stackoverflow.com/questions/5427656/ios-uiimagepickercontroller-result-image-orientation-after-upload
+//
+//  Created by Armaan Bindra on 3/16/17.
+//  Copyright © 2017 Armaan Bindra. All rights reserved.
 
 #import "UIImage+FixOrientation.h"
 

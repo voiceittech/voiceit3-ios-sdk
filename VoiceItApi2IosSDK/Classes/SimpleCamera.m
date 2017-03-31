@@ -2,6 +2,8 @@
 //  CameraViewController.m
 //  SimpleCamera
 //
+//  Created by Armaan Bindra on 3/16/17.
+//  Copyright © 2017 Armaan Bindra. All rights reserved.
 
 #import "SimpleCamera.h"
 #import <ImageIO/CGImageProperties.h>

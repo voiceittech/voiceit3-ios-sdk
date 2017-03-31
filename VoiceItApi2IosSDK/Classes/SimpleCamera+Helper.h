@@ -2,9 +2,8 @@
 //  SimpleCamera+Helper.h
 //  SimpleCameraExample
 //
-//  Created by Ömer Faruk Gül on 20/02/16.
-//  Copyright © 2016 Ömer Faruk Gül. All rights reserved.
-//
+//  Created by Armaan Bindra on 3/16/17.
+//  Copyright © 2017 Armaan Bindra. All rights reserved.
 
 #import "SimpleCamera.h"
 

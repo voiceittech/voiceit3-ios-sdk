@@ -1,0 +1,2 @@
+NSCameraUsageDescription = "Face Biometrics";
+NSMicrophoneUsageDescription = "Voice Biometrics";
