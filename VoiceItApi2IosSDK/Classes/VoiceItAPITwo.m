@@ -221,6 +221,37 @@ NSString * const host = @"https://api.voiceit.io/";
     [task resume];
 }
 
+- (void)groupExists:(NSString *)groupId callback:(void (^)(NSString *))callback{
+    if([groupId isEqualToString:@""] || ![[self getFirst:groupId numChars:4] isEqualToString:@"grp_"]){
+        @throw [NSException exceptionWithName:@"Cannot Call Group Exists"
+                                       reason:@"Invalid groupId passed"
+                                     userInfo:nil];
+        return;
+    }
+    
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
+                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@/%@/exists",[self buildURL:@"groups"], groupId]]];
+    
+    NSURLSession *session = [NSURLSession sharedSession];
+    [request setHTTPMethod:@"GET"];
+    [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [request addValue:self.authHeader forHTTPHeaderField:@"Authorization"];
+    
+    NSURLSessionDataTask *task =
+    [session dataTaskWithRequest:request
+               completionHandler:^(NSData *data, NSURLResponse *response,
+                                   NSError *error) {
+                   
+                   NSString *result =
+                   [[NSString alloc] initWithData:data
+                                         encoding:NSUTF8StringEncoding];
+                   // Add Call to Callback function passing in result
+                   callback(result);
+               }];
+    [task resume];
+}
+
 - (void)createGroup:(void (^)(NSString *))callback{
     [self createGroup:@"" callback:callback];
 }
@@ -250,7 +281,7 @@ NSString * const host = @"https://api.voiceit.io/";
     [task resume];
 }
 
-- (void)addUserToGroup:(NSString *)userId groupId:(NSString *)groupId callback:(void (^)(NSString *))callback
+- (void)addUserToGroup:(NSString *)groupId userId:(NSString *)userId callback:(void (^)(NSString *))callback
 {
     if([userId isEqualToString:@""] || ![[self getFirst:userId numChars:4] isEqualToString:@"usr_"]){
         @throw [NSException exceptionWithName:@"Cannot Call Add User from Group"
@@ -290,7 +321,7 @@ NSString * const host = @"https://api.voiceit.io/";
     [task resume];
 }
 
-- (void)removeUserFromGroup:(NSString *)userId groupId:(NSString *)groupId callback:(void (^)(NSString *))callback{
+- (void)removeUserFromGroup:(NSString *)groupId userId:(NSString *)userId callback:(void (^)(NSString *))callback{
     
     if([userId isEqualToString:@""] || ![[self getFirst:userId numChars:4] isEqualToString:@"usr_"]){
         @throw [NSException exceptionWithName:@"Cannot Call Remove User from Group"

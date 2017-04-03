@@ -49,10 +49,11 @@ typedef enum { enrollment, verification, identification } RecordingType;
 #pragma mark - Group API Calls
 - (void)getAllGroups:(void (^)(NSString *))callback;
 - (void)getGroup:(NSString *)groupId callback:(void (^)(NSString *))callback;
+- (void)groupExists:(NSString *)groupId callback:(void (^)(NSString *))callback;
 - (void)createGroup:(void (^)(NSString *))callback;
 - (void)createGroup:(NSString *)description callback:(void (^)(NSString *))callback;
-- (void)addUserToGroup:(NSString *)userId groupId:(NSString *)groupId callback:(void (^)(NSString *))callback;
-- (void)removeUserFromGroup:(NSString *)userId groupId:(NSString *)groupId callback:(void (^)(NSString *))callback;
+- (void)addUserToGroup:(NSString *)groupId userId:(NSString *)userId callback:(void (^)(NSString *))callback;
+- (void)removeUserFromGroup:(NSString *)groupId userId:(NSString *)userId callback:(void (^)(NSString *))callback;
 - (void)deleteGroup: (NSString *)groupId callback:(void (^)(NSString *))callback;
 
 #pragma mark - Enrollment API Calls
