@@ -75,7 +75,7 @@ Also add the following permission keys to your <b>info.plist</b> file like shown
 
 #### *Swift*
 
-First import VoiceItApi2IosSDK into your Swift file then initialize a reference to the SDK inside a ViewController passing in a reference to the ViewController to as the first argument
+First import VoiceItApi2IosSDK into your Swift file then initialize a reference to the SDK inside a ViewController passing in a reference to the ViewController as the first argument
 
 ```swift
 import VoiceItApi2IosSDK
@@ -92,7 +92,7 @@ class ViewController: UIViewController {
 ```
 #### *Objective-C*
 
-First import VoiceItAPITwo.h into your Objective-C file, then initialize a reference to the SDK inside a ViewController passing in a reference to the ViewController to as the first argument
+First import VoiceItAPITwo.h into your Objective-C file, then initialize a reference to the SDK inside a ViewController passing in a reference to the ViewController as the first argument
 
 ```objc
 #import "ViewController.h"
@@ -106,11 +106,28 @@ First import VoiceItAPITwo.h into your Objective-C file, then initialize a refer
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [_myVoiceIt init:self apiKey:@"API_KEY_HERE" apiToken:@"API_TOKEN_HERE"];
+    _myVoiceIt = [[VoiceItAPITwo alloc] init:self apiKey:@"API_KEY_HERE" apiToken:@"API_TOKEN_HERE"];
 }
 ```
 
+### User API Calls
 
+#### Get All Users
+
+Get all the users associated with the apiKey
+##### *Swift*
+```swift
+myVoiceIt?.getAllUsers({
+    jsonResponse in
+    print("JSON RESPONSE: \(jsonResponse)")
+})
+```
+#### *Objective-C*
+```objc
+[_myVoiceIt getAllUsers:^(NSString * jsonResult){
+    NSLog(@"JSONResponse: %@", jsonResult);
+}];
+```
 Rest of the Documentation Coming Soon!!
 
 ## Author
