@@ -125,7 +125,7 @@ myVoiceIt?.getAllUsers({
     print("JSON RESPONSE: \(jsonResponse!)")
 })
 ```
-#### *Objective-C*
+##### *Objective-C*
 ```objc
 [_myVoiceIt getAllUsers:^(NSString * jsonResult){
     NSLog(@"JSONResponse: %@", jsonResult);
@@ -212,7 +212,7 @@ myVoiceIt?.getAllGroups({
     print("JSON RESPONSE: \(jsonResponse!)")
 })
 ```
-#### *Objective-C*
+##### *Objective-C*
 ```objc
 [_myVoiceIt getAllGroups:^(NSString * jsonResult){
     NSLog(@"JSONResponse: %@", jsonResult);
@@ -228,7 +228,7 @@ myVoiceIt?.createGroup("A Sample Group Description", callback: {
     jsonResponse in
 })
 ```
-#### *Objective-C*
+##### *Objective-C*
 ```objc
 [_myVoiceIt createGroup:@"A Sample Group Description" callback:^(NSString * jsonResult){
     NSLog(@"JSONResponse: %@", jsonResult);
@@ -322,10 +322,6 @@ myVoiceIt?.removeUser(fromGroup: "GROUP_ID_HERE", userId: "USER_ID_HERE", callba
     NSLog(@"JSONResponse: %@", jsonResult);
 }];
 ```
-
-
-
-
 
 Rest of the Documentation Coming Soon!!
 
