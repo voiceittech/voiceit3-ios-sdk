@@ -73,7 +73,7 @@ Also add the following permission keys to your <b>info.plist</b> file like shown
 
 ### Initialization
 
-#### Swift
+#### *Swift*
 
 First import VoiceItApi2IosSDK into your Swift file then initialize a reference to the SDK inside a ViewController passing in a reference to the ViewController to as the first argument
 
@@ -90,8 +90,25 @@ class ViewController: UIViewController {
     }
 }
 ```
+#### *Objective-C*
 
-#### Objective-C
+First import VoiceItAPITwo.h into your Objective-C file, then initialize a reference to the SDK inside a ViewController passing in a reference to the ViewController to as the first argument
+
+```objc
+#import "ViewController.h"
+#import "VoiceItAPITwo.h"
+
+@interface ViewController ()
+    @property VoiceItAPITwo * myVoiceIt;
+@end
+
+@implementation ViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [_myVoiceIt init:self apiKey:@"API_KEY_HERE" apiToken:@"API_TOKEN_HERE"];
+}
+```
 
 
 Rest of the Documentation Coming Soon!!
