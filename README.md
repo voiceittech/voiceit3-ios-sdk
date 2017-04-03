@@ -1,9 +1,10 @@
-<img src="Screenshots/VoiceItHeaderImage.png"/>
-# VoiceIt API 2.0 iOS SDK
+<img src="Screenshots/VoiceItHeaderImage.png">
 
 [![Version](https://img.shields.io/cocoapods/v/VoiceItApi2IosSDK.svg?style=flat)](http://cocoapods.org/pods/VoiceItApi2IosSDK)
 [![License](https://img.shields.io/cocoapods/l/VoiceItApi2IosSDK.svg?style=flat)](http://cocoapods.org/pods/VoiceItApi2IosSDK)
 [![Platform](https://img.shields.io/cocoapods/p/VoiceItApi2IosSDK.svg?style=flat)](http://cocoapods.org/pods/VoiceItApi2IosSDK)
+
+## VoiceIt API 2.0 iOS SDK
 
 A library that gives you access to the VoiceIt's New VoiceIt API 2.0 featuring Voice + Face Verification and Identification right from your iOS app.
 
