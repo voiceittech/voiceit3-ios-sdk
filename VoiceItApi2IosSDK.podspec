@@ -8,8 +8,8 @@
 
 Pod::Spec.new do |s|
 s.name             = 'VoiceItApi2IosSDK'
-s.version          = '0.92'
-s.summary          = 'A pod that lets you add voice and face verification and identification to your iOS apps, brought to you by VoiceIt. Now also with basic liveness detection challenges'
+s.version          = '0.93'
+s.summary          = 'A pod that lets you add voice and face verification and identification to your iOS apps, brought to you by VoiceIt.'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -17,7 +17,7 @@ s.summary          = 'A pod that lets you add voice and face verification and id
 #   * Write the description between the DESC delimiters below.
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
-s.description      = 'A pod that lets you add voice and face verification and identification to your iOS apps, brought to you by VoiceIt. Please visit https://voiceit.tech to learn more and sign up for an account.'
+s.description      = 'A pod that lets you add voice and face verification and identification to your iOS apps, brought to you by VoiceIt. Now also with basic liveness detection challenges. Please visit https://voiceit.io to learn more and sign up for an account.'
 s.homepage         = 'https://github.com/voiceittech/VoiceItApi2IosSDK'
 s.license          = { :type => 'MIT', :file => 'LICENSE' }
 s.author           = { 'armaanbindra' => 'armaan.bindra@voiceit-tech.com' }
