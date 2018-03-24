@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -23,33 +22,41 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dRg-oG-HjD">
-                                <rect key="frame" x="151.66666666666666" y="353" width="110.99999999999997" height="30"/>
-                                <state key="normal" title="Start Enrollment"/>
+                                <rect key="frame" x="148.66666666666666" y="353" width="116.99999999999997" height="30"/>
+                                <state key="normal" title="Video Enrollment"/>
                                 <connections>
                                     <action selector="startEnrollmentClicked:" destination="whP-gf-Uak" eventType="touchUpInside" id="CJZ-mh-yzi"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hsW-Co-a3P">
-                                <rect key="frame" x="151" y="391" width="111" height="30"/>
-                                <state key="normal" title="Verify"/>
+                                <rect key="frame" x="146.66666666666666" y="391" width="120.99999999999997" height="30"/>
+                                <state key="normal" title="Video Verification"/>
                                 <connections>
-                                    <action selector="verifyClicked:" destination="whP-gf-Uak" eventType="touchUpInside" id="kBQ-43-7MC"/>
+                                    <action selector="videoVerificationClicked:" destination="whP-gf-Uak" eventType="touchUpInside" id="R0e-jj-HOl"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uLa-7O-kV6">
+                                <rect key="frame" x="150" y="429" width="114" height="30"/>
+                                <state key="normal" title="Face Verification"/>
+                                <connections>
+                                    <action selector="faceVerificationClicked:" destination="whP-gf-Uak" eventType="touchUpInside" id="3Og-Yk-ySs"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="uLa-7O-kV6" firstAttribute="centerX" secondItem="TpU-gO-2f1" secondAttribute="centerX" id="CoS-3v-sKB"/>
+                            <constraint firstItem="hsW-Co-a3P" firstAttribute="centerX" secondItem="TpU-gO-2f1" secondAttribute="centerX" id="EVk-vg-VV8"/>
+                            <constraint firstItem="uLa-7O-kV6" firstAttribute="top" secondItem="hsW-Co-a3P" secondAttribute="bottom" constant="8" id="Ilp-yl-zl9"/>
                             <constraint firstItem="hsW-Co-a3P" firstAttribute="top" secondItem="dRg-oG-HjD" secondAttribute="bottom" constant="8" id="JMb-fp-NJ2"/>
                             <constraint firstItem="dRg-oG-HjD" firstAttribute="centerX" secondItem="TpU-gO-2f1" secondAttribute="centerX" id="Lxe-ro-ZgA"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="hsW-Co-a3P" secondAttribute="trailing" constant="132" id="QHK-I4-8AF"/>
-                            <constraint firstItem="hsW-Co-a3P" firstAttribute="leading" secondItem="TpU-gO-2f1" secondAttribute="leadingMargin" constant="131" id="TCA-22-CEc"/>
                             <constraint firstItem="dRg-oG-HjD" firstAttribute="centerY" secondItem="TpU-gO-2f1" secondAttribute="centerY" id="Vsh-0U-B7u"/>
                         </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tc2-Qw-aMS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1351" y="-282"/>
+            <point key="canvasLocation" x="1350.7246376811595" y="-282.06521739130437"/>
         </scene>
     </scenes>
 </document>

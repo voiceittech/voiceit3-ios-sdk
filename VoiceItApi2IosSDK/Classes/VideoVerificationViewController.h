@@ -1,18 +1,23 @@
 //
-//  VerificationViewController.h
-//  TestingVoiceItAPI2iOSSDKCode
+//  VideoVerificationViewController.h
+//  Pods-VoiceItApi2IosSDK_Example
 //
-//  Created by Armaan Bindra on 10/4/17.
-//  Copyright © 2017 VoiceIt Technologies LLC. All rights reserved.
+//  Created by Armaan Bindra on 3/23/18.
 //
 
 #import <AVFoundation/AVFoundation.h>
 #import "SpinningView.h"
 #import "Utilities.h"
-#import "VoiceItAPITwo.h"
 #import "ResponseManager.h"
+#import "VoiceItAPITwo.h"
+@import GoogleMobileVision;
 
-@interface VerificationViewController : UIViewController <AVCaptureFileOutputRecordingDelegate,AVCaptureMetadataOutputObjectsDelegate,AVAudioRecorderDelegate>
+@interface VideoVerificationViewController : UIViewController <AVCaptureMetadataOutputObjectsDelegate,AVCaptureVideoDataOutputSampleBufferDelegate,AVAudioRecorderDelegate>
+
+@property (weak, nonatomic) IBOutlet UIButton *cancelButton;
+// Detector.
+@property(nonatomic, strong) GMVDetector *faceDetector;
+
 #pragma mark - Audio Recording Stuff
 @property (nonatomic, strong) AVAudioRecorder * audioRecorder;
 @property (nonatomic, strong) NSString *audioPath;
@@ -24,36 +29,45 @@
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
 @property (weak, nonatomic) IBOutlet SpinningView *progressView;
 @property  CGPoint cameraCenterPoint;
+@property CAShapeLayer * leftCircle;
+@property CAShapeLayer * rightCircle;
+@property CAShapeLayer * downCircle;
+@property CAShapeLayer * upCircle;
 @property CAShapeLayer * progressCircle;
 @property CALayer * cameraBorderLayer;
 @property CALayer * faceRectangleLayer;
 
 #pragma mark -  Camera Related Stuff
 @property  AVCaptureSession * captureSession;
-//@property AVCapturePhotoOutput * photoOutput;
 @property AVCaptureDevice * videoDevice;
-@property AVCaptureVideoPreviewLayer *previewLayer;
+@property(nonatomic, strong) AVCaptureVideoDataOutput *videoDataOutput;
+@property(nonatomic, strong) dispatch_queue_t videoDataOutputQueue;
+@property(nonatomic, strong) AVCaptureVideoPreviewLayer *previewLayer;
 @property (nonatomic, strong) NSData *finalCapturedPhotoData;
-@property AVCaptureMovieFileOutput *movieFileOutput;
-@property NSDate *faceTimer;
-@property (strong, nonatomic) NSMutableArray * faceTimes;
 
 #pragma mark -  Boolean Switches
 @property BOOL lookingIntoCam;
-@property BOOL verificationStarted;
+@property BOOL livenessDetectionIsHappening;
 @property BOOL isRecording;
 @property BOOL continueRunning;
 //@property BOOL takePhoto;
 
 #pragma mark -  Counters to keep track of stuff
+@property int successfulChallengesCounter;
 @property int lookingIntoCamCounter;
+@property int smileCounter;
 @property int failCounter;
+@property int blinkCounter;
+@property BOOL smileFound;
+@property int faceDirection;
+@property int blinkState;
 
 #pragma mark -  Developer Passed Options
 @property (strong, nonatomic)  NSString * userToVerifyUserId;
 @property (strong, nonatomic)  NSString * thePhrase;
 @property (strong, nonatomic)  NSString * contentLanguage;
 @property (strong, nonatomic)  NSObject * voiceItMaster;
+
 #pragma mark - Miscellaneous
 @property (strong, nonatomic) NSMutableArray* okResponseCodes;
 

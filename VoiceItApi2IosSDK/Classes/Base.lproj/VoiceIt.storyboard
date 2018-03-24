@@ -138,10 +138,10 @@
             </objects>
             <point key="canvasLocation" x="2079" y="134"/>
         </scene>
-        <!--Verification View Controller-->
+        <!--Video Verification View Controller-->
         <scene sceneID="zdd-GL-NWj">
             <objects>
-                <viewController storyboardIdentifier="verifyVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="y9g-az-7MI" customClass="VerificationViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="videoVerifyVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="y9g-az-7MI" customClass="VideoVerificationViewController" sceneMemberID="viewController">
                     <view key="view" opaque="NO" contentMode="scaleToFill" id="f2i-kH-OmX">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

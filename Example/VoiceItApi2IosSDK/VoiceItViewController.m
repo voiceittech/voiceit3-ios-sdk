@@ -16,9 +16,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.API_KEY = @"key_4306d632525748ac987cc0385ceff339";
-    self.API_TOKEN = @"tok_c910f4047d1d425980c856bb3ca8fa5b";
-    self.TEST_USER_ID = @"usr_226cc0ce8e9e41e0bcb2e2d6bbdb1fdf";
+    self.API_KEY = @"API_KEY_HERE";
+    self.API_TOKEN = @"API_TOKEN_HERE";
+    self.TEST_USER_ID = @"USER_ID_HERE";
+
     NSMutableDictionary * styles = [[NSMutableDictionary alloc] init];
     [styles setObject:@"#FF0000" forKey:@"kThemeColor"];
     [styles setObject:@"default" forKey:@"kIconStyle"];
@@ -39,15 +40,17 @@
     }];
 }
 
-- (IBAction)verifyClicked:(id)sender {
-//    [_myVoiceIt encapsulatedVideoVerification: self.TEST_USER_ID contentLanguage:@"en-US" voicePrintPhrase:@"my face and voice identify me" userVerificationCancelled:^{
-//         NSLog(@"User Verication Cancelled");
-//    } userVerificationSuccessful:^(float faceConfidence ,float voiceConfidence, NSString * jsonResponse){
-//        NSLog(@"User Verication Successful voiceConfidence : %g , faceConfidence : %g",voiceConfidence, faceConfidence);
-//    } userVerificationFailed:^(float faceConfidence ,float voiceConfidence, NSString * jsonResponse){
-//        NSLog(@"User Verication Failed voiceConfidence : %g , faceConfidence : %g",voiceConfidence, faceConfidence);
-//    }];
-    
+- (IBAction)videoVerificationClicked:(id)sender {
+    [_myVoiceIt encapsulatedVideoVerification: self.TEST_USER_ID contentLanguage:@"en-US" voicePrintPhrase:@"my face and voice identify me" userVerificationCancelled:^{
+         NSLog(@"User Verication Cancelled");
+    } userVerificationSuccessful:^(float faceConfidence ,float voiceConfidence, NSString * jsonResponse){
+        NSLog(@"User Verication Successful voiceConfidence : %g , faceConfidence : %g",voiceConfidence, faceConfidence);
+    } userVerificationFailed:^(float faceConfidence ,float voiceConfidence, NSString * jsonResponse){
+        NSLog(@"User Verication Failed voiceConfidence : %g , faceConfidence : %g",voiceConfidence, faceConfidence);
+    }];
+    }
+
+- (IBAction)faceVerificationClicked:(id)sender {
     [_myVoiceIt encapsulatedFaceVerification: self.TEST_USER_ID userVerificationCancelled:^{
         NSLog(@"User Face Verification Cancelled");
     } userVerificationSuccessful:^(float faceConfidence , NSString * jsonResponse){
@@ -55,7 +58,7 @@
     } userVerificationFailed:^(float faceConfidence , NSString * jsonResponse){
         NSLog(@"User Face Verication Failed faceConfidence : %g and RESPONSE : %@", faceConfidence, jsonResponse);
     }];
-    
 }
+
 
 @end

@@ -11,8 +11,8 @@
 #import <UIKit/UIKit.h>
 #import "Utilities.h"
 #import "MainNavigationController.h"
-#import "VerificationViewController.h"
 #import "FaceVerificationViewController.h"
+#import "VideoVerificationViewController.h"
 
 @import MobileCoreServices;
 

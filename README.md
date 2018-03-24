@@ -5,7 +5,7 @@
 [![Platform](https://img.shields.io/cocoapods/p/VoiceItApi2IosSDK.svg?style=flat)](http://cocoapods.org/pods/VoiceItApi2IosSDK)
 <!-- [![Build Status](https://travis-ci.org/voiceittech/VoiceItApi2IosSDK.svg?branch=master)](https://travis-ci.org/voiceittech/VoiceItApi2IosSDK) -->
 
-A fully comprehensive SDK that gives you access to the VoiceIt's New VoiceIt API 2.0 featuring Voice + Face Verification and Identification right from your iOS app.
+A fully comprehensive SDK that gives you access to the VoiceIt's API 2.0 featuring Voice + Face Verification and Identification right from your iOS app. Now with client - side basic liveness detection.
 
 * [Getting Started](#getting-started)
 * [Installation](#installation)
@@ -35,6 +35,7 @@ A fully comprehensive SDK that gives you access to the VoiceIt's New VoiceIt API
       * [Audio Verification](#audio-verification)
       * [Video Verification](#video-verification)
       * [Encapsulated Video Verification](#encapsulated-video-verification)
+      * [Encapsulated Face Verification](#encapsulated-face-verification)
   * [Identification API Calls](#identification-api-calls)
       * [Audio Identification](#audio-identification)
       * [Video Identification](#video-identification)
@@ -494,6 +495,32 @@ myVoiceIt?.encapsulatedVideoVerification("USER_ID_HERE", contentLanguage: "CONTE
     NSLog(@"User Verication Successful, voiceConfidence : %g , faceConfidence : %g",voiceConfidence, faceConfidence);
 } userVerificationFailed:^(float faceConfidence ,float voiceConfidence, NSString * jsonResponse){
     NSLog(@"User Verication Failed, voiceConfidence : %g , faceConfidence : %g",voiceConfidence, faceConfidence);
+}];
+```
+
+#### Encapsulated Face Verification
+
+Verify user with given userId(begins with 'usr_'). Note: Immediately upon calling this method it displays a view controller with a camera view that verifies the user's face and provides relevant callbacks for whether the verification was successful or not, and associated face confidence
+
+##### *Swift*
+```swift
+myVoiceIt?.encapsulatedFaceVerification("USER_ID_HERE", contentLanguage: "CONTENT_LANGUAGE_HERE", userVerificationCancelled: {
+print("User Cancelled Verification");
+}, userVerificationSuccessful: {(faceConfidence, jsonResponse) in
+print("User Verication Successful faceConfidence is \(faceConfidence)")
+}, userVerificationFailed: { (faceConfidence, jsonResponse) in
+print("User Verication Failed, faceConfidence is \(faceConfidence)")
+})
+```
+
+##### *Objective-C*
+```objc
+[_myVoiceIt encapsulatedFaceVerification:@"USER_ID_HERE" userVerificationCancelled:^{
+NSLog(@"User Cancelled Verification");
+} userVerificationSuccessful:^(float faceConfidence, NSString * jsonResponse){
+NSLog(@"User Verication Successful faceConfidence : %g", faceConfidence);
+} userVerificationFailed:^(float faceConfidence ,float voiceConfidence, NSString * jsonResponse){
+NSLog(@"User Verication Failed, faceConfidence : %g",faceConfidence);
 }];
 ```
 

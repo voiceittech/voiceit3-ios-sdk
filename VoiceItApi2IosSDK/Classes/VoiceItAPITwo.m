@@ -579,7 +579,7 @@ NSString * const host = @"https://api.voiceit.io/";
         return;
     }
     
-    VerificationViewController *verifyVC = [[Utilities getVoiceItStoryBoard] instantiateViewControllerWithIdentifier:@"verifyVC"];
+    VideoVerificationViewController *verifyVC = [[Utilities getVoiceItStoryBoard] instantiateViewControllerWithIdentifier:@"videoVerifyVC"];
     verifyVC.modalPresentationStyle = UIModalPresentationOverCurrentContext;
     verifyVC.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     verifyVC.userToVerifyUserId = userId;
