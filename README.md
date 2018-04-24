@@ -475,7 +475,7 @@ myVoiceIt?.videoVerification("USER_ID_HERE", contentLanguage: "CONTENT_LANGUAGE_
 
 #### Encapsulated Video Verification
 
-Verify user with given userId(begins with 'usr_') and contentLanguage('en-US','es-ES' etc.) and a parameter to enable or disable liveness detection. Note: Immediately upon calling this method it displays a view controller with a camera view that verifies the user and provides relevant callbacks for whether the verification was successful or not, and associated voice and face confidences
+Verify user with given userId(begins with 'usr_') , contentLanguage('en-US','es-ES' etc.) and a parameter to enable or disable liveness detection. Note: Immediately upon calling this method it displays a view controller with a camera view that verifies the user and provides relevant callbacks for whether the verification was successful or not, and associated voice and face confidences
 
 ##### *Swift*
 ```swift
@@ -501,7 +501,7 @@ myVoiceIt?.encapsulatedVideoVerification("USER_ID_HERE", contentLanguage: "CONTE
 
 #### Encapsulated Face Verification
 
-Verify user with given userId(begins with 'usr_'). Note: Immediately upon calling this method it displays a view controller with a camera view that verifies the user's face and provides relevant callbacks for whether the verification was successful or not, and associated face confidence
+Verify user with given userId(begins with 'usr_') and a parameter to enable or disable liveness detection. Note: Immediately upon calling this method it displays a view controller with a camera view that verifies the user's face and provides relevant callbacks for whether the verification was successful or not, and associated face confidence
 
 ##### *Swift*
 ```swift
