@@ -11,6 +11,7 @@
 #import <Photos/Photos.h>
 
 @interface Utilities : NSObject
++(UIColor *)getGreenColor;
 +(UIColor *)uiColorFromHexString:(NSString *)hexString;
 +(CGColorRef)cgColorFromHexString:(NSString *)hexString;
 +(NSDictionary *)getJSONObject:(NSString *)jsonString;

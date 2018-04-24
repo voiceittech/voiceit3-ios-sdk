@@ -10,14 +10,10 @@
 #import "Utilities.h"
 #import "ResponseManager.h"
 #import "VoiceItAPITwo.h"
-@import GoogleMobileVision;
 
 @interface VideoVerificationViewController : UIViewController <AVCaptureMetadataOutputObjectsDelegate,AVCaptureVideoDataOutputSampleBufferDelegate,AVAudioRecorderDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *cancelButton;
-// Detector.
-@property(nonatomic, strong) GMVDetector *faceDetector;
-
 #pragma mark - Audio Recording Stuff
 @property (nonatomic, strong) AVAudioRecorder * audioRecorder;
 @property (nonatomic, strong) NSString *audioPath;
@@ -29,10 +25,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
 @property (weak, nonatomic) IBOutlet SpinningView *progressView;
 @property  CGPoint cameraCenterPoint;
-@property CAShapeLayer * leftCircle;
-@property CAShapeLayer * rightCircle;
-@property CAShapeLayer * downCircle;
-@property CAShapeLayer * upCircle;
 @property CAShapeLayer * progressCircle;
 @property CALayer * cameraBorderLayer;
 @property CALayer * faceRectangleLayer;
@@ -47,20 +39,13 @@
 
 #pragma mark -  Boolean Switches
 @property BOOL lookingIntoCam;
-@property BOOL livenessDetectionIsHappening;
 @property BOOL isRecording;
 @property BOOL continueRunning;
-//@property BOOL takePhoto;
+@property BOOL doLivenessDetection;
 
 #pragma mark -  Counters to keep track of stuff
-@property int successfulChallengesCounter;
 @property int lookingIntoCamCounter;
-@property int smileCounter;
 @property int failCounter;
-@property int blinkCounter;
-@property BOOL smileFound;
-@property int faceDirection;
-@property int blinkState;
 
 #pragma mark -  Developer Passed Options
 @property (strong, nonatomic)  NSString * userToVerifyUserId;

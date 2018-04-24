@@ -11,10 +11,14 @@
 		1A373325549AEBA3D2DCE2A80A5C4DE4 /* Styles.m in Sources */ = {isa = PBXBuildFile; fileRef = 331CF64A7295588A2C12DB6FE09A4FD7 /* Styles.m */; };
 		2119CE572066D73800C68801 /* VideoVerificationViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 2119CE532065C7E600C68801 /* VideoVerificationViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2119CE582066D73C00C68801 /* VideoVerificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2119CE542065C7E600C68801 /* VideoVerificationViewController.m */; };
-		21399600207AF0CE00838C01 /* VoiceVerificationViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 213995FC207AF0CE00838C01 /* VoiceVerificationViewController.h */; };
-		21399601207AF0CE00838C01 /* SCSiriWaveformView.h in Headers */ = {isa = PBXBuildFile; fileRef = 213995FD207AF0CE00838C01 /* SCSiriWaveformView.h */; };
 		21399602207AF0CE00838C01 /* SCSiriWaveformView.m in Sources */ = {isa = PBXBuildFile; fileRef = 213995FE207AF0CE00838C01 /* SCSiriWaveformView.m */; };
 		21399603207AF0CE00838C01 /* VoiceVerificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 213995FF207AF0CE00838C01 /* VoiceVerificationViewController.m */; };
+		21719B7A208BE3620079E119 /* VoiceVerificationViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 213995FC207AF0CE00838C01 /* VoiceVerificationViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		21719B7B208BE3680079E119 /* SCSiriWaveformView.h in Headers */ = {isa = PBXBuildFile; fileRef = 213995FD207AF0CE00838C01 /* SCSiriWaveformView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		21719B7E208BE3B70079E119 /* Liveness.h in Headers */ = {isa = PBXBuildFile; fileRef = 21719B7C208BE3B70079E119 /* Liveness.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		21719B7F208BE3B70079E119 /* Liveness.m in Sources */ = {isa = PBXBuildFile; fileRef = 21719B7D208BE3B70079E119 /* Liveness.m */; };
+		21719B82208BE3EE0079E119 /* NSMutableArray+Shuffle.h in Headers */ = {isa = PBXBuildFile; fileRef = 21719B80208BE3EE0079E119 /* NSMutableArray+Shuffle.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		21719B83208BE3EE0079E119 /* NSMutableArray+Shuffle.m in Sources */ = {isa = PBXBuildFile; fileRef = 21719B81208BE3EE0079E119 /* NSMutableArray+Shuffle.m */; };
 		28F54159955A477BD74D62BA20D457B5 /* Utilities.h in Headers */ = {isa = PBXBuildFile; fileRef = C9864F06E28EE1C66C8F0C57354378B7 /* Utilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		30305B728EA8C6F3F0D4D389E4BCE249 /* VoiceItLogo.m in Sources */ = {isa = PBXBuildFile; fileRef = 91B09EB19927F1AB4EA9DA9DC34B99E1 /* VoiceItLogo.m */; };
 		362C5ED0B33AEB1448443EA868DA8F7F /* Prompts.strings in Resources */ = {isa = PBXBuildFile; fileRef = D686BBA68D26CB5F7FF5282FDBE0146A /* Prompts.strings */; };
@@ -86,6 +90,10 @@
 		213995FD207AF0CE00838C01 /* SCSiriWaveformView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SCSiriWaveformView.h; path = VoiceItApi2IosSDK/Classes/SCSiriWaveformView.h; sourceTree = "<group>"; };
 		213995FE207AF0CE00838C01 /* SCSiriWaveformView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SCSiriWaveformView.m; path = VoiceItApi2IosSDK/Classes/SCSiriWaveformView.m; sourceTree = "<group>"; };
 		213995FF207AF0CE00838C01 /* VoiceVerificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VoiceVerificationViewController.m; path = VoiceItApi2IosSDK/Classes/VoiceVerificationViewController.m; sourceTree = "<group>"; };
+		21719B7C208BE3B70079E119 /* Liveness.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Liveness.h; path = VoiceItApi2IosSDK/Classes/Liveness.h; sourceTree = "<group>"; };
+		21719B7D208BE3B70079E119 /* Liveness.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Liveness.m; path = VoiceItApi2IosSDK/Classes/Liveness.m; sourceTree = "<group>"; };
+		21719B80208BE3EE0079E119 /* NSMutableArray+Shuffle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableArray+Shuffle.h"; path = "VoiceItApi2IosSDK/Classes/NSMutableArray+Shuffle.h"; sourceTree = "<group>"; };
+		21719B81208BE3EE0079E119 /* NSMutableArray+Shuffle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableArray+Shuffle.m"; path = "VoiceItApi2IosSDK/Classes/NSMutableArray+Shuffle.m"; sourceTree = "<group>"; };
 		24793BA1A3E30E42043D179AA612B6DD /* Pods-VoiceItApi2IosSDK_Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-VoiceItApi2IosSDK_Example-acknowledgements.markdown"; sourceTree = "<group>"; };
 		2658DB6382D610197EF5F49BE1E05160 /* GoogleSymbolUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleSymbolUtilities.framework; path = Frameworks/frameworks/GoogleSymbolUtilities.framework; sourceTree = "<group>"; };
 		28A709D613FF4AE28DC2F898CF6312BC /* GoogleNetworkingUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleNetworkingUtilities.framework; path = Frameworks/frameworks/GoogleNetworkingUtilities.framework; sourceTree = "<group>"; };
@@ -398,6 +406,10 @@
 		A90C754CC1B39A23166B489F64351905 /* VoiceItApi2IosSDK */ = {
 			isa = PBXGroup;
 			children = (
+				21719B80208BE3EE0079E119 /* NSMutableArray+Shuffle.h */,
+				21719B81208BE3EE0079E119 /* NSMutableArray+Shuffle.m */,
+				21719B7C208BE3B70079E119 /* Liveness.h */,
+				21719B7D208BE3B70079E119 /* Liveness.m */,
 				213995FD207AF0CE00838C01 /* SCSiriWaveformView.h */,
 				213995FE207AF0CE00838C01 /* SCSiriWaveformView.m */,
 				213995FC207AF0CE00838C01 /* VoiceVerificationViewController.h */,
@@ -506,8 +518,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				EDEFA941A8A287526AA030BE6B341BEE /* Pods-VoiceItApi2IosSDK_Example-umbrella.h in Headers */,
-				21399601207AF0CE00838C01 /* SCSiriWaveformView.h in Headers */,
-				21399600207AF0CE00838C01 /* VoiceVerificationViewController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -516,10 +526,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				82A99B8FC826451A6C6D5C89C8483A3A /* EnrollFinishViewController.h in Headers */,
+				21719B7E208BE3B70079E119 /* Liveness.h in Headers */,
 				46CE32E0C898815C800CC9563934B037 /* EnrollSetupViewController.h in Headers */,
 				BB732E1B462C3291FFA5C8DB4D6ADE02 /* EnrollViewController.h in Headers */,
+				21719B82208BE3EE0079E119 /* NSMutableArray+Shuffle.h in Headers */,
 				F17B526EA7C5D3607ECBCE9DE0A934B6 /* FaceVerificationViewController.h in Headers */,
 				8493350B82561330DEE73A82177C6355 /* MainNavigationController.h in Headers */,
+				21719B7B208BE3680079E119 /* SCSiriWaveformView.h in Headers */,
 				7ED82CBEC741F143EFAA30A3A5547430 /* ResponseManager.h in Headers */,
 				C7B81CE3CD8418B3856F5234CC8EBE1B /* SpinningView.h in Headers */,
 				F5E700317D918C7151446D957A0AC4EA /* Styles.h in Headers */,
@@ -527,6 +540,7 @@
 				28F54159955A477BD74D62BA20D457B5 /* Utilities.h in Headers */,
 				CD6FE50D1863EFE4F5B516F0F2C82B60 /* VoiceItApi2IosSDK-umbrella.h in Headers */,
 				7539DE97FFAAA7223D17390BB98129AE /* VoiceItApi2IosSDK.h in Headers */,
+				21719B7A208BE3620079E119 /* VoiceVerificationViewController.h in Headers */,
 				4AE7006AD838D45BE28F6F817AE9DE6E /* VoiceItAPITwo.h in Headers */,
 				3B706FCD4783C2B44CF38A883816527E /* VoiceItLogo.h in Headers */,
 			);
@@ -701,6 +715,7 @@
 				D5351FACF1339B13B66F4A6312D96CD8 /* EnrollViewController.m in Sources */,
 				F116E6EC47CE31B6040E2E2930FBB63B /* FaceVerificationViewController.m in Sources */,
 				8E12982B742A5287A915E454A4E849BD /* MainNavigationController.m in Sources */,
+				21719B83208BE3EE0079E119 /* NSMutableArray+Shuffle.m in Sources */,
 				44A83A2F7829D2B37ADE188A113919E0 /* ResponseManager.m in Sources */,
 				4E8CEF06ADD31ED4B6CA67C269F0DD32 /* SpinningView.m in Sources */,
 				1A373325549AEBA3D2DCE2A80A5C4DE4 /* Styles.m in Sources */,
@@ -709,6 +724,7 @@
 				9D4C211DFAFD7BA6919E2AE17594313A /* VoiceItApi2IosSDK-dummy.m in Sources */,
 				97F8C1FF69ED5B1374499B2F7D62110D /* VoiceItApi2IosSDK.m in Sources */,
 				85DB20D97DA3DBA89A3D554BDF82D14D /* VoiceItAPITwo.m in Sources */,
+				21719B7F208BE3B70079E119 /* Liveness.m in Sources */,
 				30305B728EA8C6F3F0D4D389E4BCE249 /* VoiceItLogo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

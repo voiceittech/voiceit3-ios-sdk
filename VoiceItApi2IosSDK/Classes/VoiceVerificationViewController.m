@@ -46,7 +46,8 @@
     
     // Do any additional setup after loading the view.
     [self.progressView setHidden:YES];
-    [self setMessage:@"Please get ready to verify your voice"];
+    [self setMessage:[ResponseManager getMessage:@"READY_FOR_VOICE_VERIFICATION"]];
+    
     [self setupScreen];
     
     CADisplayLink *displaylink = [CADisplayLink displayLinkWithTarget:self selector:@selector(updateMeters)];

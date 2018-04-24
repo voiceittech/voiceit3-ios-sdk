@@ -8,9 +8,11 @@
 "LOOK_INTO_CAM" = "Please look into the camera";
 "GET_ENROLLED" = "There you are, let's get you enrolled";
 "GET_VERIFIED" = "There you are, let's get you verified";
+"READY_FOR_VOICE_VERIFICATION" = "Please get ready to verify your voice";
 "VERIFY" = "Say\n\"%@\"";
 "VERIFY_FACE" = "Please wait while your face is verified";
 "VERIFY_FACE_FAILED" = "Failed face verification";
+"VIDEO_VERIFY_FAILED" = "Failed video verification";
 "ENROLL_0"= "Say \"%@\" into the iPhone";
 "ENROLL_1"= "Say \"%@\" again";
 "ENROLL_2"= "Say \"%@\" one more time";
@@ -32,4 +34,10 @@
 "GERR"= "Sorry, something went wrong.\nPlease try again.";
 "DONE" = "Voice + Face verification is ready to use";
 "SUCCESS" = "You have been successfully verified";
+"SMILE" = "Please smile into the camera";
+"WAIT_FOR_FACE_VERIFICATION" = "Please wait while we verify your face";
+"BLINK" = "Please blink three times";
+"FACE_LEFT" = "Please turn your face to the left";
+"FACE_RIGHT" = "Please turn your face to the right";
+"LIVENESS_SUCCESS" = "Perfect! You got it";
 "TOO_MANY_ATTEMPTS" = "Sorry 😟, you failed too many times!! Try again later.";

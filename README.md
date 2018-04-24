@@ -475,11 +475,11 @@ myVoiceIt?.videoVerification("USER_ID_HERE", contentLanguage: "CONTENT_LANGUAGE_
 
 #### Encapsulated Video Verification
 
-Verify user with given userId(begins with 'usr_') and contentLanguage('en-US','es-ES' etc.). Note: Immediately upon calling this method it displays a view controller with a camera view that verifies the user and provides relevant callbacks for whether the verification was successful or not, and associated voice and face confidences
+Verify user with given userId(begins with 'usr_') and contentLanguage('en-US','es-ES' etc.) and a parameter to enable or disable liveness detection. Note: Immediately upon calling this method it displays a view controller with a camera view that verifies the user and provides relevant callbacks for whether the verification was successful or not, and associated voice and face confidences
 
 ##### *Swift*
 ```swift
-myVoiceIt?.encapsulatedVideoVerification("USER_ID_HERE", contentLanguage: "CONTENT_LANGUAGE_HERE", voicePrintPhrase: "my face and voice identify me", userVerificationCancelled: {
+myVoiceIt?.encapsulatedVideoVerification("USER_ID_HERE", contentLanguage: "CONTENT_LANGUAGE_HERE", voicePrintPhrase: "my face and voice identify me", doLivenessDetection:true, userVerificationCancelled: {
       print("User Cancelled Verification");
     }, userVerificationSuccessful: {(faceConfidence, voiceConfidence, jsonResponse) in
       print("User Verication Successful, voiceConfidence is \(voiceConfidence), faceConfidence is \(faceConfidence)")
@@ -490,7 +490,7 @@ myVoiceIt?.encapsulatedVideoVerification("USER_ID_HERE", contentLanguage: "CONTE
 
 ##### *Objective-C*
 ```objc
-[_myVoiceIt encapsulatedVideoVerification:@"USER_ID_HERE" contentLanguage:@"CONTENT_LANGUAGE_HERE" voicePrintPhrase:@"my face and voice identify me" userVerificationCancelled:^{
+[_myVoiceIt encapsulatedVideoVerification:@"USER_ID_HERE" contentLanguage:@"CONTENT_LANGUAGE_HERE" voicePrintPhrase:@"my face and voice identify me" doLivenessDetection:YES userVerificationCancelled:^{
      NSLog(@"User Cancelled Verification");
 } userVerificationSuccessful:^(float faceConfidence ,float voiceConfidence, NSString * jsonResponse){
     NSLog(@"User Verication Successful, voiceConfidence : %g , faceConfidence : %g",voiceConfidence, faceConfidence);
@@ -505,7 +505,7 @@ Verify user with given userId(begins with 'usr_'). Note: Immediately upon callin
 
 ##### *Swift*
 ```swift
-myVoiceIt?.encapsulatedFaceVerification("USER_ID_HERE", userVerificationCancelled: {
+myVoiceIt?.encapsulatedFaceVerification("USER_ID_HERE", doLivenessDetection:true, userVerificationCancelled: {
 print("User Cancelled Verification");
 }, userVerificationSuccessful: {(faceConfidence, jsonResponse) in
 print("User Verication Successful faceConfidence is \(faceConfidence)")
@@ -516,7 +516,7 @@ print("User Verication Failed, faceConfidence is \(faceConfidence)")
 
 ##### *Objective-C*
 ```objc
-[_myVoiceIt encapsulatedFaceVerification:@"USER_ID_HERE" userVerificationCancelled:^{
+[_myVoiceIt encapsulatedFaceVerification:@"USER_ID_HERE" doLivenessDetection:YES userVerificationCancelled:^{
 NSLog(@"User Cancelled Verification");
 } userVerificationSuccessful:^(float faceConfidence, NSString * jsonResponse){
 NSLog(@"User Verication Successful faceConfidence : %g", faceConfidence);

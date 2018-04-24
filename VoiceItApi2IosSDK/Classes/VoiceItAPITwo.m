@@ -567,6 +567,7 @@ NSString * const host = @"https://api.voiceit.io/";
 - (void)encapsulatedVideoVerification:(NSString *)userId
                       contentLanguage:(NSString*)contentLanguage
                      voicePrintPhrase:(NSString*)voicePrintPhrase
+                  doLivenessDetection:(bool)doLivenessDetection
             userVerificationCancelled:(void (^)(void))userVerificationCancelled
            userVerificationSuccessful:(void (^)(float, float, NSString *))userVerificationSuccessful
                userVerificationFailed:(void (^)(float, float, NSString *))userVerificationFailed
@@ -588,11 +589,13 @@ NSString * const host = @"https://api.voiceit.io/";
     verifyVC.userVerificationCancelled = userVerificationCancelled;
     verifyVC.userVerificationSuccessful = userVerificationSuccessful;
     verifyVC.userVerificationFailed = userVerificationFailed;
+    verifyVC.doLivenessDetection = doLivenessDetection;
     verifyVC.voiceItMaster = self;
     [[self masterViewController] presentViewController: verifyVC animated:YES completion:nil];
 }
 
 - (void)encapsulatedFaceVerification:(NSString *)userId
+                 doLivenessDetection:(bool)doLivenessDetection
            userVerificationCancelled:(void (^)(void))userVerificationCancelled
            userVerificationSuccessful:(void (^)(float, NSString *))userVerificationSuccessful
                userVerificationFailed:(void (^)(float, NSString *))userVerificationFailed
@@ -613,6 +616,7 @@ NSString * const host = @"https://api.voiceit.io/";
     faceVerificationVC.userVerificationSuccessful = userVerificationSuccessful;
     faceVerificationVC.userVerificationFailed = userVerificationFailed;
     faceVerificationVC.voiceItMaster = self;
+    faceVerificationVC.doLivenessDetection = doLivenessDetection;
     [[self masterViewController] presentViewController: faceVerificationVC animated:YES completion:nil];
 }
 

@@ -53,6 +53,7 @@ typedef enum { enrollment, verification, identification } RecordingType;
 - (void)encapsulatedVideoVerification:(NSString *)userId
                       contentLanguage:(NSString*)contentLanguage
                      voicePrintPhrase:(NSString*)voicePrintPhrase
+                  doLivenessDetection:(bool)doLivenessDetection
             userVerificationCancelled:(void (^)(void))userVerificationCancelled
            userVerificationSuccessful:(void (^)(float, float, NSString *))userVerificationSuccessful
                userVerificationFailed:(void (^)(float, float, NSString *))userVerificationFailed;
@@ -65,6 +66,7 @@ typedef enum { enrollment, verification, identification } RecordingType;
                userVerificationFailed:(void (^)(float, NSString *))userVerificationFailed;
 
 - (void)encapsulatedFaceVerification:(NSString *)userId
+                 doLivenessDetection:(bool)doLivenessDetection
            userVerificationCancelled:(void (^)(void))userVerificationCancelled
            userVerificationSuccessful:(void (^)(float, NSString *))userVerificationSuccessful
                userVerificationFailed:(void (^)(float, NSString *))userVerificationFailed;

@@ -18,6 +18,13 @@
     return [UIColor colorWithRed:((rgbValue & 0xFF0000) >> 16)/255.0 green:((rgbValue & 0xFF00) >> 8)/255.0 blue:(rgbValue & 0xFF)/255.0 alpha:1.0];
 }
 
++(UIColor *)getGreenColor {
+    return [UIColor colorWithRed:39.0f/255.0f
+                           green:174.0f/255.0f
+                            blue:96.0f/255.0f
+                           alpha:1.0f];
+}
+
 +(UIStoryboard *)getVoiceItStoryBoard{
     NSBundle * podBundle = [NSBundle bundleForClass: self.classForCoder];
     NSURL * bundleURL = [[podBundle resourceURL] URLByAppendingPathComponent:@"VoiceItApi2IosSDK.bundle"];
@@ -80,7 +87,6 @@
     UIImage *image = thumbnailImageRef
     ? [[UIImage alloc] initWithCGImage:thumbnailImageRef]
     : nil;
-    //    [Utilities savePhotoToPhotos:image];
     NSData *imageData = nil;
     if ( image != nil){
         imageData  = UIImageJPEGRepresentation(image, 0.5);
@@ -88,35 +94,5 @@
     return imageData;
 }
 
-//+(void)savePhotoToPhotos:(UIImage *)thePhoto{
-//    [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
-//        switch (status) {
-//            case PHAuthorizationStatusAuthorized: {
-//                NSLog(@"Auth Granted");
-//                [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
-//                    [PHAssetChangeRequest creationRequestForAssetFromImage:thePhoto];
-//                } completionHandler: ^(BOOL success, NSError *error) {
-//                    if (success) {
-//                        NSLog(@"Success");
-//                    }
-//                    else {
-//                        NSLog(@"write error : %@",error);
-//                    }
-//                }];
-//                break;
-//            }
-//            case PHAuthorizationStatusRestricted:{
-//                NSLog(@"Access Restricted");
-//                break;
-//            }
-//            case PHAuthorizationStatusDenied:{
-//                NSLog(@"Access Denied");
-//                break;
-//            }
-//            default:{
-//                break;
-//            }
-//        }
-//    }];
-//}
+
 @end
