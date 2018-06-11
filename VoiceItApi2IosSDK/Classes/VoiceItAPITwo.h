@@ -83,6 +83,10 @@
                videoPath:(NSString*)videoPath
                 callback:(void (^)(NSString *))callback;
 
+- (void)faceVerification:(NSString *)userId
+               imageData:(NSData*)imageData
+                callback:(void (^)(NSString *))callback;
+
 - (void)videoVerification:(NSString *)userId
           contentLanguage:(NSString*)contentLanguage
                 videoPath:(NSString*)videoPath

@@ -182,6 +182,7 @@
     if(self.doLivenessDetection){
         self.livenessDetector = [[Liveness alloc] init:self cCP:self.cameraCenterPoint bgWH:self.backgroundWidthHeight cW:self.circleWidth rL:self.rootLayer mL:self.messageLabel livenessPassed:^(NSData * imageData){
             NSLog(@"Face Verification Liveness Success");
+            self.finalCapturedPhotoData = imageData;
             [self stopRecording];
         } livenessFailed:^{
             self.continueRunning = NO;
@@ -248,6 +249,68 @@
     self.isReadyToWrite = YES;
 }
 
+-(void)finishVerification:(NSString *)jsonResponse{
+    [self removeLoading];
+    NSLog(@"FaceVerification JSON Response : %@", jsonResponse);
+    NSDictionary *jsonObj = [Utilities getJSONObject:jsonResponse];
+    NSString * responseCode = [jsonObj objectForKey:@"responseCode"];
+    
+    if([responseCode isEqualToString:@"SUCC"]){
+        [self setMessage:[ResponseManager getMessage:@"SUCCESS"]];
+        float faceConfidence = [[jsonObj objectForKey:@"faceConfidence"] floatValue];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+            [self dismissViewControllerAnimated: YES completion:^{
+                [self userVerificationSuccessful](faceConfidence, jsonResponse);
+            }];
+        });
+    } else {
+        self.failCounter += 1;
+        if([Utilities isBadResponseCode:responseCode]){
+            [self setMessage:[ResponseManager getMessage: @"CONTACT_DEVELOPER" variable: responseCode]];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 5.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                [self dismissViewControllerAnimated: YES completion:^{
+                    [self userVerificationFailed](0.0, jsonResponse);
+                }];
+            });
+        }
+        else if(self.failCounter < 3){
+            if ([responseCode isEqualToString:@"FAIL"]){
+                [self setMessage:[ResponseManager getMessage: @"VERIFY_FACE_FAILED_TRY_AGAIN"]];
+                [self startDelayedRecording:2.0];
+            }
+            else if ([responseCode isEqualToString:@"NFEF"]){
+                [self setMessage:[ResponseManager getMessage: responseCode]];
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                    [self dismissViewControllerAnimated: YES completion:^{
+                        [self userVerificationFailed](0.0, jsonResponse);
+                    }];
+                });
+            } else{
+                [self setMessage:[ResponseManager getMessage: responseCode]];
+                [self startDelayedRecording:2.0];
+            }
+        } else {
+            [self setMessage:[ResponseManager getMessage: @"TOO_MANY_ATTEMPTS"]];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                float faceConfidence = [responseCode isEqualToString:@"FAIL"] ? [[jsonObj objectForKey:@"faceConfidence"] floatValue] : 0.0;
+                [self dismissViewControllerAnimated: YES completion:^{
+                    [self userVerificationFailed](faceConfidence, jsonResponse);
+                }];
+            });
+        }
+    }
+}
+
+-(void)sendPhoto{
+    [self showLoading];
+    if(!self.continueRunning){
+        return;
+    }
+    [self.myVoiceIt faceVerification:self.userToVerifyUserId imageData:self.finalCapturedPhotoData callback:^(NSString * jsonResponse){
+        [self finishVerification:jsonResponse];
+    }];
+}
+
 -(void)stopWritingToVideoFile {
     self.isReadyToWrite = NO;
     [self.assetWriterMyData finishWritingWithCompletionHandler:^{
@@ -257,56 +320,8 @@
         }
         [self.myVoiceIt faceVerification:self.userToVerifyUserId videoPath:self.videoPath callback:^(NSString * jsonResponse){
             [Utilities deleteFile:self.videoPath];
-            [self removeLoading];
-            NSLog(@"FaceVerification JSON Response : %@", jsonResponse);
-            NSDictionary *jsonObj = [Utilities getJSONObject:jsonResponse];
-            NSString * responseCode = [jsonObj objectForKey:@"responseCode"];
-            
-            if([responseCode isEqualToString:@"SUCC"]){
-                [self setMessage:[ResponseManager getMessage:@"SUCCESS"]];
-                float faceConfidence = [[jsonObj objectForKey:@"faceConfidence"] floatValue];
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-                    [self dismissViewControllerAnimated: YES completion:^{
-                        [self userVerificationSuccessful](faceConfidence, jsonResponse);
-                    }];
-                });
-            } else {
-                self.failCounter += 1;
-                if([Utilities isBadResponseCode:responseCode]){
-                    [self setMessage:[ResponseManager getMessage: @"CONTACT_DEVELOPER" variable: responseCode]];
-                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 5.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-                        [self dismissViewControllerAnimated: YES completion:^{
-                            [self userVerificationFailed](0.0, jsonResponse);
-                        }];
-                    });
-                }
-                else if(self.failCounter < 3){
-                    if ([responseCode isEqualToString:@"FAIL"]){
-                        [self setMessage:[ResponseManager getMessage: @"VERIFY_FACE_FAILED_TRY_AGAIN"]];
-                        [self startDelayedRecording:2.0];
-                    }
-                    else if ([responseCode isEqualToString:@"NFEF"]){
-                        [self setMessage:[ResponseManager getMessage: responseCode]];
-                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-                            [self dismissViewControllerAnimated: YES completion:^{
-                                [self userVerificationFailed](0.0, jsonResponse);
-                            }];
-                        });
-                    } else{
-                        [self setMessage:[ResponseManager getMessage: responseCode]];
-                        [self startDelayedRecording:2.0];
-                    }
-                } else {
-                    [self setMessage:[ResponseManager getMessage: @"TOO_MANY_ATTEMPTS"]];
-                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-                        float faceConfidence = [responseCode isEqualToString:@"FAIL"] ? [[jsonObj objectForKey:@"faceConfidence"] floatValue] : 0.0;
-                        [self dismissViewControllerAnimated: YES completion:^{
-                            [self userVerificationFailed](faceConfidence, jsonResponse);
-                        }];
-                    });
-                }
-            }
-    }];
+            [self finishVerification:jsonResponse];
+        }];
     }];
 }
 
@@ -319,14 +334,16 @@
 
 -(void)startRecording {
     self.isRecording = YES;
-    [self startWritingToVideoFile];
+    
     if(self.doLivenessDetection){
         [self.livenessDetector resetVariables];
         [self.livenessDetector doLivenessDetection];
     }
     else {
+        [self startWritingToVideoFile];
         [self setMessage:[ResponseManager getMessage:@"WAIT_FOR_FACE_VERIFICATION"]];
     }
+    
     [self animateProgressCircle];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.4 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         if(self.continueRunning){
@@ -368,7 +385,11 @@
 -(void)stopRecording{
     self.isRecording = NO;
     [self setEnoughRecordingTimePassed:NO];
-    [self stopWritingToVideoFile];
+    if([self doLivenessDetection]){
+        [self sendPhoto];
+    } else {
+        [self stopWritingToVideoFile];
+    }
 }
 
 -(void)showLoading{
@@ -421,7 +442,7 @@
 didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
        fromConnection:(AVCaptureConnection *)connection {
     
-    if(self.isRecording && !self.enoughRecordingTimePassed && self.isReadyToWrite){
+    if(self.isRecording && !self.enoughRecordingTimePassed && self.isReadyToWrite && !self.doLivenessDetection){
         CVImageBufferRef imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
         // a very dense way to keep track of the time at which this frame
         // occurs relative to the output stream, but it's just an example!

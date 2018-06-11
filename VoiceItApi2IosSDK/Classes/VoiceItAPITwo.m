@@ -913,6 +913,45 @@ NSString * const host = @"https://api.voiceit.io/";
     [task resume];
 }
 
+- (void)faceVerification:(NSString *)userId
+               imageData:(NSData*)imageData
+                callback:(void (^)(NSString *))callback
+{
+    
+    if([userId isEqualToString:@""] || ![[self getFirst:userId numChars:4] isEqualToString:@"usr_"]){
+        @throw [NSException exceptionWithName:@"Cannot Call Face Verification"
+                                       reason:@"Invalid userId passed"
+                                     userInfo:nil];
+        return;
+    }
+    
+    NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; charset=utf-8; boundary=%@", self.boundary];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
+                                    initWithURL:[[NSURL alloc] initWithString:[self buildURL:@"verification/face"]]];
+    NSURLSession *session = [NSURLSession sharedSession];
+    [request setHTTPMethod:@"POST"];
+    
+    [request setValue:contentType forHTTPHeaderField: @"Content-Type"];
+    [request addValue:self.authHeader forHTTPHeaderField:@"Authorization"];
+    
+    NSDictionary *params = @{@"userId": userId, @"doBlinkDetection" : @false};
+    NSMutableData *body = [NSMutableData data];
+    [self addParamsToBody:body parameters:params];
+    [self addImageToBody:body imageData:imageData fieldName:@"photo"];
+    [self endBody:body];
+    
+    NSURLSessionDataTask *task =  [session uploadTaskWithRequest:request fromData:body completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        NSString *result =
+        [[NSString alloc] initWithData:data
+                              encoding:NSUTF8StringEncoding];
+        if(callback){
+            callback(result);
+        }
+    }];
+    
+    [task resume];
+}
+
 - (void)videoVerification:(NSString *)userId
           contentLanguage:(NSString*)contentLanguage
                 imageData:(NSData*)imageData

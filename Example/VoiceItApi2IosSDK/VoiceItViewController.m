@@ -22,7 +22,6 @@
     self.TEST_PHRASE = @"never forget tomorrow is a new day";
     self.TEST_CONTENT_LANGUAGE = @"en-US";
     
-
     NSMutableDictionary * styles = [[NSMutableDictionary alloc] init];
     [styles setObject:@"#FBC132" forKey:@"kThemeColor"];
     [styles setObject:@"default" forKey:@"kIconStyle"];
