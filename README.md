@@ -76,7 +76,7 @@ Also add the following permission keys to your <b>info.plist</b> file like shown
 
 ## Strings and Prompts
 
-All strings utilized in the encapsulated views for the SDK and the prompts provided to the user can be modified by editing the strings in the Prompts.string file located at
+All strings utilized in the encapsulated views for the SDK and the prompts provided to the user can be modified by editing the strings in the Prompts.strings file located at
 
 ```
 Pods/VoiceItApi2IosSDK/Resources/Prompts.strings
