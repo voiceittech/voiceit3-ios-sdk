@@ -48,7 +48,7 @@ A fully comprehensive SDK that gives you access to VoiceIt's API 2.0 featuring V
 
 ## Getting Started
 
-Get a Developer Account at <a href="https://voiceit.io/signup" target="_blank">VoiceIt</a> and activate API 2.0 from the settings page, you should now be able view the API Key and Token (as shown below). Also review the HTTP Documentation at <a href="https://api.voiceit.io" target="_blank">api.voiceit.io</a>. All the documentation shows code snippets in both Swift 3 and Objective-C.
+Get a Developer Account at <a href="https://voiceit.io/signup" target="_blank">VoiceIt</a> and view your API Key and Token in the settings page (as shown below). Also review the HTTP Documentation at <a href="https://api.voiceit.io" target="_blank">api.voiceit.io</a>. All the documentation shows code snippets in both Swift 3 and Objective-C.
 
 <img src="Graphics/Screenshot1.png" alt="API Key and Token" width="400px" />
 
