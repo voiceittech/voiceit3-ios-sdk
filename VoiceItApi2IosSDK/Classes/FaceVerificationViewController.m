@@ -180,7 +180,7 @@
 
 -(void)setupLivenessDetector{
     if(self.doLivenessDetection){
-        self.livenessDetector = [[Liveness alloc] init:self cCP:self.cameraCenterPoint bgWH:self.backgroundWidthHeight cW:self.circleWidth rL:self.rootLayer mL:self.messageLabel livenessPassed:^(NSData * imageData){
+        self.livenessDetector = [[Liveness alloc] init:self cCP:self.cameraCenterPoint bgWH:self.backgroundWidthHeight cW:self.circleWidth rL:self.rootLayer mL:self.messageLabel lFA:self.numberOfLivenessFailsAllowed livenessPassed:^(NSData * imageData){
             NSLog(@"Face Verification Liveness Success");
             self.finalCapturedPhotoData = imageData;
             [self stopRecording];

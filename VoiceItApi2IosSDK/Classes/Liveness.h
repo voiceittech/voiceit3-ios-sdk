@@ -11,7 +11,7 @@
 
 @interface Liveness : NSObject
 
-- (id)init:(UIViewController *)mVC cCP:(CGPoint) cCP bgWH:(CGFloat) bgWH cW:(CGFloat) cW rL:(CALayer *)rL mL:(UILabel *)mL livenessPassed:(void (^)(NSData *))livenessPassed livenessFailed:(void (^)(void))livenessFailed;
+- (id)init:(UIViewController *)mVC cCP:(CGPoint) cCP bgWH:(CGFloat) bgWH cW:(CGFloat) cW rL:(CALayer *)rL mL:(UILabel *)mL lFA:(int)lFA livenessPassed:(void (^)(NSData *))livenessPassed livenessFailed:(void (^)(void))livenessFailed;
 -(void)processFrame:(CMSampleBufferRef)sampleBuffer;
 -(void)doLivenessDetection;
 -(void)setupLivenessCircles;
@@ -32,6 +32,8 @@
 @property BOOL livenessChallengeIsHappening;
 
 #pragma mark -  Counters to keep track of stuff
+@property int numberOfLivenessFailsAllowed;
+@property int currentChallengeIndex;
 @property int successfulChallengesCounter;
 @property int lookingIntoCamCounter;
 @property int smileCounter;

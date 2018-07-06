@@ -18,7 +18,7 @@
     [super viewDidLoad];
     self.API_KEY = @"API_KEY_HERE";
     self.API_TOKEN = @"API_TOKEN_HERE";
-    self.TEST_USER_ID = @"USER_ID_HERE";
+    self.TEST_USER_ID = @"USER_ID_HERE";    
     self.TEST_PHRASE = @"never forget tomorrow is a new day";
     self.TEST_CONTENT_LANGUAGE = @"en-US";
     
@@ -69,10 +69,10 @@
 }
 
 - (IBAction)faceVerificationClicked:(id)sender {
-    [self.myVoiceIt encapsulatedFaceVerification: self.TEST_USER_ID doLivenessDetection:self.livenessToggle.isOn userVerificationCancelled:^{
+    [self.myVoiceIt encapsulatedFaceVerification:self.TEST_USER_ID doLivenessDetection:self.livenessToggle.isOn livenessChallengeFailsAllowed:2 userVerificationCancelled:^{
         NSLog(@"User Face Verification Cancelled");
     } userVerificationSuccessful:^(float faceConfidence , NSString * jsonResponse){
-        NSLog(@"User Face Verication Successful faceConfidence : %g and RESPONSE : %@", faceConfidence, jsonResponse);
+        NSLog(@"User Face Verication Failed faceConfidence : %g and RESPONSE : %@", faceConfidence, jsonResponse);
     } userVerificationFailed:^(float faceConfidence , NSString * jsonResponse){
         NSLog(@"User Face Verication Failed faceConfidence : %g and RESPONSE : %@", faceConfidence, jsonResponse);
     }];

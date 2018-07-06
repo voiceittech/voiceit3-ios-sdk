@@ -170,14 +170,14 @@ myVoiceIt?.createUser({
 Check whether a user exists for the given userId(begins with 'usr_')
 ##### *Swift*
 ```swift
-myVoiceIt?.getUser("USER_ID_HERE", callback: {
+myVoiceIt?.checkUserExists("USER_ID_HERE", callback: {
     jsonResponse in
     print("JSON RESPONSE: \(jsonResponse!)")
 })
 ```
 ##### *Objective-C*
 ```objc
-[self.myVoiceIt getUser:@"USER_ID_HERE" callback:^(NSString * jsonResponse){
+[self.myVoiceIt checkUserExists:@"USER_ID_HERE" callback:^(NSString * jsonResponse){
     NSLog(@"JSONResponse: %@", jsonResponse);
 }];
 ```

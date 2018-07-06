@@ -66,4 +66,5 @@
 "BLINK" = "Please blink three times";
 "FACE_LEFT" = "Please turn your face to the left";
 "FACE_RIGHT" = "Please turn your face to the right";
-"LIVENESS_SUCCESS" = "Perfect! You got it";
+"LIVENESS_SUCCESS" = "Challenge passed!";
+"LIVENESS_TRY_AGAIN" = "Failed liveness! Please try again";

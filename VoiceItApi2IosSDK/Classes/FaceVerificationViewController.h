@@ -46,6 +46,7 @@
 #pragma mark -  Counters to keep track of stuff
 @property int lookingIntoCamCounter;
 @property int failCounter;
+@property int numberOfLivenessFailsAllowed;
 
 #pragma mark -  Developer Passed Options
 @property (strong, nonatomic)  NSString * userToVerifyUserId;

@@ -12,7 +12,7 @@
 
 @implementation Liveness
 
-- (id)init:(UIViewController *)mVC cCP:(CGPoint) cCP bgWH:(CGFloat) bgWH cW:(CGFloat) cW rL:(CALayer *)rL mL:(UILabel *)mL livenessPassed:(void (^)(NSData *))livenessPassed livenessFailed:(void (^)(void))livenessFailed{
+- (id)init:(UIViewController *)mVC cCP:(CGPoint) cCP bgWH:(CGFloat) bgWH cW:(CGFloat) cW rL:(CALayer *)rL mL:(UILabel *)mL lFA:(int)lFA livenessPassed:(void (^)(NSData *))livenessPassed livenessFailed:(void (^)(void))livenessFailed{
     self.masterViewController = mVC;
     self.cameraCenterPoint = cCP;
     self.backgroundWidthHeight = bgWH;
@@ -21,6 +21,7 @@
     self.messageLabel = mL;
     self.livenessSuccess = livenessPassed;
     self.livenessFailed = livenessFailed;
+    self.numberOfLivenessFailsAllowed = lFA;
     
     [self resetVariables];
     // Initialize the face detector.
@@ -39,6 +40,7 @@
     self.continueRunning = YES;
     self.successfulChallengesCounter = 0;
     self.currentChallenge = -1;
+    self.currentChallengeIndex = 0;
     self.smileFound = NO;
     self.smileCounter = 0;
     self.blinkCounter = 0;
@@ -74,9 +76,13 @@
 }
 
 -(int)pickChallenge{
-    NSInteger firstItem = (NSInteger) 0;
-    int pickedItem = [[self.challengeArray objectAtIndex:firstItem] intValue];
-    [self.challengeArray removeObjectAtIndex: firstItem];
+    NSInteger itemIndex = (NSInteger) self.currentChallengeIndex;
+    int pickedItem = [[self.challengeArray objectAtIndex:itemIndex] intValue];
+    if(self.currentChallengeIndex >= ([self.challengeArray count] - 1)){
+        self.currentChallengeIndex = 0;
+    } else {
+        self.currentChallengeIndex++;
+    }
     return pickedItem;
 }
 
@@ -94,8 +100,13 @@
 
 -(void)livenessFailedAction{
     [self stopTimer];
-    self.continueRunning = NO;
-    self.livenessFailed();
+    self.failCounter++;
+    if(self.failCounter < self.numberOfLivenessFailsAllowed){
+        [self livenessChallengeTryAgain];
+    } else {
+        self.continueRunning = NO;
+        self.livenessFailed();
+    }
 }
 
 -(void)timerDone{
@@ -211,6 +222,16 @@
     self.successfulChallengesCounter++;
     [self setMessage:[ResponseManager getMessage:@"LIVENESS_SUCCESS"]];
     [self stopTimer];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.5 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        if(self.continueRunning){
+            [self doLivenessDetection];
+        }
+    });
+}
+
+-(void)livenessChallengeTryAgain {
+    self.livenessChallengeIsHappening = NO;
+    [self setMessage:[ResponseManager getMessage:@"LIVENESS_TRY_AGAIN"]];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.5 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         if(self.continueRunning){
             [self doLivenessDetection];
