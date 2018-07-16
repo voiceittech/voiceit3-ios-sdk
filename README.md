@@ -15,9 +15,9 @@ A fully comprehensive SDK that gives you access to VoiceIt's API 2.0 featuring V
   * [User API Calls](#user-api-calls)
       * [Get All Users](#get-all-users)
       * [Create User](#create-user)
-      * [Get User](#get-user)
+      * [Check User Exists](#check-if-specific-user-exists)
       * [Get Groups for User](#get-groups-for-user)
-      * [Delete User](#delete-user)
+      * [Delete User](#delete-a-specific-user)
   * [Group API Calls](#group-api-calls)
       * [Get All Groups](#get-all-groups)
       * [Create Group](#create-group)
@@ -165,7 +165,7 @@ myVoiceIt?.createUser({
 }];
 ```
 
-#### Check if a Specific User Exists
+#### Check if Specific User Exists
 
 Check whether a user exists for the given userId(begins with 'usr_')
 ##### *Swift*
