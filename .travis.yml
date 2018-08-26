@@ -1,3 +1,4 @@
 language: objective-c
 xcode_workspace: Example/VoiceItApi2IosSDK.xcworkspace
 xcode_destination: platform=iOS Simulator,OS=11.3,name=iPhone X
+podfile: Example/Podfile
