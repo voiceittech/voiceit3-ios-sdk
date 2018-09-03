@@ -1,6 +1,0 @@
-framework module VoiceItApi2IosSDK {
-  umbrella header "VoiceItApi2IosSDK-umbrella.h"
-
-  export *
-  module * { export * }
-}

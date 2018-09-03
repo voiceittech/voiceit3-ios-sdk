@@ -1,6 +1,0 @@
-framework module Pods_VoiceItApi2IosSDK_Test {
-  umbrella header "Pods-VoiceItApi2IosSDK_Test-umbrella.h"
-
-  export *
-  module * { export * }
-}
