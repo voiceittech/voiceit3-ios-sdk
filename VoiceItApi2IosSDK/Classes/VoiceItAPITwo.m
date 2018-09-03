@@ -531,7 +531,7 @@ NSString * const host = @"https://api.voiceit.io/";
     }
 
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
-                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@/%@/%ld",[self buildURL:@"enrollments/voice"], userId, voiceEnrollmentId]]];
+                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@/%@/%ld",[self buildURL:@"enrollments/voice"], userId, (long) voiceEnrollmentId]]];
     NSURLSession *session = [NSURLSession sharedSession];
     [request setHTTPMethod:@"DELETE"];
     [request addValue:@"41" forHTTPHeaderField:@"platformId"];
@@ -561,7 +561,7 @@ NSString * const host = @"https://api.voiceit.io/";
     }
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
-                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@/%@/%ld",[self buildURL:@"enrollments/face"], userId, faceEnrollmentId]]];
+                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@/%@/%ld",[self buildURL:@"enrollments/face"], userId, (long) faceEnrollmentId]]];
     NSURLSession *session = [NSURLSession sharedSession];
     [request setHTTPMethod:@"DELETE"];
     [request addValue:@"41" forHTTPHeaderField:@"platformId"];
@@ -591,7 +591,7 @@ NSString * const host = @"https://api.voiceit.io/";
     }
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
-                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@/%@/%ld",[self buildURL:@"enrollments/video"], userId, videoEnrollmentId]]];
+                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@/%@/%ld",[self buildURL:@"enrollments/video"], userId, (long) videoEnrollmentId]]];
     NSURLSession *session = [NSURLSession sharedSession];
     [request setHTTPMethod:@"DELETE"];
     [request addValue:@"41" forHTTPHeaderField:@"platformId"];
