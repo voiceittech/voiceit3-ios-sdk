@@ -7,6 +7,8 @@
 
 A fully comprehensive SDK that gives you access to VoiceIt's API 2.0 featuring Voice + Face Verification and Identification with built in user interfaces and liveness detection.
 
+## Table of Contents
+
 * [Getting Started](#getting-started)
 * [Previews](#previews)
 * [Installation](#installation)
@@ -66,10 +68,9 @@ Get a Developer Account at <a href="https://voiceit.io/signup" target="_blank">V
 
 ## Previews
 
-Method | Preview
+Encapsulated Video Enrollment | Encapsulated Video Verification
 --- | ---
-Encapsulated Video Enrollment | <img width="320px" src="Graphics/VideoEnrollment.gif" />
-Encapsulated Video Verification | <img width="320px" src="Graphics/VideoVerification.gif" />
+<img width="320px" src="Graphics/VideoEnrollment.gif" /> | <img width="320px" src="Graphics/VideoVerification.gif" />
 
 ## Installation
 
