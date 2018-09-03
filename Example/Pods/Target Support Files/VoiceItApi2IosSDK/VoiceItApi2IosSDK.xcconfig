@@ -1,5 +1,5 @@
 CONFIGURATION_BUILD_DIR = ${PODS_CONFIGURATION_BUILD_DIR}/VoiceItApi2IosSDK
-FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/GoogleMobileVision/Detector/Frameworks/frameworks" "${PODS_ROOT}/GoogleMobileVision/FaceDetector/Frameworks/frameworks" "${PODS_ROOT}/GoogleInterchangeUtilities/Frameworks/frameworks" "${PODS_ROOT}/GoogleNetworkingUtilities/Frameworks/frameworks" "${PODS_ROOT}/GoogleUtilities/Frameworks/frameworks" "${PODS_ROOT}/GoogleSymbolUtilities/Frameworks/frameworks"
+FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/GTMSessionFetcher" "${PODS_CONFIGURATION_BUILD_DIR}/GoogleToolboxForMac" "${PODS_CONFIGURATION_BUILD_DIR}/Protobuf" "${PODS_ROOT}/GoogleMobileVision/Detector/Frameworks" "${PODS_ROOT}/GoogleMobileVision/FaceDetector/Frameworks"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
 OTHER_LDFLAGS = -framework "AVFoundation" -framework "UIKit"
 PODS_BUILD_DIR = ${BUILD_DIR}
