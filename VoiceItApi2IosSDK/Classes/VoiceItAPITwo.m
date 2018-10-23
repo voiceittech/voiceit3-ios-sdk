@@ -793,7 +793,7 @@ NSString * const host = @"https://api.voiceit.io/";
     [request addValue:@"41" forHTTPHeaderField:@"platformId"];
     [request addValue:self.authHeader forHTTPHeaderField:@"Authorization"];
 
-    NSDictionary *params = @{@"userId": userId, @"doBlinkDetection" : @false};
+    NSDictionary *params = @{@"userId": userId};
     NSMutableData *body = [NSMutableData data];
     [self addParamsToBody:body parameters:params];
     [self addFileToBody:body filePath: videoPath fieldName:@"video"];
@@ -1323,7 +1323,7 @@ NSString * const host = @"https://api.voiceit.io/";
     [request addValue:@"41" forHTTPHeaderField:@"platformId"];
     [request addValue:self.authHeader forHTTPHeaderField:@"Authorization"];
 
-    NSDictionary *params = @{@"userId": userId, @"doBlinkDetection" : @false};
+    NSDictionary *params = @{@"userId": userId};
     NSMutableData *body = [NSMutableData data];
     [self addParamsToBody:body parameters:params];
     [self addFileToBody:body filePath: videoPath fieldName:@"video"];
@@ -1363,7 +1363,7 @@ NSString * const host = @"https://api.voiceit.io/";
     [request addValue:@"41" forHTTPHeaderField:@"platformId"];
     [request addValue:self.authHeader forHTTPHeaderField:@"Authorization"];
 
-    NSDictionary *params = @{@"userId": userId, @"doBlinkDetection" : @false};
+    NSDictionary *params = @{@"userId": userId};
     NSMutableData *body = [NSMutableData data];
     [self addParamsToBody:body parameters:params];
     [self addImageToBody:body imageData:imageData fieldName:@"photo"];
@@ -1490,7 +1490,7 @@ NSString * const host = @"https://api.voiceit.io/";
     [request addValue:@"41" forHTTPHeaderField:@"platformId"];
     [request addValue:self.authHeader forHTTPHeaderField:@"Authorization"];
 
-    NSDictionary *params = @{@"contentLanguage" : contentLanguage, @"groupId": groupId, @"doBlinkDetection" : @NO , @"phrase" : phrase };
+    NSDictionary *params = @{@"contentLanguage" : contentLanguage, @"groupId": groupId, @"phrase" : phrase };
     NSMutableData *body = [NSMutableData data];
 
     [self addParamsToBody:body parameters:params];
@@ -1530,7 +1530,7 @@ NSString * const host = @"https://api.voiceit.io/";
     [request addValue:@"41" forHTTPHeaderField:@"platformId"];
     [request addValue:self.authHeader forHTTPHeaderField:@"Authorization"];
     
-    NSDictionary *params = @{@"groupId": groupId, @"doBlinkDetection" : @false};
+    NSDictionary *params = @{@"groupId": groupId};
     NSMutableData *body = [NSMutableData data];
     [self addParamsToBody:body parameters:params];
     [self addImageToBody:body imageData:imageData fieldName:@"photo"];
@@ -1569,7 +1569,7 @@ NSString * const host = @"https://api.voiceit.io/";
     [request addValue:@"41" forHTTPHeaderField:@"platformId"];
     [request addValue:self.authHeader forHTTPHeaderField:@"Authorization"];
     
-    NSDictionary *params = @{@"groupId": groupId, @"doBlinkDetection" : @NO};
+    NSDictionary *params = @{@"groupId": groupId};
     NSMutableData *body = [NSMutableData data];
     
     [self addParamsToBody:body parameters:params];
@@ -1611,7 +1611,7 @@ NSString * const host = @"https://api.voiceit.io/";
     [request addValue:@"41" forHTTPHeaderField:@"platformId"];
     [request addValue:self.authHeader forHTTPHeaderField:@"Authorization"];
 
-    NSDictionary *params = @{@"contentLanguage" : contentLanguage, @"groupId": groupId, @"doBlinkDetection" : @NO, @"phrase" : phrase };
+    NSDictionary *params = @{@"contentLanguage" : contentLanguage, @"groupId": groupId, @"phrase" : phrase };
     NSMutableData *body = [NSMutableData data];
 
     [self addParamsToBody:body parameters:params];
