@@ -62,7 +62,7 @@ A fully comprehensive SDK that gives you access to VoiceIt's API 2.0 featuring V
 The following show Voice Verification, Face Verification (With liveness detection on) and Video Verification (with Liveness turned off), respectively.
 
 <div style="background: #000 !important;">
-  <img width="250px" src="./Graphics/voiceVerification.gif" style="display: inline-block !important"/><img width="250px" src="./Graphics/faceVerification.gif" style="display: inline-block !important;"/><img width="250px" src="./Graphics/videoVerification.gif" style="display: inline-block !important;"/>
+  <img width="290px" src="./Graphics/voiceVerification.gif" style="display: inline-block !important"/><img width="290px" src="./Graphics/faceVerification.gif" style="display: inline-block !important;"/><img width="290px" src="./Graphics/videoVerification.gif" style="display: inline-block !important;"/>
 </div>
 
 ## Getting Started
@@ -70,12 +70,6 @@ The following show Voice Verification, Face Verification (With liveness detectio
 Sign up for a free Developer Account at <a href="https://voiceit.io/signup" target="_blank">VoiceIt.io</a> and view your API Key and Token in the settings page (as shown below). You can also review the HTTP Documentation at <a href="https://api.voiceit.io" target="_blank">api.voiceit.io</a>.
 
 <img src="./Graphics/getcredentials.png" alt="API Key and Token" width="400px" />
-
-## Previews
-
-Encapsulated Video Enrollment | Encapsulated Video Verification
---- | ---
-<img width="320px" src="Graphics/VideoEnrollment.gif" /> | <img width="320px" src="Graphics/VideoVerification.gif" />
 
 ## Installation
 
