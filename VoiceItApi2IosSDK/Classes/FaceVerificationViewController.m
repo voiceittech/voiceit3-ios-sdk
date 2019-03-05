@@ -68,6 +68,15 @@
     [self cleanupEverything];
 }
 
+- (void)notEnoughEnrollments:(NSString *) jsonResponse {
+    [self setMessage:[ResponseManager getMessage: @"NFEF"]];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        [self dismissViewControllerAnimated: YES completion:^{
+            [self userVerificationFailed](0.0, jsonResponse);
+        }];
+    });
+}
+
 #pragma mark - Setup Methods
 
 -(void)setupScreen {
@@ -279,12 +288,7 @@
                 [self startDelayedRecording:2.0];
             }
             else if ([responseCode isEqualToString:@"NFEF"]){
-                [self setMessage:[ResponseManager getMessage: responseCode]];
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-                    [self dismissViewControllerAnimated: YES completion:^{
-                        [self userVerificationFailed](0.0, jsonResponse);
-                    }];
-                });
+                [self notEnoughEnrollments:jsonResponse];
             } else{
                 [self setMessage:[ResponseManager getMessage: responseCode]];
                 [self startDelayedRecording:2.0];
@@ -330,6 +334,27 @@
         [self.messageLabel setText: newMessage];
         [self.messageLabel setAdjustsFontSizeToFitWidth:YES];
     });
+}
+
+-(void)startVerificationProcess{
+    [self.myVoiceIt getAllFaceEnrollments:_userToVerifyUserId callback:^(NSString * jsonResponse){
+        NSDictionary *jsonObj = [Utilities getJSONObject:jsonResponse];
+        NSString * responseCode = [jsonObj objectForKey:@"responseCode"];
+        if([responseCode isEqualToString:@"SUCC"]){
+            [self.myVoiceIt getAllVideoEnrollments:self.userToVerifyUserId callback:^(NSString * jsonResponse){
+                NSDictionary *jsonObj2 = [Utilities getJSONObject:jsonResponse];
+                int faceEnrollmentsCount = [[jsonObj valueForKey:@"count"] intValue];
+                int videoEnrollmentsCount = [[jsonObj2 valueForKey:@"count"] intValue];
+                if(faceEnrollmentsCount < 1 && videoEnrollmentsCount < 1){
+                    [self notEnoughEnrollments:@"{\"responseCode\":\"NFEF\",\"message\":\"No face enrollments found\"}"];
+                } else {
+                    [self startRecording];
+                }
+            }];
+        } else {
+            [self notEnoughEnrollments:@"{\"responseCode\":\"NFEF\",\"message\":\"No face enrollments found\"}"];
+        }
+    }];
 }
 
 -(void)startRecording {
@@ -429,7 +454,7 @@
         self.lookingIntoCam = self.lookingIntoCamCounter > MAX_TIME_TO_WAIT_TILL_FACE_FOUND;
         if (self.lookingIntoCam && !self.verificationStarted) {
             self.verificationStarted = YES;
-            [self startRecording];
+            [self startVerificationProcess];
         }
     } else {  
         self.lookingIntoCam = NO;
