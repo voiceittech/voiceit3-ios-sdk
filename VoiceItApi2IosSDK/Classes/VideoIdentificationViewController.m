@@ -294,7 +294,7 @@
         self.progressCircle.strokeColor = [Styles getMainCGColor];
         CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
         animation.duration = 5;
-        animation.removedOnCompletion = YES;//NO;
+        animation.removedOnCompletion = YES;
         animation.fromValue = @(0);
         animation.toValue = @(1);
         animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];

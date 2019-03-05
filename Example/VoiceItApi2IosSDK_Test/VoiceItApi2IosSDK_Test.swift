@@ -220,7 +220,7 @@ class VoiceItApi2IosSDK_Test: VoiceItTest {
             let user = TestHelper.decodeUserJSON(jsonString: createUserResponse!)
             self.usersToDelete.append(user!)
             print("\tTEST CREATE VOICE ENROLLMENT")
-            self.setupVoiceEnrollment(userId: (user?.userId)!, fileName: "enrollmentA1.wav", callback: {
+            self.setupVoiceEnrollment(userId: (user?.userId)!, fileName: "enrollmentB1.wav", callback: {
                 createVoiceEnrollmentResponse in
                 let voiceEnrollmentResponse = TestHelper.decodeVoiceEnrollmentJSON(jsonString: createVoiceEnrollmentResponse)
                 XCTAssertEqual(voiceEnrollmentResponse?.responseCode, "SUCC")
@@ -232,7 +232,7 @@ class VoiceItApi2IosSDK_Test: VoiceItTest {
                     VoiceItTest.basicAssert(expectedRC: "SUCC", expectedSC: 200, jsonResponse: deleteVoiceEnrollmentResponse!)
                     expectations[1].fulfill()
                     print("\tTEST CREATE FACE ENROLLMENT")
-                    self.setupFaceEnrollment(userId: (user?.userId)!, fileName: "faceEnrollmentA1.mp4", callback: {
+                    self.setupFaceEnrollment(userId: (user?.userId)!, fileName: "faceEnrollmentB1.mp4", callback: {
                         createFaceEnrollmentResponse in
                         let faceEnrollmentResponse = TestHelper.decodeFaceEnrollmentJSON(jsonString: createFaceEnrollmentResponse)
                         XCTAssertEqual(faceEnrollmentResponse?.responseCode, "SUCC")
@@ -244,7 +244,7 @@ class VoiceItApi2IosSDK_Test: VoiceItTest {
                                 VoiceItTest.basicAssert(expectedRC: "SUCC", expectedSC: 200, jsonResponse: deleteFaceEnrollmentResponse!)
                                 expectations[3].fulfill()
                                 print("\tTEST CREATE VIDEO ENROLLMENT")
-                                self.setupVideoEnrollment(userId: (user?.userId)!, fileName: "videoEnrollmentA1.mov", callback: {
+                                self.setupVideoEnrollment(userId: (user?.userId)!, fileName: "videoEnrollmentB1.mov", callback: {
                                     createVideoEnrollmentResponse in
                                     let videoEnrollmentResponse = TestHelper.decodeVideoEnrollmentJSON(jsonString: createVideoEnrollmentResponse)
                                     XCTAssertEqual(videoEnrollmentResponse?.responseCode, "SUCC")
@@ -399,9 +399,9 @@ class VoiceItApi2IosSDK_Test: VoiceItTest {
         self.myVoiceIt?.createUser({ createUserResponse in
             let user1 = TestHelper.decodeUserJSON(jsonString: createUserResponse!)
             self.usersToDelete.append(user1!)
-            self.setupVoiceEnrollment(userId: (user1?.userId)!, fileName: "enrollmentB1.wav", callback: { _ in
-                self.setupVoiceEnrollment(userId: (user1?.userId)!, fileName: "enrollmentB2.wav", callback: { _ in
-                    self.setupVoiceEnrollment(userId: (user1?.userId)!, fileName: "enrollmentB3.wav", callback: { _ in
+            self.setupVoiceEnrollment(userId: (user1?.userId)!, fileName: "enrollmentA1.wav", callback: { _ in
+                self.setupVoiceEnrollment(userId: (user1?.userId)!, fileName: "enrollmentA2.wav", callback: { _ in
+                    self.setupVoiceEnrollment(userId: (user1?.userId)!, fileName: "enrollmentA3.wav", callback: { _ in
                         self.myVoiceIt?.createUser({ createUserResponse in
                             let user2 = TestHelper.decodeUserJSON(jsonString: createUserResponse!)
                             self.usersToDelete.append(user2!)
@@ -414,7 +414,7 @@ class VoiceItApi2IosSDK_Test: VoiceItTest {
                                             self.myVoiceIt?.addUser(toGroup: group?.groupId, userId: user1?.userId, callback: { _ in
                                                 self.myVoiceIt?.addUser(toGroup: group?.groupId, userId: user2?.userId, callback: { _ in
                                                     print("\tTEST VOICE IDENTIFICATION")
-                                                    TestHelper.downloadS3File(fileName: "verificationB1.wav", callback: { identificationFilePath in
+                                                    TestHelper.downloadS3File(fileName: "verificationA1.wav", callback: { identificationFilePath in
                                                         self.myVoiceIt?.voiceIdentification((group?.groupId)!, contentLanguage: "en-US", audioPath: identificationFilePath, phrase: "never forget tomorrow is a new day", callback: {
                                                             voiceIdentificationResponse in
                                                             let voiceIdentification = TestHelper.decodeUserJSON(jsonString: voiceIdentificationResponse!)

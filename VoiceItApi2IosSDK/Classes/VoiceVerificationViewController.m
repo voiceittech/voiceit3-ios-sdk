@@ -81,7 +81,25 @@
 #pragma mark - Action Methods
     
 -(void)startVerificationProcess {
-    [self startDelayedRecording:1.5];
+    [self.myVoiceIt getAllVoiceEnrollments:_userToVerifyUserId callback:^(NSString * jsonResponse){
+      NSDictionary *jsonObj = [Utilities getJSONObject:jsonResponse];
+      NSString * responseCode = [jsonObj objectForKey:@"responseCode"];
+      if([responseCode isEqualToString:@"SUCC"]){
+          [self.myVoiceIt getAllVideoEnrollments:self.userToVerifyUserId callback:^(NSString * jsonResponse){
+              NSDictionary *jsonObj2 = [Utilities getJSONObject:jsonResponse];
+              int voiceEnrollmentsCount = [[jsonObj valueForKey:@"count"] intValue];
+              int videoEnrollmentsCount = [[jsonObj2 valueForKey:@"count"] intValue];
+              if(voiceEnrollmentsCount < 3 && videoEnrollmentsCount < 3){
+                  [self notEnoughEnrollments:@"{\"responseCode\":\"PNTE\",\"message\":\"Not enough voice enrollments\"}"];
+              } else {
+                  [self startDelayedRecording:1.5];
+              }
+          }];
+
+      } else {
+         [self notEnoughEnrollments:@"{\"responseCode\":\"NFEF\",\"message\":\"Not face enrollments found\"}"];
+      }
+    }];
 }
 
 -(void)startDelayedRecording:(NSTimeInterval)delayTime{
@@ -157,6 +175,15 @@
     }];
 }
 
+- (void)notEnoughEnrollments:(NSString *) jsonResponse {
+    [self setMessage:[ResponseManager getMessage: @"PNTE"]];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2.5 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        [self dismissViewControllerAnimated: YES completion:^{
+            [self userVerificationFailed](0.0, jsonResponse);
+        }];
+    });
+}
+
 #pragma mark - Audio Recording Methods
 
 - (void)audioRecorderDidFinishRecording:(AVAudioRecorder *)recorder successfully:(BOOL)flag{
@@ -199,12 +226,7 @@
                     [self startDelayedRecording:3.0];
                 }
                 else if ([responseCode isEqualToString:@"PNTE"]){
-                    [self setMessage:[ResponseManager getMessage: responseCode]];
-                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2.5 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-                        [self dismissViewControllerAnimated: YES completion:^{
-                            [self userVerificationFailed](0.0, jsonResponse);
-                        }];
-                    });
+                    [self notEnoughEnrollments:jsonResponse];
                 } else{
                     [self setMessage:[ResponseManager getMessage: responseCode]];
                     [self startDelayedRecording:3.0];

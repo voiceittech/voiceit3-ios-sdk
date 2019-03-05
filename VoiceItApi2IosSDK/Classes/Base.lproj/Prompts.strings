@@ -28,7 +28,7 @@
 "GET_ENROLLED" = "There you are, let's get you enrolled";
 "GET_VERIFIED" = "There you are, let's get you verified";
 "READY_FOR_VOICE_VERIFICATION" = "Please get ready to verify your voice";
-"READY_FOR_VOICE_IDENTIFICATION" = "Please get ready for your voice to be identified";
+"READY_FOR_VOICE_IDENTIFICATION" = "Please get ready for voice identification";
 "VERIFY" = "Say\n\"%@\"";
 "IDENTIFY" = "Say\n\"%@\"";
 "VIDEO_VERIFY_FAILED" = "Failed video verification";

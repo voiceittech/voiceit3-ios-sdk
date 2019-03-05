@@ -186,6 +186,36 @@
 
 #pragma mark - Action Methods
 
+- (void)notEnoughEnrollments:(NSString *) jsonResponse {
+    [self setMessage:[ResponseManager getMessage: @"TVER"]];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2.5 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        [self dismissViewControllerAnimated: YES completion:^{
+            [self userVerificationFailed](0.0, 0.0, jsonResponse);
+        }];
+    });
+}
+
+-(void)checkEnrollments:(Boolean)doLiveness{
+    [self.myVoiceIt getAllVideoEnrollments:_userToVerifyUserId callback:^(NSString * jsonResponse){
+        NSDictionary *jsonObj = [Utilities getJSONObject:jsonResponse];
+        NSString * responseCode = [jsonObj objectForKey:@"responseCode"];
+        if([responseCode isEqualToString:@"SUCC"]){
+            int enrollmentsCount = [[jsonObj valueForKey:@"count"] intValue];
+            if(enrollmentsCount < 3){
+                [self notEnoughEnrollments:@"{\"responseCode\":\"TVER\",\"message\":\"Not enough video enrollments\"}"];
+            } else {
+                if(doLiveness){
+                    [self.livenessDetector doLivenessDetection];
+                } else {
+                    [self startVerificationProcess];
+                }
+            }
+        } else {
+            [self notEnoughEnrollments:@"{\"responseCode\":\"TVER\",\"message\":\"Not enough video enrollments\"}"];
+        }
+    }];
+}
+
 -(void)startVerificationProcess {
     [self startDelayedRecording:0.4];
 }
@@ -363,11 +393,7 @@
         self.lookingIntoCam = self.lookingIntoCamCounter > MAX_TIME_TO_WAIT_TILL_FACE_FOUND;
         if (self.lookingIntoCam && !self.verificationStarted) {
             self.verificationStarted = YES;
-            if(self.doLivenessDetection){
-                [self.livenessDetector doLivenessDetection];
-            } else {
-                [self startVerificationProcess];
-            }
+            [self checkEnrollments:self.doLivenessDetection];
         }
     } else {
         self.lookingIntoCam = NO;
@@ -448,12 +474,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
                         [self startDelayedRecording:3.0];
                     }
                     else if ([responseCode isEqualToString:@"TVER"]){
-                        [self setMessage:[ResponseManager getMessage: responseCode]];
-                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2.5 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-                            [self dismissViewControllerAnimated: YES completion:^{
-                                [self userVerificationFailed](0.0, 0.0, jsonResponse);
-                            }];
-                        });
+                        [self notEnoughEnrollments:jsonResponse];
                     }else{
                         [self setMessage:[ResponseManager getMessage: responseCode]];
                         [self startDelayedRecording:3.0];
