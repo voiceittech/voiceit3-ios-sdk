@@ -17,10 +17,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.API_KEY = @"API_KEY_HERE";
-    self.API_TOKEN = @"API_TOKEN_HERE";
-    self.TEST_USER_ID_ONE = @"USER_ID_HERE";
-    self.TEST_USER_ID_TWO = @"USER_ID_HERE";
+    self.API_KEY = @"key_1df99ca38b97488499e1fe9db9a55e6c";
+    self.API_TOKEN = @"tok_3d43dcd14f6349ee93247b4a3eb2adc4";
+    self.TEST_USER_ID_ONE = @"usr_26b23285344b4d02bcd5b9d038257716";
+    self.TEST_USER_ID_TWO = @"usr_d32919437b984919b19bada1baff5033";
     self.TEST_USER_ID = self.TEST_USER_ID_ONE;
     self.TEST_GROUP_ID = @"GROUP_ID_HERE";
     self.TEST_PHRASE = @"never forget tomorrow is a new day";
@@ -97,6 +97,7 @@
     NSLog(@"FACE IDENTIFICATION CLICKED");
     [self.myVoiceIt encapsulatedFaceIdentification:self.TEST_GROUP_ID
                                doLivenessDetection:self.livenessToggle.isOn
+                                    doAudioPrompts:self.audioPromptsToggle.isOn
     userIdentificationCancelled:^{
         NSLog(@"User Face Identification Cancelled");
     } userIdentificationSuccessful:^(float voiceConfidence , NSString * foundUserId, NSString * jsonResponse){
@@ -114,6 +115,7 @@
                                     contentLanguage:self.TEST_CONTENT_LANGUAGE
                                    voicePrintPhrase:self.TEST_PHRASE
                                 doLivenessDetection:self.livenessToggle.isOn
+                                     doAudioPrompts:self.audioPromptsToggle.isOn
     userIdentificationCancelled:^{
         NSLog(@"User Video Identification Cancelled");
     } userIdentificationSuccessful:^(float voiceConfidence , float faceConfidence, NSString * foundUserId, NSString * jsonResponse){
@@ -128,6 +130,7 @@
 - (IBAction)faceVerificationClicked:(id)sender {
     [self.myVoiceIt encapsulatedFaceVerification:self.TEST_USER_ID
                              doLivenessDetection:self.livenessToggle.isOn
+                                  doAudioPrompts:self.audioPromptsToggle.isOn
     userVerificationCancelled:^{
         NSLog(@"User Face Verification Cancelled");
     } userVerificationSuccessful:^(float faceConfidence , NSString * jsonResponse){
@@ -142,6 +145,7 @@
                                   contentLanguage:self.TEST_CONTENT_LANGUAGE
                                  voicePrintPhrase:self.TEST_PHRASE
                               doLivenessDetection:self.livenessToggle.isOn
+                                   doAudioPrompts:self.audioPromptsToggle.isOn
     userVerificationCancelled:^{
          NSLog(@"User Verication Cancelled");
     } userVerificationSuccessful:^(float faceConfidence ,float voiceConfidence, NSString * jsonResponse){

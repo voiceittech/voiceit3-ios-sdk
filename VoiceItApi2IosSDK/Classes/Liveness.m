@@ -9,10 +9,11 @@
 #import "NSMutableArray+Shuffle.h"
 #import "Utilities.h"
 #import "ResponseManager.h"
+#import <AVFoundation/AVFoundation.h>
 
 @implementation Liveness
 
-- (id)init:(UIViewController *)mVC cCP:(CGPoint) cCP bgWH:(CGFloat) bgWH cW:(CGFloat) cW rL:(CALayer *)rL mL:(UILabel *)mL lFA:(int)lFA livenessPassed:(void (^)(NSData *))livenessPassed livenessFailed:(void (^)(void))livenessFailed{
+- (id)init:(UIViewController *)mVC cCP:(CGPoint) cCP bgWH:(CGFloat) bgWH cW:(CGFloat) cW rL:(CALayer *)rL mL:(UILabel *)mL doAudio:(BOOL)doAudio lFA:(int)lFA livenessPassed:(void (^)(NSData *))livenessPassed livenessFailed:(void (^)(void))livenessFailed {
     self.masterViewController = mVC;
     self.cameraCenterPoint = cCP;
     self.backgroundWidthHeight = bgWH;
@@ -22,6 +23,7 @@
     self.livenessSuccess = livenessPassed;
     self.livenessFailed = livenessFailed;
     self.numberOfLivenessFailsAllowed = lFA;
+    self.audioPromptsIsHappening = doAudio;
     
     [self resetVariables];
     // Initialize the face detector.
@@ -126,36 +128,42 @@
     self.rightCircle.fillColor =  [UIColor clearColor].CGColor;
     self.rightCircle.strokeColor = [UIColor clearColor].CGColor;
     self.rightCircle.lineWidth = self.circleWidth + 8.0;
+    
     [self.rootLayer addSublayer:self.leftCircle];
     [self.rootLayer addSublayer:self.rightCircle];
 }
 
 -(void)showGreenCircleLeftUnfilled{
-    self.leftCircle.strokeColor =  [Utilities getGreenColor].CGColor;
+    self.leftCircle.strokeColor = [UIColor greenColor].CGColor;
     self.leftCircle.opacity = 0.3;
+    [self.rootLayer addSublayer:self.leftCircle];
 }
 
 -(void)showGreenCircleRightUnfilled{
-    self.rightCircle.strokeColor =  [Utilities getGreenColor].CGColor;
+    self.rightCircle.strokeColor =  [UIColor greenColor].CGColor;
     self.rightCircle.opacity = 0.3;
+    [self.rootLayer addSublayer:self.rightCircle];
 }
 
 -(void)showGreenCircleLeft:(BOOL) showCircle{
     self.leftCircle.opacity = 1.0;
     if(showCircle){
-        self.leftCircle.strokeColor = [Utilities getGreenColor].CGColor;
+        self.leftCircle.strokeColor = [UIColor greenColor].CGColor;
     } else {
         self.leftCircle.strokeColor = [UIColor clearColor].CGColor;
     }
+    [self.rootLayer addSublayer:self.leftCircle];
+
 }
 
 -(void)showGreenCircleRight:(BOOL) showCircle{
     self.rightCircle.opacity = 1.0;
     if(showCircle){
-        self.rightCircle.strokeColor = [Utilities getGreenColor].CGColor;
+        self.rightCircle.strokeColor = [UIColor greenColor].CGColor;
     } else {
         self.rightCircle.strokeColor = [UIColor clearColor].CGColor;
     }
+    [self.rootLayer addSublayer:self.rightCircle];
 }
 
 -(void)setupLivenessDetection{
@@ -193,24 +201,78 @@
         case 0:
             //SMILE
             [self setMessage:[ResponseManager getMessage:@"SMILE"]];
+            //Play SMILE.wav
+            if (self.audioPromptsIsHappening) {
+                    NSLog(@"audioPromoptsIsHappening = %d", self.audioPromptsIsHappening);
+                    NSBundle * podBundle = [NSBundle bundleForClass: self.classForCoder];
+                    NSURL * bundleURL = [[podBundle resourceURL] URLByAppendingPathComponent:@"VoiceItApi2IosSDK.bundle"];
+                    NSString *soundFilePath = [NSString stringWithFormat:@"%@/SMILE.wav",[[[NSBundle alloc] initWithURL:bundleURL] resourcePath]];
+                    NSURL *soundFileURL = [NSURL fileURLWithPath:soundFilePath];
+                    NSError *error;
+                    self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:soundFileURL error:&error];
+                    self.player.numberOfLoops = 0; //Infinite
+                    [self.player play];
+                }
             [self startTimer:2.5];
             break;
         case 1:
             //Blink
             [self setMessage:[ResponseManager getMessage:@"BLINK"]];
+            //Play BLINK.wav
+            if (self.audioPromptsIsHappening) {
+                    NSLog(@"audioPromoptsIsHappening = %d", self.audioPromptsIsHappening);
+                    NSBundle * podBundle = [NSBundle bundleForClass: self.classForCoder];
+                    NSURL * bundleURL = [[podBundle resourceURL] URLByAppendingPathComponent:@"VoiceItApi2IosSDK.bundle"];
+                    NSString *soundFilePath = [NSString stringWithFormat:@"%@/BLINK.wav",[[[NSBundle alloc] initWithURL:bundleURL] resourcePath]];
+                    NSURL *soundFileURL = [NSURL fileURLWithPath:soundFilePath];
+                    NSError *error;
+                    self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:soundFileURL error:&error];
+                    self.player.numberOfLoops = 0; //Infinite
+                    [self.player play];
+                }
             [self startTimer:3.0];
             break;
         case 2:
             //Move head left
             [self setMessage:[ResponseManager getMessage:@"FACE_LEFT"]];
-            [self startTimer:2.5];
             [self showGreenCircleLeftUnfilled];
+
+            //Play FACE_LEFT.wav
+            if (self.audioPromptsIsHappening) {
+                    NSLog(@"audioPromoptsIsHappening = %d", self.audioPromptsIsHappening);
+                    NSBundle * podBundle = [NSBundle bundleForClass: self.classForCoder];
+                    NSURL * bundleURL = [[podBundle resourceURL] URLByAppendingPathComponent:@"VoiceItApi2IosSDK.bundle"];
+                    NSString *soundFilePath = [NSString stringWithFormat:@"%@/FACE_LEFT.wav",[[[NSBundle alloc] initWithURL:bundleURL] resourcePath]];
+                    NSURL *soundFileURL = [NSURL fileURLWithPath:soundFilePath];
+                    NSError *error;
+                    self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:soundFileURL error:&error];
+                    self.player.numberOfLoops = 0; //Infinite
+                    [self.player play];
+                    [self startTimer:4.4];
+            } else {
+                [self startTimer:2.5];
+            }
             break;
         case 3:
             //Move head right
             [self setMessage:[ResponseManager getMessage:@"FACE_RIGHT"]];
-            [self startTimer:2.5];
             [self showGreenCircleRightUnfilled];
+
+            //Play FACE_RIGHT.wav
+            if (self.audioPromptsIsHappening) {
+                    NSLog(@"audioPromoptsIsHappening = %d", self.audioPromptsIsHappening);
+                    NSBundle * podBundle = [NSBundle bundleForClass: self.classForCoder];
+                    NSURL * bundleURL = [[podBundle resourceURL] URLByAppendingPathComponent:@"VoiceItApi2IosSDK.bundle"];
+                    NSString *soundFilePath = [NSString stringWithFormat:@"%@/FACE_RIGHT.wav",[[[NSBundle alloc] initWithURL:bundleURL] resourcePath]];
+                    NSURL *soundFileURL = [NSURL fileURLWithPath:soundFilePath];
+                    NSError *error;
+                    self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:soundFileURL error:&error];
+                    self.player.numberOfLoops = 0; //Infinite
+                    [self.player play];
+                    [self startTimer:4.4];
+            } else {
+                [self startTimer:2.5];
+            }
             break;
         default:
             break;
@@ -221,6 +283,7 @@
     self.livenessChallengeIsHappening = NO;
     self.successfulChallengesCounter++;
     [self setMessage:[ResponseManager getMessage:@"LIVENESS_SUCCESS"]];
+
     [self stopTimer];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.5 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         if(self.continueRunning){

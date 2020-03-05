@@ -40,6 +40,7 @@
 @property BOOL continueRunning;
 @property BOOL enoughRecordingTimePassed;
 @property BOOL doLivenessDetection;
+@property BOOL doAudioPrompts;
 @property BOOL verificationStarted;
 @property BOOL isReadyToWrite;
 

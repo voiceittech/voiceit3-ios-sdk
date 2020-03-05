@@ -242,7 +242,7 @@ Verify user with given userId(begins with 'usr_') and a parameter to enable or d
 
 ##### *Swift*
 ```swift
-myVoiceIt?.encapsulatedFaceVerification("USER_ID_HERE", doLivenessDetection:true, userVerificationCancelled: {
+myVoiceIt?.encapsulatedFaceVerification("USER_ID_HERE", doLivenessDetection:true, doAudioPrompts:true, userVerificationCancelled: {
     print("User Cancelled Verification");
 }, userVerificationSuccessful: {(faceConfidence, jsonResponse) in
     print("User Verication Successful faceConfidence : \(faceConfidence)")
@@ -253,7 +253,7 @@ myVoiceIt?.encapsulatedFaceVerification("USER_ID_HERE", doLivenessDetection:true
 
 ##### *Objective-C*
 ```objc
-[self.myVoiceIt encapsulatedFaceVerification:@"USER_ID_HERE" doLivenessDetection:YES userVerificationCancelled:^{
+[self.myVoiceIt encapsulatedFaceVerification:@"USER_ID_HERE" doLivenessDetection:YES doAudioPrompts:YES userVerificationCancelled:^{
     NSLog(@"User Cancelled Verification");
 } userVerificationSuccessful:^(float faceConfidence, NSString * jsonResponse){
     NSLog(@"User Verication Successful faceConfidence : %g", faceConfidence);
@@ -269,7 +269,7 @@ Verify user with given userId(begins with 'usr_') , contentLanguage('en-US','es-
 
 ##### *Swift*
 ```swift
-myVoiceIt?.encapsulatedVideoVerification("USER_ID_HERE", contentLanguage: "CONTENT_LANGUAGE_HERE", voicePrintPhrase: "my face and voice identify me", doLivenessDetection:true, userVerificationCancelled: {
+myVoiceIt?.encapsulatedVideoVerification("USER_ID_HERE", contentLanguage: "CONTENT_LANGUAGE_HERE", voicePrintPhrase: "my face and voice identify me", doLivenessDetection:true, doAudioPrompts:true, userVerificationCancelled: {
     print("User Cancelled Verification");
 }, userVerificationSuccessful: {(faceConfidence, voiceConfidence, jsonResponse) in
     print("User Verication Successful, voiceConfidence : \(voiceConfidence), faceConfidence : \(faceConfidence)")
@@ -280,7 +280,7 @@ myVoiceIt?.encapsulatedVideoVerification("USER_ID_HERE", contentLanguage: "CONTE
 
 ##### *Objective-C*
 ```objc
-[self.myVoiceIt encapsulatedVideoVerification:@"USER_ID_HERE" contentLanguage:@"CONTENT_LANGUAGE_HERE" voicePrintPhrase:@"my face and voice identify me" doLivenessDetection:YES userVerificationCancelled:^{
+[self.myVoiceIt encapsulatedVideoVerification:@"USER_ID_HERE" contentLanguage:@"CONTENT_LANGUAGE_HERE" voicePrintPhrase:@"my face and voice identify me" doLivenessDetection:YES doAudioPrompts:YES userVerificationCancelled:^{
     NSLog(@"User Cancelled Verification");
 } userVerificationSuccessful:^(float faceConfidence, float voiceConfidence, NSString * jsonResponse){
     NSLog(@"User Verication Successful, voiceConfidence : %g , faceConfidence : %g",voiceConfidence, faceConfidence);
@@ -321,7 +321,7 @@ Identify a user in a group with a given groupId(begins with 'grp_') and a parame
 
 ##### *Swift*
 ```swift
-myVoiceIt?.encapsulatedFaceIdentification("GROUP_ID_HERE", doLivenessDetection:true, userIdentificationCancelled: {
+myVoiceIt?.encapsulatedFaceIdentification("GROUP_ID_HERE", doLivenessDetection:true, doAudioPrompts:true, userIdentificationCancelled: {
     print("User Cancelled Identification");
 }, userIdentificationSuccessful: {(faceConfidence, foundUserId, jsonResponse) in
     print("User Identification Successful userId : \(foundUserId) faceConfidence : \(faceConfidence)")
@@ -332,7 +332,7 @@ myVoiceIt?.encapsulatedFaceIdentification("GROUP_ID_HERE", doLivenessDetection:t
 
 ##### *Objective-C*
 ```objc
-[self.myVoiceIt encapsulatedFaceIdentification:@"GROUP_ID_HERE" doLivenessDetection:YES userIdentificationCancelled:^{
+[self.myVoiceIt encapsulatedFaceIdentification:@"GROUP_ID_HERE" doLivenessDetection:YES doAudioPrompts:YES userIdentificationCancelled:^{
     NSLog(@"User Cancelled Identification");
 } userIdentificationSuccessful:^(float faceConfidence, NSString * foundUserId, NSString * jsonResponse){
     NSLog(@"User Identification Successful userId: %@ faceConfidence : %g", foundUserId, faceConfidence);
@@ -348,7 +348,7 @@ Identify user in group with given groupId(begins with 'grp_'), contentLanguage('
 
 ##### *Swift*
 ```swift
-myVoiceIt?.encapsulatedVideoIdentification("GROUP_ID_HERE", contentLanguage: "CONTENT_LANGUAGE_HERE", voicePrintPhrase: "my face and voice identify me", doLivenessDetection:true, userIdentificationCancelled: {
+myVoiceIt?.encapsulatedVideoIdentification("GROUP_ID_HERE", contentLanguage: "CONTENT_LANGUAGE_HERE", voicePrintPhrase: "my face and voice identify me", doLivenessDetection:true, doAudioPrompts:true, userIdentificationCancelled: {
     print("User Cancelled Identification");
 }, userIdentificationSuccessful: {(faceConfidence, voiceConfidence, foundUserId, jsonResponse) in
     print("User Identification Successful, voiceConfidence is \(voiceConfidence), faceConfidence is \(faceConfidence)")
@@ -359,7 +359,7 @@ myVoiceIt?.encapsulatedVideoIdentification("GROUP_ID_HERE", contentLanguage: "CO
 
 ##### *Objective-C*
 ```objc
-[self.myVoiceIt encapsulatedVideoIdentification:@"GROUP_ID_HERE" contentLanguage:@"CONTENT_LANGUAGE_HERE" voicePrintPhrase:@"my face and voice identify me" doLivenessDetection:YES userIdentificationCancelled:^{
+[self.myVoiceIt encapsulatedVideoIdentification:@"GROUP_ID_HERE" contentLanguage:@"CONTENT_LANGUAGE_HERE" voicePrintPhrase:@"my face and voice identify me" doLivenessDetection:YES doAudioPrompts:YES userIdentificationCancelled:^{
     NSLog(@"User Cancelled Identification");
 } userIdentificationSuccessful:^(float faceConfidence, float voiceConfidence, NSString * foundUserId, NSString * jsonResponse){
     NSLog(@"User Identification Successful, userId: %@, voiceConfidence : %g , faceConfidence : %g", foundUserId, voiceConfidence, faceConfidence);

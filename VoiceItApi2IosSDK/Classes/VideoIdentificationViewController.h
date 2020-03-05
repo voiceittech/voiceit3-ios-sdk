@@ -43,6 +43,7 @@
 @property BOOL isRecording;
 @property BOOL continueRunning;
 @property BOOL doLivenessDetection;
+@property BOOL doAudioPrompts;
 @property BOOL imageNotSaved;
 @property BOOL identificationStarted;
 

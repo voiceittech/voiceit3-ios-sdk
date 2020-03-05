@@ -172,12 +172,14 @@
 
 - (void)encapsulatedFaceVerification:(NSString *)userId
                  doLivenessDetection:(bool)doLivenessDetection
+                      doAudioPrompts:(bool)doAudioPrompts
            userVerificationCancelled:(void (^)(void))userVerificationCancelled
           userVerificationSuccessful:(void (^)(float, NSString *))userVerificationSuccessful
               userVerificationFailed:(void (^)(float, NSString *))userVerificationFailed;
 
 - (void)encapsulatedFaceVerification:(NSString *)userId
                  doLivenessDetection:(bool)doLivenessDetection
+                      doAudioPrompts:(bool)doAudioPrompts
                      numFailsAllowed:(int)numFailsAllowed
        livenessChallengeFailsAllowed:(int)livenessChallengeFailsAllowed
            userVerificationCancelled:(void (^)(void))userVerificationCancelled
@@ -188,6 +190,7 @@
                       contentLanguage:(NSString*)contentLanguage
                      voicePrintPhrase:(NSString*)voicePrintPhrase
                   doLivenessDetection:(bool)doLivenessDetection
+                       doAudioPrompts:(bool)doAudioPrompts
             userVerificationCancelled:(void (^)(void))userVerificationCancelled
            userVerificationSuccessful:(void (^)(float, float, NSString *))userVerificationSuccessful
                userVerificationFailed:(void (^)(float, float, NSString *))userVerificationFailed;
@@ -196,6 +199,7 @@
                       contentLanguage:(NSString*)contentLanguage
                      voicePrintPhrase:(NSString*)voicePrintPhrase
                   doLivenessDetection:(bool)doLivenessDetection
+                       doAudioPrompts:(bool)doAudioPrompts
                       numFailsAllowed:(int)numFailsAllowed
          livenessChallengeFailsAllowed:(int)livenessChallengeFailsAllowed
             userVerificationCancelled:(void (^)(void))userVerificationCancelled
@@ -221,12 +225,14 @@
 
 - (void)encapsulatedFaceIdentification:(NSString *)groupId
                    doLivenessDetection:(bool)doLivenessDetection
+                        doAudioPrompts:(bool)doAudioPrompts
            userIdentificationCancelled:(void (^)(void))userIdentificationCancelled
           userIdentificationSuccessful:(void (^)(float, NSString *, NSString *))userIdentificationSuccessful
               userIdentificationFailed:(void (^)(float, NSString *))userIdentificationFailed;
 
 - (void)encapsulatedFaceIdentification:(NSString *)groupId
                    doLivenessDetection:(bool)doLivenessDetection
+                        doAudioPrompts:(bool)doAudioPrompts
                        numFailsAllowed:(int)numFailsAllowed
          livenessChallengeFailsAllowed:(int)livenessChallengeFailsAllowed
            userIdentificationCancelled:(void (^)(void))userIdentificationCancelled
@@ -237,6 +243,7 @@
                         contentLanguage:(NSString*)contentLanguage
                        voicePrintPhrase:(NSString*)voicePrintPhrase
                     doLivenessDetection:(bool)doLivenessDetection
+                         doAudioPrompts:(bool)doAudioPrompts
             userIdentificationCancelled:(void (^)(void))userIdentificationCancelled
            userIdentificationSuccessful:(void (^)(float, float, NSString *, NSString *))userIdentificationSuccessful
                userIdentificationFailed:(void (^)(float, float, NSString *))userIdentificationFailed;
@@ -245,6 +252,7 @@
                         contentLanguage:(NSString*)contentLanguage
                        voicePrintPhrase:(NSString*)voicePrintPhrase
                     doLivenessDetection:(bool)doLivenessDetection
+                         doAudioPrompts:(bool)doAudioPrompts
                         numFailsAllowed:(int)numFailsAllowed
           livenessChallengeFailsAllowed:(int)livenessChallengeFailsAllowed
             userIdentificationCancelled:(void (^)(void))userIdentificationCancelled

@@ -167,7 +167,7 @@
     
     [self.rootLayer addSublayer:self.cameraBorderLayer];
     if(self.doLivenessDetection){
-        self.livenessDetector = [[Liveness alloc] init:self cCP:self.cameraCenterPoint bgWH:self.backgroundWidthHeight cW:self.circleWidth rL: self.rootLayer mL:self.messageLabel lFA:self.numberOfLivenessFailsAllowed livenessPassed:^(NSData * imageData){
+        self.livenessDetector = [[Liveness alloc] init:self cCP:self.cameraCenterPoint bgWH:self.backgroundWidthHeight cW:self.circleWidth rL: self.rootLayer mL:self.messageLabel doAudio:self.doAudioPrompts  lFA:self.numberOfLivenessFailsAllowed livenessPassed:^(NSData * imageData) {
             self.finalCapturedPhotoData = imageData;
             [self startIdentificationProcess];
         } livenessFailed:^{

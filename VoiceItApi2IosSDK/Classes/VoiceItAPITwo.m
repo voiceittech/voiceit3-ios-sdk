@@ -839,12 +839,14 @@ NSString * const host = @"https://api.voiceit.io/";
 
 - (void)encapsulatedFaceVerification:(NSString *)userId
                  doLivenessDetection:(bool)doLivenessDetection
+                      doAudioPrompts:(bool)doAudioPrompts
            userVerificationCancelled:(void (^)(void))userVerificationCancelled
           userVerificationSuccessful:(void (^)(float, NSString *))userVerificationSuccessful
               userVerificationFailed:(void (^)(float, NSString *))userVerificationFailed
 {
     [self encapsulatedFaceVerification:userId
-                   doLivenessDetection:doLivenessDetection
+                   doLivenessDetection:(bool)doLivenessDetection
+                        doAudioPrompts:(bool)doAudioPrompts
                        numFailsAllowed:3
          livenessChallengeFailsAllowed:0
              userVerificationCancelled:userVerificationCancelled
@@ -854,6 +856,7 @@ NSString * const host = @"https://api.voiceit.io/";
 
 - (void)encapsulatedFaceVerification:(NSString *)userId
                  doLivenessDetection:(bool)doLivenessDetection
+                      doAudioPrompts:(bool)doAudioPrompts
                      numFailsAllowed:(int)numFailsAllowed
        livenessChallengeFailsAllowed:(int)livenessChallengeFailsAllowed
            userVerificationCancelled:(void (^)(void))userVerificationCancelled
@@ -877,6 +880,7 @@ NSString * const host = @"https://api.voiceit.io/";
     faceVerificationVC.userVerificationFailed = userVerificationFailed;
     faceVerificationVC.voiceItMaster = self;
     faceVerificationVC.doLivenessDetection = doLivenessDetection;
+    faceVerificationVC.doAudioPrompts = doAudioPrompts;
     faceVerificationVC.failsAllowed = numFailsAllowed;
     faceVerificationVC.numberOfLivenessFailsAllowed = livenessChallengeFailsAllowed;
     [[self masterViewController] presentViewController: faceVerificationVC animated:YES completion:nil];
@@ -884,12 +888,14 @@ NSString * const host = @"https://api.voiceit.io/";
 
 - (void)encapsulatedFaceIdentification:(NSString *)groupId
                    doLivenessDetection:(bool)doLivenessDetection
+                        doAudioPrompts:(bool)doAudioPrompts
            userIdentificationCancelled:(void (^)(void))userIdentificationCancelled
           userIdentificationSuccessful:(void (^)(float, NSString *, NSString *))userIdentificationSuccessful
               userIdentificationFailed:(void (^)(float, NSString *))userIdentificationFailed
 {
         [self encapsulatedFaceIdentification:groupId
                          doLivenessDetection:doLivenessDetection
+                              doAudioPrompts:(bool)doAudioPrompts
                              numFailsAllowed:3
                livenessChallengeFailsAllowed:0
                  userIdentificationCancelled: userIdentificationCancelled
@@ -899,6 +905,7 @@ NSString * const host = @"https://api.voiceit.io/";
 
 - (void)encapsulatedFaceIdentification:(NSString *)groupId
                    doLivenessDetection:(bool)doLivenessDetection
+                        doAudioPrompts:(bool)doAudioPrompts
                        numFailsAllowed:(int)numFailsAllowed
          livenessChallengeFailsAllowed:(int)livenessChallengeFailsAllowed
            userIdentificationCancelled:(void (^)(void))userIdentificationCancelled
@@ -922,6 +929,7 @@ NSString * const host = @"https://api.voiceit.io/";
     faceIdentificationVC.userIdentificationFailed = userIdentificationFailed;
     faceIdentificationVC.voiceItMaster = self;
     faceIdentificationVC.doLivenessDetection = doLivenessDetection;
+    faceIdentificationVC.doAudioPrompts = doAudioPrompts;
     faceIdentificationVC.failsAllowed = numFailsAllowed;
     faceIdentificationVC.numberOfLivenessFailsAllowed = livenessChallengeFailsAllowed;
     [[self masterViewController] presentViewController: faceIdentificationVC animated:YES completion:nil];
@@ -931,6 +939,7 @@ NSString * const host = @"https://api.voiceit.io/";
                       contentLanguage:(NSString*)contentLanguage
                      voicePrintPhrase:(NSString*)voicePrintPhrase
                   doLivenessDetection:(bool)doLivenessDetection
+                       doAudioPrompts:(bool)doAudioPrompts
             userVerificationCancelled:(void (^)(void))userVerificationCancelled
            userVerificationSuccessful:(void (^)(float, float, NSString *))userVerificationSuccessful
                userVerificationFailed:(void (^)(float, float, NSString *))userVerificationFailed
@@ -939,6 +948,7 @@ NSString * const host = @"https://api.voiceit.io/";
                         contentLanguage:contentLanguage
                        voicePrintPhrase:voicePrintPhrase
                     doLivenessDetection:doLivenessDetection
+                         doAudioPrompts:(bool)doAudioPrompts
                         numFailsAllowed:3
           livenessChallengeFailsAllowed:0 userVerificationCancelled:userVerificationCancelled
              userVerificationSuccessful:userVerificationSuccessful userVerificationFailed:userVerificationFailed
@@ -949,6 +959,7 @@ NSString * const host = @"https://api.voiceit.io/";
                       contentLanguage:(NSString*)contentLanguage
                      voicePrintPhrase:(NSString*)voicePrintPhrase
                   doLivenessDetection:(bool)doLivenessDetection
+                       doAudioPrompts:(bool)doAudioPrompts
                       numFailsAllowed:(int)numFailsAllowed
         livenessChallengeFailsAllowed:(int)livenessChallengeFailsAllowed
             userVerificationCancelled:(void (^)(void))userVerificationCancelled
@@ -973,6 +984,7 @@ NSString * const host = @"https://api.voiceit.io/";
     verifyVC.userVerificationSuccessful = userVerificationSuccessful;
     verifyVC.userVerificationFailed = userVerificationFailed;
     verifyVC.doLivenessDetection = doLivenessDetection;
+    verifyVC.doAudioPrompts = doAudioPrompts;
     verifyVC.failsAllowed = numFailsAllowed;
     verifyVC.numberOfLivenessFailsAllowed = livenessChallengeFailsAllowed;
     verifyVC.voiceItMaster = self;
@@ -983,6 +995,7 @@ NSString * const host = @"https://api.voiceit.io/";
                         contentLanguage:(NSString*)contentLanguage
                        voicePrintPhrase:(NSString*)voicePrintPhrase
                     doLivenessDetection:(bool)doLivenessDetection
+                         doAudioPrompts:(bool)doAudioPrompts
             userIdentificationCancelled:(void (^)(void))userIdentificationCancelled
            userIdentificationSuccessful:(void (^)(float, float, NSString *, NSString *))userIdentificationSuccessful
                userIdentificationFailed:(void (^)(float, float, NSString *))userIdentificationFailed
@@ -991,6 +1004,7 @@ NSString * const host = @"https://api.voiceit.io/";
                           contentLanguage:contentLanguage
                          voicePrintPhrase:voicePrintPhrase
                       doLivenessDetection:doLivenessDetection
+                           doAudioPrompts:(bool)doAudioPrompts
                           numFailsAllowed:3
             livenessChallengeFailsAllowed:0
               userIdentificationCancelled:userIdentificationCancelled
@@ -1002,6 +1016,7 @@ NSString * const host = @"https://api.voiceit.io/";
                         contentLanguage:(NSString*)contentLanguage
                        voicePrintPhrase:(NSString*)voicePrintPhrase
                     doLivenessDetection:(bool)doLivenessDetection
+                         doAudioPrompts:(bool)doAudioPrompts
                         numFailsAllowed:(int)numFailsAllowed
           livenessChallengeFailsAllowed:(int)livenessChallengeFailsAllowed
             userIdentificationCancelled:(void (^)(void))userIdentificationCancelled
@@ -1026,6 +1041,7 @@ NSString * const host = @"https://api.voiceit.io/";
     identifyVC.userIdentificationSuccessful = userIdentificationSuccessful;
     identifyVC.userIdentificationFailed = userIdentificationFailed;
     identifyVC.doLivenessDetection = doLivenessDetection;
+    identifyVC.doAudioPrompts = doAudioPrompts;
     identifyVC.failsAllowed = numFailsAllowed;
     identifyVC.numberOfLivenessFailsAllowed = livenessChallengeFailsAllowed;
     identifyVC.voiceItMaster = self;

@@ -12,6 +12,7 @@
 @interface VoiceItViewController : UIViewController<UIPickerViewDelegate,UIPickerViewDataSource>
 @property VoiceItAPITwo * myVoiceIt;
 @property (weak, nonatomic) IBOutlet UISwitch *livenessToggle;
+@property (weak, nonatomic) IBOutlet UISwitch *audioPromptsToggle;
 @property NSString * API_KEY;
 @property NSString * API_TOKEN;
 @property NSString * TEST_USER_ID_ONE;
