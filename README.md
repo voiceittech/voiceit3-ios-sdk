@@ -845,7 +845,7 @@ myVoiceIt?.videoIdentification("GROUP_ID_HERE", contentLanguage: "CONTENT_LANGUA
 
 ## Author
 
-armaanbindra, armaan@voiceit.io
+VoiceIt Technologies, support@voiceit.io
 
 ## License
 

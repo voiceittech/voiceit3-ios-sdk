@@ -2,7 +2,7 @@
 //  VoiceEnrollmentViewController.h
 //  VoiceItApi2IosSDK
 //
-//  Created by Armaan Bindra on 10/1/17.
+//  Created by VoiceIt Technolopgies, LLC on 10/1/17.
 //
 
 #import <UIKit/UIKit.h>

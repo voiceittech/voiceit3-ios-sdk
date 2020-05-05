@@ -2,7 +2,7 @@
 //  VoiceIdentificationViewController.h
 //  VoiceItApi2IosSDK
 //
-//  Created by Armaan Bindra on 8/28/18.
+//  Created by VoiceIt Technolopgies, LLC on 8/28/18.
 //
 
 #import <AVFoundation/AVFoundation.h>

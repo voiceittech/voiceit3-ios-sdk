@@ -2,7 +2,7 @@
 //  VoiceItAPITwo.m
 //  VoiceItApi2IosSDK
 //
-//  Created by Armaan Bindra on 3/7/17.
+//  Created by VoiceIt Technolopgies, LLC on 3/7/17.
 //  Copyright © 2020 VoiceIt Technologies, LLC. All rights reserved.
 //
 

@@ -2,7 +2,7 @@
 //  VideoVerificationViewController.m
 //  VoiceItApi2IosSDK
 //
-//  Created by Armaan Bindra on 3/23/18.
+//  Created by VoiceIt Technolopgies, LLC on 3/23/18.
 //
 
 #import "VideoVerificationViewController.h"
@@ -285,9 +285,18 @@
     [self livenessFailedAction];
 }
 
--(void)saveImageData:(UIImage *)image{
+- (UIImage *)imageFromCIImage:(CIImage *)ciImage {
+    CIContext *ciContext = [CIContext contextWithOptions:nil];
+    CGImageRef cgImage = [ciContext createCGImage:ciImage fromRect:[ciImage extent]];
+    UIImage *image = [UIImage imageWithCGImage:cgImage];
+    CGImageRelease(cgImage);
+    return image;
+}
+
+-(void)saveImageData:(CIImage *)image{
     if ( image != nil){
-        self.finalCapturedPhotoData  = UIImageJPEGRepresentation(image, 0.4);
+        UIImage *uiimage = [self imageFromCIImage:image];
+        self.finalCapturedPhotoData  = UIImageJPEGRepresentation(uiimage, 0.4);
         self.imageNotSaved = NO;
     }
 }
@@ -415,7 +424,13 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
         [self.livenessDetector processFrame:sampleBuffer];
     } else {
         if(self.lookingIntoCamCounter > 5 && self.imageNotSaved){
-            [self saveImageData:[GMVUtility sampleBufferTo32RGBA:sampleBuffer]];
+            // Convert to CIPixelBuffer for faceDetector
+            CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
+            if (pixelBuffer == NULL) { return; }
+            
+            // Create CIImage for faceDetector
+            CIImage *image = [CIImage imageWithCVImageBuffer:pixelBuffer];
+            [self saveImageData:image];
         }
     }
 }

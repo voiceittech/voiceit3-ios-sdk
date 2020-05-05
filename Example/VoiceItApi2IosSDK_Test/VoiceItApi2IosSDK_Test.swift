@@ -2,8 +2,8 @@
 //  VoiceItApi2IosSDK_Test.swift
 //  VoiceItApi2IosSDK_Test
 //
-//  Created by Armaan Bindra on 8/26/18.
-//  Copyright © 2018 armaanbindra. All rights reserved.s
+//  Created by VoiceIt Technolopgies, LLC on 8/26/18.
+//  Copyright © 2018 VoiceIt Technologies, LLC. All rights reserved.s
 
 import UIKit
 import XCTest

@@ -2,7 +2,7 @@
 //  VoiceItApi2IosSDK.h
 //  Pods
 //
-//  Created by Armaan Bindra on 3/23/17.
+//  Created by VoiceIt Technolopgies, LLC on 3/23/17.
 //
 //
 

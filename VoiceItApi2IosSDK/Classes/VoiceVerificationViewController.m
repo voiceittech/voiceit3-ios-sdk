@@ -2,7 +2,7 @@
 //  VoiceVerificationViewController.m
 //  VoiceItApi2IosSDK
 //
-//  Created by Armaan Bindra on 3/24/18.
+//  Created by VoiceIt Technolopgies, LLC on 3/24/18.
 //
 
 #import "VoiceVerificationViewController.h"

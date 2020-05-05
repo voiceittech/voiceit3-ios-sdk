@@ -2,7 +2,7 @@
 //  Styles.m
 //  VoiceItApi2IosSDK
 //
-//  Created by Armaan Bindra on 10/12/17.
+//  Created by VoiceIt Technolopgies, LLC on 10/12/17.
 //
 
 #import "Styles.h"

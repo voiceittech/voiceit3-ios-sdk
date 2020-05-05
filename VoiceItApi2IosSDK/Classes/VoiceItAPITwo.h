@@ -2,8 +2,8 @@
 //  VoiceItAPITwo.h
 //  VoiceItApi2IosSDK
 //
-//  Created by Armaan Bindra on 3/7/17.
-//  Copyright © 2017 Armaan Bindra. All rights reserved.
+//  Created by VoiceIt Technolopgies, LLC on 3/7/17.
+//  Copyright © 2017 VoiceIt Technolopgies, LLC. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

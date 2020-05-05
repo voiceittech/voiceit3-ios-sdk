@@ -2,7 +2,7 @@
 //  VideoEnrollmentViewController.m
 //  VoiceItApi2IosSDK
 //
-//  Created by Armaan Bindra on 10/1/17.
+//  Created by VoiceIt Technolopgies, LLC on 10/1/17.
 //
 
 #import "VideoEnrollmentViewController.h"
@@ -267,13 +267,21 @@
     });
 }
 
--(void)saveImageData:(UIImage *)image{
+- (UIImage *)imageFromCIImage:(CIImage *)ciImage {
+    CIContext *ciContext = [CIContext contextWithOptions:nil];
+    CGImageRef cgImage = [ciContext createCGImage:ciImage fromRect:[ciImage extent]];
+    UIImage *image = [UIImage imageWithCGImage:cgImage];
+    CGImageRelease(cgImage);
+    return image;
+}
+
+-(void)saveImageData:(CIImage *)image{
     if ( image != nil){
-        self.finalCapturedPhotoData  = UIImageJPEGRepresentation(image, 0.4);
+        UIImage *uiimage = [self imageFromCIImage:image];
+        self.finalCapturedPhotoData  = UIImageJPEGRepresentation(uiimage, 0.4);
         self.imageNotSaved = NO;
     }
 }
-
 -(void)takeToFinishedView{
     NSLog(@"Take to finished view");
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -331,7 +339,13 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     }
 
     if(self.imageNotSaved){
-        [self saveImageData:[GMVUtility sampleBufferTo32RGBA:sampleBuffer]];
+        // Convert to CIPixelBuffer for faceDetector
+        CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
+        if (pixelBuffer == NULL) { return; }
+        
+        // Create CIImage for faceDetector
+        CIImage *image = [CIImage imageWithCVImageBuffer:pixelBuffer];
+        [self saveImageData:image];
     }
 
 }

@@ -2,7 +2,7 @@
  Localizable.strings
  TestingVoiceItAPI2iOSSDKCode
  
- Created by Armaan Bindra on 10/3/17.
+ Created by VoiceIt Technolopgies, LLC on 10/3/17.
  Copyright © 2017 VoiceIt Technologies LLC. All rights reserved.
  */
 
@@ -75,7 +75,7 @@
 /* Liveness Prompts */
 "SMILE" = "Please smile into the camera";
 "BLINK" = "Please blink three times";
-"FACE_LEFT" = "Please turn your face to the left";
-"FACE_RIGHT" = "Please turn your face to the right";
+"FACE_LEFT" = "Please turn your face to the left and back";
+"FACE_RIGHT" = "Please turn your face to the right and back";
 "LIVENESS_SUCCESS" = "Challenge passed!";
 "LIVENESS_TRY_AGAIN" = "Failed liveness! Please try again";

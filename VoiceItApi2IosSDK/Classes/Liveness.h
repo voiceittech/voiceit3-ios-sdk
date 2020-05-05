@@ -2,12 +2,11 @@
 //  Liveness.h
 //  VoiceItApi2IosSDK
 //
-//  Created by Armaan Bindra on 4/21/18.
+//  Created by VoiceIt Technolopgies, LLC on 4/21/18.
 //
 
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
-@import GoogleMobileVision;
 
 @interface Liveness : NSObject
 
@@ -21,7 +20,7 @@
 @property int currentChallenge;
 @property NSMutableArray * challengeArray;
 @property (nonatomic, strong) UIViewController * masterViewController;
-@property(nonatomic, strong) GMVDetector *faceDetector;
+@property(nonatomic, strong) CIDetector *faceDetector;
 @property UILabel *messageLabel;
 @property (nonatomic, strong) NSData *finalCapturedPhotoData;
 @property (nonatomic,strong) AVAudioPlayer *player;
@@ -37,6 +36,7 @@
 @property int numberOfLivenessFailsAllowed;
 @property int currentChallengeIndex;
 @property int successfulChallengesCounter;
+@property int numberOfSuccessfulChallengesNeeded;
 @property int lookingIntoCamCounter;
 @property int smileCounter;
 @property int failCounter;
