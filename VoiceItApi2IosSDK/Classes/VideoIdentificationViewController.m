@@ -34,7 +34,6 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    self.currentChallenge = -1;
     self.myVoiceIt = (VoiceItAPITwo *) [self voiceItMaster];
     // Initialize Boolean and All
     self.lookingIntoCam = NO;
@@ -119,7 +118,6 @@
     self.previewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession: self.captureSession];
     [self.previewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
     
-    //    [self.captureSession addOutput:self.movieFileOutput];
     // Setup code to capture face meta data
     AVCaptureMetadataOutput *metadataOutput = [[AVCaptureMetadataOutput alloc] init];
     // Have to add the output before setting metadata types
@@ -167,7 +165,7 @@
     
     [self.rootLayer addSublayer:self.cameraBorderLayer];
     if(self.doLivenessDetection){
-        self.livenessDetector = [[Liveness alloc] init:self cCP:self.cameraCenterPoint bgWH:self.backgroundWidthHeight cW:self.circleWidth rL: self.rootLayer mL:self.messageLabel doAudio:self.doAudioPrompts  lFA:self.numberOfLivenessFailsAllowed livenessPassed:^(NSData * imageData) {
+        self.livenessDetector = [[Liveness alloc] init:self cCP:self.cameraCenterPoint bgWH:self.backgroundWidthHeight cW:self.circleWidth rL:self.rootLayer mL:self.messageLabel doAudio:self.doAudioPrompts lFA:self.numberOfLivenessFailsAllowed livenessPassed:^(NSData * imageData) {
             self.finalCapturedPhotoData = imageData;
             [self startIdentificationProcess];
         } livenessFailed:^{
@@ -175,7 +173,6 @@
             self.livenessDetector.continueRunning = NO;
             [self livenessFailedAction];
         }];
-        
     }
     [self.rootLayer addSublayer:self.progressCircle];
     [self.rootLayer addSublayer:self.previewLayer];
@@ -211,20 +208,7 @@
     });
 }
 
--(void)startTimer:(float)seconds {
-    self.timer = [NSTimer scheduledTimerWithTimeInterval: seconds
-                                              target:self
-                                            selector:@selector(timerDone)
-                                            userInfo:nil
-                                             repeats:NO];
-}
-
--(void)stopTimer{
-    [self.timer invalidate];
-}
-
 -(void)livenessFailedAction{
-    [self stopTimer];
     if(self.doLivenessDetection){
         self.livenessDetector.continueRunning = NO;
     }
@@ -241,7 +225,7 @@
             [jsonResponse setObject:@0.0 forKey:@"faceConfidence"];
             [jsonResponse setObject:@"Liveness detection failed" forKey:@"message"];
             NSData *jsonData = [NSJSONSerialization dataWithJSONObject: jsonResponse options:0 error:&error];
-            if (! jsonData) {
+            if (!jsonData) {
                 NSLog(@"Got an error: %@", error);
             } else {
                 NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
@@ -312,8 +296,10 @@
 }
 
 -(void)startRecording {
+    NSLog(@"Starting RECORDING");
     self.isRecording = YES;
-    
+    self.imageNotSaved = YES;
+    self.cameraBorderLayer.backgroundColor = [UIColor clearColor].CGColor;
     AVAudioSession *audioSession = [AVAudioSession sharedInstance];
     NSError *err;
     [audioSession setCategory:AVAudioSessionCategoryRecord error:&err];
@@ -338,6 +324,7 @@
     }
     [self.audioRecorder setDelegate:self];
     [self.audioRecorder prepareToRecord];
+    [self.audioRecorder setMeteringEnabled:YES];
     [self.audioRecorder recordForDuration:4.8];
     
     // Start Progress Circle Around Face Animation
@@ -357,7 +344,9 @@
 
 #pragma mark - Camera Delegate Methods
 
--(void)captureOutput:(AVCaptureOutput *)output didOutputMetadataObjects:(NSArray<__kindof AVMetadataObject *> *)metadataObjects fromConnection:(AVCaptureConnection *)connection{
+-(void)    captureOutput:(AVCaptureOutput *)output
+didOutputMetadataObjects:(NSArray<__kindof AVMetadataObject *> *)metadataObjects
+          fromConnection:(AVCaptureConnection *)connection{
     BOOL faceFound = NO;
     for(AVMetadataObject *metadataObject in metadataObjects) {
         if([metadataObject.type isEqualToString:AVMetadataObjectTypeFace]) {
@@ -520,4 +509,3 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 }
 
 @end
-

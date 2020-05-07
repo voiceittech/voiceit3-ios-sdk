@@ -1058,10 +1058,11 @@ NSString * const host = @"https://api.voiceit.io/";
     [self encapsulatedVoiceIdentification:groupId
                           contentLanguage:contentLanguage
                          voicePrintPhrase:voicePrintPhrase
+                          numFailsAllowed:3
               userIdentificationCancelled:userIdentificationCancelled
              userIdentificationSuccessful:userIdentificationSuccessful
                  userIdentificationFailed:userIdentificationFailed
-    ];
+     ];
 }
 
 - (void)encapsulatedVoiceIdentification:(NSString *)groupId

@@ -63,7 +63,7 @@
     } else {
         [[self view] setBackgroundColor:[UIColor colorWithRed:0.58 green:0.65 blue:0.65 alpha:0.6]];
     }
-    [[self.verificationBox layer] setCornerRadius:10.0];
+    [[self.identificationBox layer] setCornerRadius:10.0];
     [Utilities setBottomCornersForCancelButton:self.cancelButton];
 }
 
@@ -115,6 +115,7 @@
     
     self.audioPath = [Utilities pathForTemporaryFileWithSuffix:@"wav"];
     NSURL *url = [NSURL fileURLWithPath:self.audioPath];
+    
     err = nil;
     self.audioRecorder = [[AVAudioRecorder alloc] initWithURL:url settings:[Utilities getRecordingSettings] error:&err];
     if(!self.audioRecorder){

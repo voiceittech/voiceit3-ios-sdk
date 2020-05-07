@@ -7,7 +7,6 @@
 
 #import "FaceVerificationViewController.h"
 #import "Styles.h"
-#import "NSMutableArray+Shuffle.h"
 #import "Liveness.h"
 
 @interface FaceVerificationViewController ()
@@ -19,6 +18,7 @@
 @property CGFloat circleWidth;
 @property CGFloat backgroundWidthHeight;
 @property NSTimer * timer;
+@property int currentChallenge;
 @property Liveness * livenessDetector;
 @end
 
@@ -40,13 +40,14 @@
     self.myVoiceIt = (VoiceItAPITwo *) [self voiceItMaster];
     // Initialize Boolean and All
     self.lookingIntoCam = NO;
-    self.enoughRecordingTimePassed = NO;
-    self.continueRunning = YES;
     self.lookingIntoCamCounter = 0;
-    self.failCounter = 0;
+    self.continueRunning = YES;
     self.verificationStarted = NO;
-    self.isReadyToWrite = NO;
+    self.failCounter = 0;
     
+    self.isReadyToWrite = NO;
+    self.enoughRecordingTimePassed = NO;
+
     // Do any additional setup after loading the view.
     [self.progressView setHidden:YES];
     
@@ -59,8 +60,8 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self.progressView startAnimation];
     [self.messageLabel setText: [ResponseManager getMessage:@"LOOK_INTO_CAM"]];
+    [self.progressView startAnimation];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -97,7 +98,6 @@
     [[self.verificationBox layer] setCornerRadius:10.0];
     [Utilities setBottomCornersForCancelButton:self.cancelButton];
     [self setupCameraCircle];
-    [self setupLivenessDetector];
 }
 
 - (void)setupVideoProcessing {
@@ -153,6 +153,7 @@
     
     self.cameraBorderLayer = [[CALayer alloc] init];
     self.progressCircle = [CAShapeLayer layer];
+    
     [self.cameraBorderLayer setFrame:CGRectMake(backgroundViewX, backgroundViewY, self.backgroundWidthHeight, self.backgroundWidthHeight)];
     [self.previewLayer setFrame:CGRectMake(cameraViewX, cameraViewY, cameraViewWidthHeight, cameraViewWidthHeight)];
     [self.previewLayer setCornerRadius: cameraViewWidthHeight / 2];
@@ -164,33 +165,21 @@
         [self.videoDevice setFocusMode:AVCaptureFocusModeLocked];
     }
     
+    // Setup Progress Circle
+    self.progressCircle .path = [UIBezierPath bezierPathWithArcCenter: self.cameraCenterPoint radius:(self.backgroundWidthHeight / 2) startAngle:-M_PI_2 endAngle:2 * M_PI - M_PI_2 clockwise:YES].CGPath;
+    self.progressCircle.fillColor = [UIColor clearColor].CGColor;
+    self.progressCircle.strokeColor = [UIColor clearColor].CGColor;
+    self.progressCircle.lineWidth = self.circleWidth + 8.0;
+    
     [self.cameraBorderLayer setBackgroundColor: [UIColor clearColor].CGColor];
     self.cameraBorderLayer.cornerRadius = self.backgroundWidthHeight / 2;
     
     // Setup Rectangle Around Face
     [Utilities setupFaceRectangle:self.faceRectangleLayer];
     
-    // Setup Progress Circle
-    self.progressCircle .path = [UIBezierPath bezierPathWithArcCenter: self.cameraCenterPoint radius:(self.backgroundWidthHeight / 2) startAngle:-M_PI_2 endAngle:2 * M_PI - M_PI_2 clockwise:YES].CGPath;
-    self.progressCircle.fillColor = [UIColor clearColor].CGColor;
-    self.progressCircle.strokeColor = [UIColor clearColor].CGColor;
-    self.progressCircle.lineWidth = self.circleWidth * 2.0;
-    [self.cameraBorderLayer setBackgroundColor: [UIColor clearColor].CGColor];
-    self.cameraBorderLayer.cornerRadius = self.circleWidth / 2;
-    
     [self.rootLayer addSublayer:self.cameraBorderLayer];
-    [self.rootLayer addSublayer:self.progressCircle];
-    [self.rootLayer addSublayer:self.previewLayer];
-    [self.previewLayer addSublayer:self.faceRectangleLayer];
-    
-    [self.captureSession commitConfiguration];
-    [self.captureSession startRunning];
-}
-
--(void)setupLivenessDetector{
     if(self.doLivenessDetection){
-        self.livenessDetector = [[Liveness alloc] init:self cCP:self.cameraCenterPoint bgWH:self.backgroundWidthHeight cW:self.circleWidth rL:self.rootLayer mL:self.messageLabel doAudio:self.doAudioPrompts lFA:self.numberOfLivenessFailsAllowed livenessPassed:^(NSData * imageData)  {
-            NSLog(@"Face Verification Liveness Success");
+        self.livenessDetector = [[Liveness alloc] init:self cCP:self.cameraCenterPoint bgWH:self.backgroundWidthHeight cW:self.circleWidth rL:self.rootLayer mL:self.messageLabel doAudio:self.doAudioPrompts lFA:self.numberOfLivenessFailsAllowed livenessPassed:^(NSData * imageData) {
             self.finalCapturedPhotoData = imageData;
             [self stopRecording];
         } livenessFailed:^{
@@ -199,6 +188,11 @@
             [self livenessFailedAction];
         }];
     }
+    [self.rootLayer addSublayer:self.progressCircle];
+    [self.rootLayer addSublayer:self.previewLayer];
+    [self.previewLayer addSublayer:self.faceRectangleLayer];
+    [self.captureSession commitConfiguration];
+    [self.captureSession startRunning];
 }
 
 #pragma mark - Action Methods
@@ -208,8 +202,9 @@
     if(self.doLivenessDetection){
         self.livenessDetector.continueRunning = NO;
     }
+    self.continueRunning = NO;
     self.lookingIntoCam = NO;
-    [self setMessage:[ResponseManager getMessage:@"VERIFY_FACE_FAILED"]];
+    [self setMessage: [ResponseManager getMessage:@"VERIFY_FACE_FAILED"]];
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.8 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         [self dismissViewControllerAnimated: YES completion:^{
@@ -361,7 +356,6 @@
     self.isRecording = YES;
     
     if(self.doLivenessDetection){
-        [self.livenessDetector resetVariables];
         [self.livenessDetector doLivenessDetection];
     }
     else {
@@ -369,7 +363,9 @@
         [self setMessage:[ResponseManager getMessage:@"WAIT_FOR_FACE_VERIFICATION"]];
     }
     
+    // Start Progress Circle Around Face Animation
     [self animateProgressCircle];
+    
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.4 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         if(self.continueRunning){
             [self setEnoughRecordingTimePassed:YES];
@@ -378,8 +374,6 @@
             }
         }
     });
-    // Start Progress Circle Around Face Animation
-    
 }
 
 -(void)startDelayedRecording:(NSTimeInterval)delayTime{
@@ -398,7 +392,7 @@
         self.progressCircle.strokeColor = [Styles getMainCGColor];
         CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
         animation.duration = 1.4;
-        animation.removedOnCompletion = YES;//NO;
+        animation.removedOnCompletion = YES;
         animation.fromValue = @(0);
         animation.toValue = @(1);
         animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
@@ -439,9 +433,11 @@
 #pragma mark - Camera Delegate Methods
 
 // Code to Capture Face Rectangle and other cool metadata stuff
--(void)captureOutput:(AVCaptureOutput *)output didOutputMetadataObjects:(NSArray<__kindof AVMetadataObject *> *)metadataObjects fromConnection:(AVCaptureConnection *)connection{
-    BOOL faceFound = NO;
-    for(AVMetadataObject *metadataObject in metadataObjects) {
+-(void)    captureOutput:(AVCaptureOutput *)output
+didOutputMetadataObjects:(NSArray<__kindof AVMetadataObject *> *)metadataObjects
+          fromConnection:(AVCaptureConnection *)connection{
+        BOOL faceFound = NO;
+        for(AVMetadataObject *metadataObject in metadataObjects) {
         if([metadataObject.type isEqualToString:AVMetadataObjectTypeFace]) {
             faceFound = YES;
             AVMetadataObject * face = [self.previewLayer transformedMetadataObjectForMetadataObject:metadataObject];
@@ -467,20 +463,6 @@
 didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
        fromConnection:(AVCaptureConnection *)connection {
     
-    if(self.isRecording && !self.enoughRecordingTimePassed && self.isReadyToWrite && !self.doLivenessDetection){
-        CVImageBufferRef imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
-        // a very dense way to keep track of the time at which this frame
-        // occurs relative to the output stream, but it's just an example!
-        static int64_t frameNumber = 0;
-        if(self.assetWriterInput.readyForMoreMediaData){
-            if(self.pixelBufferAdaptor != nil){
-                [self.pixelBufferAdaptor appendPixelBuffer:imageBuffer
-                                      withPresentationTime:CMTimeMake(frameNumber, 25)];
-                frameNumber++;
-            }
-        }
-    }
-    
     // Don't do any analysis when not looking into the camera
     if(!self.lookingIntoCam){
         return;
@@ -488,8 +470,21 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     
     if(self.doLivenessDetection){
         [self.livenessDetector processFrame:sampleBuffer];
+    } else {
+        if (self.isRecording && !self.enoughRecordingTimePassed && self.isReadyToWrite && !self.doLivenessDetection){
+            CVImageBufferRef imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
+            // a very dense way to keep track of the time at which this frame
+            // occurs relative to the output stream, but it's just an example!
+            static int64_t frameNumber = 0;
+            if(self.assetWriterInput.readyForMoreMediaData){
+                if(self.pixelBufferAdaptor != nil){
+                    [self.pixelBufferAdaptor appendPixelBuffer:imageBuffer
+                                          withPresentationTime:CMTimeMake(frameNumber, 25)];
+                    frameNumber++;
+                }
+            }
+        }
     }
-    
 }
 
 #pragma mark - Cleanup Methods

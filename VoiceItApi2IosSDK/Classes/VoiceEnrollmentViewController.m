@@ -91,14 +91,18 @@
 -(void)startRecording {
     NSLog(@"Starting RECORDING");
     self.isRecording = YES;
-    self.audioSession = [AVAudioSession sharedInstance];
+    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
     NSError *err;
-    [self.audioSession setCategory:AVAudioSessionCategoryRecord error:&err];
+    [audioSession setCategory:AVAudioSessionCategoryRecord error:&err];
     if (err)
     {
         NSLog(@"%@ %ld %@", [err domain], (long)[err code], [[err userInfo] description]);
     }
     err = nil;
+    if (err)
+    {
+        NSLog(@"%@ %ld %@", [err domain], (long)[err code], [[err userInfo] description]);
+    }
 
     self.audioPath = [Utilities pathForTemporaryFileWithSuffix:@"wav"];
     NSURL *url = [NSURL fileURLWithPath:self.audioPath];
@@ -113,7 +117,6 @@
     [self.audioRecorder prepareToRecord];
     [self.audioRecorder setMeteringEnabled:YES];
     [self.audioRecorder recordForDuration:4.8];
-
 }
 
 -(void)recordingStopped{
@@ -175,11 +178,12 @@
 }
 
 -(void)cancelClicked{
-    [self.myVoiceIt deleteAllEnrollments:_userToEnrollUserId callback:^(NSString * deleteEnrollmentsJSONResponse){
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.5 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         [[self navigationController] dismissViewControllerAnimated:YES completion:^{
             [[self myNavController] userEnrollmentsCancelled];
         }];
-    }];
+        [self.myVoiceIt deleteAllEnrollments:self.userToEnrollUserId callback:^(NSString * deleteEnrollmentsJSONResponse){}];
+    });
 }
 
 #pragma mark - AVAudioRecorderDelegate Methods

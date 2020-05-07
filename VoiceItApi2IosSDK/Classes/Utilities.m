@@ -86,9 +86,7 @@
         NSLog(@"thumbnailImageGenerationError %@", igError );
     }
     
-    UIImage *image = thumbnailImageRef
-    ? [[UIImage alloc] initWithCGImage:thumbnailImageRef]
-    : nil;
+    UIImage *image = thumbnailImageRef ? [[UIImage alloc] initWithCGImage:thumbnailImageRef] : nil;
     NSData *imageData = nil;
     if ( image != nil){
         imageData  = UIImageJPEGRepresentation(image, 0.5);

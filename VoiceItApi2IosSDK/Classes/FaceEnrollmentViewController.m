@@ -102,6 +102,7 @@
 
     self.cameraBorderLayer = [[CALayer alloc] init];
     self.progressCircle = [CAShapeLayer layer];
+    
     [self.cameraBorderLayer setFrame:CGRectMake(backgroundViewX, backgroundViewY, backgroundWidthHeight, backgroundWidthHeight)];
     [self.previewLayer setFrame:CGRectMake(cameraViewX, cameraViewY, cameraViewWidthHeight, cameraViewWidthHeight)];
     [self.previewLayer setCornerRadius: cameraViewWidthHeight / 2];
@@ -151,18 +152,21 @@
 
 #pragma mark - Action Methods
 
--(void)animateProgressCircle {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        self.progressCircle.strokeColor = [Styles getMainCGColor];
-        CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
-        animation.duration = 3.0;
-        animation.removedOnCompletion = YES;//NO;
-        animation.fromValue = @(0);
-        animation.toValue = @(1);
-        animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
-        [self.progressCircle addAnimation:animation forKey:@"drawCircleAnimation"];
+-(void)startRecording {
+    self.isRecording = YES;
+    [self startWritingToVideoFile];
+    self.cameraBorderLayer.backgroundColor = [UIColor clearColor].CGColor;
+    
+    // Start Progress Circle Around Face Animation
+    [self animateProgressCircle];
+    
+    // Initialize Face Variables
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        if(self.continueRunning){
+            [self setEnoughRecordingTimePassed:YES];
+            [self stopRecording];
+        }
     });
-
 }
 
 -(void)startDelayedRecording:(NSTimeInterval)delayTime{
@@ -178,21 +182,19 @@
     });
 }
 
--(void)startRecording {
-    self.isRecording = YES;
-    [self startWritingToVideoFile];
-    self.cameraBorderLayer.backgroundColor = [UIColor clearColor].CGColor;
-    // Initialize Face Variables
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        if(self.continueRunning){
-            [self setEnoughRecordingTimePassed:YES];
-            [self stopRecording];
-        }
+-(void)animateProgressCircle {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.progressCircle.strokeColor = [Styles getMainCGColor];
+        CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
+        animation.duration = 3.0;
+        animation.removedOnCompletion = YES;
+        animation.fromValue = @(0);
+        animation.toValue = @(1);
+        animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
+        [self.progressCircle addAnimation:animation forKey:@"drawCircleAnimation"];
     });
-    // Start Progress Circle Around Face Animation
-    [self animateProgressCircle];
-}
 
+}
 -(void)stopRecording{
     self.isRecording = NO;
     [self setEnoughRecordingTimePassed:NO];
@@ -323,11 +325,12 @@
 }
 
 -(void)cancelClicked{
-    [self.myVoiceIt deleteAllEnrollments:_userToEnrollUserId callback:^(NSString * deleteEnrollmentsJSONResponse){
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.5 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         [[self navigationController] dismissViewControllerAnimated:YES completion:^{
             [[self myNavController] userEnrollmentsCancelled];
         }];
-    }];
+        [self.myVoiceIt deleteAllEnrollments:self.userToEnrollUserId callback:^(NSString * deleteEnrollmentsJSONResponse){}];
+    });
 }
 
 #pragma mark - Camera Delegate Methods
@@ -363,15 +366,19 @@
 
 - (void)captureOutput:(AVCaptureOutput *)captureOutput
 didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
-fromConnection:(AVCaptureConnection *)connection {
+       fromConnection:(AVCaptureConnection *)connection {
+    
+    // Don't do any analysis when not looking into the camera
+    if(!self.lookingIntoCam){
+        return;
+    }
 
-   if(self.isRecording && !self.enoughRecordingTimePassed && self.isReadyToWrite){
+    if(self.isRecording && !self.enoughRecordingTimePassed && self.isReadyToWrite){
         CVImageBufferRef imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
         // a very dense way to keep track of the time at which this frame
         // occurs relative to the output stream, but it's just an example!
         static int64_t frameNumber = 0;
         if(self.assetWriterInput.readyForMoreMediaData){
-
             if(self.pixelBufferAdaptor != nil){
                 [self.pixelBufferAdaptor appendPixelBuffer:imageBuffer
                                       withPresentationTime:CMTimeMake(frameNumber, 25)];
@@ -379,12 +386,6 @@ fromConnection:(AVCaptureConnection *)connection {
             }
         }
     }
-
-    // Don't do any analysis when not looking into the camera
-    if(!self.lookingIntoCam){
-        return;
-    }
-
 }
 
 #pragma mark - Cleanup Methods

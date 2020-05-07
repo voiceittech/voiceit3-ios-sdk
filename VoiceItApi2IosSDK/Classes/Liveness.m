@@ -104,7 +104,6 @@
         self.timer = [NSTimer scheduledTimerWithTimeInterval: seconds target: self selector: @selector(timerDone) userInfo: nil repeats: NO];
     });
     }
-//    [[NSRunLoop currentRunLoop]addTimer:self.timer forMode:NSDefaultRunLoopMode];
 }
 
 -(void)stopTimer{
@@ -254,7 +253,7 @@
                 [self.player play];
             }
             // How long to wait for liveness Challenge
-            [self startTimer:3.5];
+            [self startTimer:4.0];
             break;
         case 2:
             //Move head left
@@ -342,10 +341,10 @@
 }
 
 -(void)doBlinkDetection:(CIFaceFeature *)face image:(CIImage *) image {
-//    NSLog(@"Face leftEyeClosed %d", face.leftEyeClosed);
-//    NSLog(@"Face rightEyeClosed %d", face.rightEyeClosed);
-//    NSLog(@"Face blinkState %d", self.blinkState);
-//    NSLog(@"Face blinkCounter %d", self.blinkCounter);
+    NSLog(@"Face leftEyeClosed %d", face.leftEyeClosed);
+    NSLog(@"Face rightEyeClosed %d", face.rightEyeClosed);
+    NSLog(@"Face blinkState %d", self.blinkState);
+    NSLog(@"Face blinkCounter %d", self.blinkCounter);
 
     // Check if eye are close
     if(face.leftEyeClosed && face.rightEyeClosed){
@@ -366,10 +365,10 @@
 }
 
 -(void)moveHeadLeftDetection:(CIFaceFeature *)face image:(CIImage *) image {
-//    NSLog(@"Face hasLeftEyePosition %d", face.hasLeftEyePosition);
-//    NSLog(@"Face hasRightEyePosition %d", face.hasRightEyePosition);
-//    NSLog(@"Face rightEyePosition %@", NSStringFromCGPoint(face.rightEyePosition));
-//    NSLog(@"Face leftEyePosition %@", NSStringFromCGPoint(face.leftEyePosition));
+    NSLog(@"Face hasLeftEyePosition %d", face.hasLeftEyePosition);
+    NSLog(@"Face hasRightEyePosition %d", face.hasRightEyePosition);
+    NSLog(@"Face rightEyePosition %@", NSStringFromCGPoint(face.rightEyePosition));
+    NSLog(@"Face leftEyePosition %@", NSStringFromCGPoint(face.leftEyePosition));
 
     if (face.hasLeftEyePosition && face.hasRightEyePosition) {
         // Head Not facing left side
@@ -400,10 +399,10 @@
 }
 
 -(void)moveHeadRightDetection:(CIFaceFeature *)face image:(CIImage *) image {
-//    NSLog(@"Face hasLeftEyePosition %d", face.hasLeftEyePosition);
-//    NSLog(@"Face hasRightEyePosition %d", face.hasRightEyePosition);
-//    NSLog(@"Face rightEyePosition %@", NSStringFromCGPoint(face.rightEyePosition));
-//    NSLog(@"Face leftEyePosition %@", NSStringFromCGPoint(face.leftEyePosition));
+    NSLog(@"Face hasLeftEyePosition %d", face.hasLeftEyePosition);
+    NSLog(@"Face hasRightEyePosition %d", face.hasRightEyePosition);
+    NSLog(@"Face rightEyePosition %@", NSStringFromCGPoint(face.rightEyePosition));
+    NSLog(@"Face leftEyePosition %@", NSStringFromCGPoint(face.leftEyePosition));
     
     if (face.hasLeftEyePosition && face.hasRightEyePosition) {
         // Head Not facing right side

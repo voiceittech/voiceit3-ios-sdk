@@ -20,14 +20,14 @@
 @property (weak, nonatomic) IBOutlet UIView *verificationBox;
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
 @property (weak, nonatomic) IBOutlet SpinningView *progressView;
-@property  CGPoint cameraCenterPoint;
+@property CGPoint cameraCenterPoint;
 @property CAShapeLayer * progressCircle;
 @property CALayer * cameraBorderLayer;
 @property CALayer * faceRectangleLayer;
 @property CALayer *rootLayer;
 
 #pragma mark -  Camera Related Stuff
-@property  AVCaptureSession * captureSession;
+@property AVCaptureSession * captureSession;
 @property AVCaptureDevice * videoDevice;
 @property(nonatomic, strong) AVCaptureVideoDataOutput *videoDataOutput;
 @property(nonatomic, strong) dispatch_queue_t videoDataOutputQueue;

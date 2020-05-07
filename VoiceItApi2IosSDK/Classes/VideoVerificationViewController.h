@@ -14,6 +14,7 @@
 @interface VideoVerificationViewController : UIViewController <AVCaptureMetadataOutputObjectsDelegate,AVCaptureVideoDataOutputSampleBufferDelegate,AVAudioRecorderDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *cancelButton;
+
 #pragma mark - Audio Recording Stuff
 @property (nonatomic, strong) AVAudioRecorder * audioRecorder;
 @property (nonatomic, strong) NSString *audioPath;

@@ -20,7 +20,7 @@
 
 #pragma mark -  Graphics/UI/Constraints/Animations
 @property CGFloat originalMessageLeftConstraintContstant;
-@property (weak, nonatomic) IBOutlet UIView *verificationBox;
+@property (weak, nonatomic) IBOutlet UIView *identificationBox;
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
 @property (weak, nonatomic) IBOutlet SpinningView *progressView;
 
