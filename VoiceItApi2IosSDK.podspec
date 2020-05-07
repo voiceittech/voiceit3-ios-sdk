@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
 s.name             = 'VoiceItApi2IosSDK'
-s.version          = '2.0.6'
+s.version          = '2.0.7'
 s.summary          = 'A pod that lets you add voice and face verification and identification to your iOS apps, brought to you by VoiceIt.'
 
 # This description is used to generate tags and improve search results.
