@@ -18,15 +18,17 @@
 @property NSTimer * timer;
 @property int currentChallenge;
 @property NSNumber *livenessChallengeTime;
-@property NSString *challengeString;
+@property NSArray *lcoStrings;
 @property(nonatomic, strong) AVAssetWriterInput *assetWriterInput;
 @property(nonatomic, strong) AVAssetWriter *assetWriterMyData;
 @property(nonatomic, strong) AVAssetWriterInputPixelBufferAdaptor *pixelBufferAdaptor;
 @property BOOL isChallengeRetrieved;
-@property NSString *instructionString;
 @property NSString *lcoId;
+@property NSString *livenessInstruction;
+@property NSArray *lco;
 @property NSString *savedVideoPath;
 @property Liveness * livenessDetector;
+@property BOOL hasRecordingEnded;
 @end
 
 @implementation VideoVerificationViewController
@@ -41,6 +43,11 @@
     }
     return self;
 }
+- (IBAction)stopVideoVerification:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:^{
+        [self userVerificationCancelled]();
+    }];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -51,7 +58,7 @@
     self.continueRunning = YES;
     self.verificationStarted = NO;
     self.failCounter = 0;
-    
+    self.hasRecordingEnded = NO;
     self.imageNotSaved = YES;
     self.isReadyToWrite = NO;
     
@@ -65,15 +72,9 @@
         // Set up the AVCapture Session
         [self setupCaptureSession];
         [self setupVideoProcessing];
-        
         [self setupScreen];
+        [self setupCameraCircle];
     }
-}
-
-- (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    [self.messageLabel setText: [ResponseManager getMessage:@"LOOK_INTO_CAM"]];
-    [self.progressView startAnimation];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -88,19 +89,38 @@
     
     [[self myVoiceIt] getLivenessID:self.userToVerifyUserId countryCode:
      @"en-US" callback:^(NSString *response) {
+        
         NSDictionary *data = [Utilities getJSONObject:response];
-        self.challengeString = [[data valueForKey:@"challenges"] componentsJoinedByString: @" "];
+        self.lcoStrings = [data valueForKey:@"lcoStrings"];
         self.isChallengeRetrieved = [data valueForKey:@"success"];
         self.lcoId = [data valueForKey:@"lcoId"];
         self.livenessChallengeTime = [data valueForKey:@"livenessChallengeTime"];
+        self.lco = [data valueForKey:@"lco"];
+        self.livenessInstruction = [data valueForKey:@"uiLivenessInstruction"];
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
             [self setupCaptureSession];
             [self setupVideoProcessing];
             [self setupScreen];
+            [self setupCameraCircle];
         });
     }];
 }
+
+-(void)setLivenessChallengeMessages {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self setMessage:[self.lcoStrings firstObject]];
+        [self illuminateCircles:[self.lco firstObject]];
+    });
+    
+    for(int i=1;i<self.lco.count;i++){
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, [self.livenessChallengeTime floatValue]/(self.lco.count) * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+            [self setMessage:self.lcoStrings[i]];
+            [self illuminateCircles:self.lco[i]];
+        });
+    }
+}
+
 
 #pragma mark - Setup Methods
 
@@ -121,7 +141,6 @@
     }
     [[self.verificationBox layer] setCornerRadius:10.0];
     [Utilities setBottomCornersForCancelButton:self.cancelButton];
-    [self setupCameraCircle];
 }
 
 - (void)setupVideoProcessing {
@@ -212,6 +231,80 @@
 
 #pragma mark - Action Methods
 
+-(void)handleLivenessResponse: (NSString*)result{
+    NSLog(@"%@", result);
+    NSDictionary *jsonObj = [Utilities getJSONObject:result];
+    NSString * uiMessage = [jsonObj objectForKey:@"uiMessage"];
+    BOOL retry = [jsonObj objectForKey:@"retry"];
+    NSString * developerMessage = [jsonObj objectForKey:@"developerMessage"];
+    BOOL success = [jsonObj objectForKey:@"success"];
+}
+
+-(void)playSound:(NSString*) lco{
+    if(self.doAudioPrompts){
+    NSBundle * podBundle = [NSBundle bundleForClass: self.classForCoder];
+    NSURL * bundleURL = [[podBundle resourceURL] URLByAppendingPathComponent:@"VoiceItApi2IosSDK.bundle"];
+    NSString* soundFilePath;
+    if([lco isEqualToString:@"FACE_LEFT"]){
+        soundFilePath = [NSString stringWithFormat:@"%@/FACE_LEFT.wav",[[[NSBundle alloc] initWithURL:bundleURL] resourcePath]];
+    }
+    else if([lco isEqualToString:@"FACE_RIGHT"]){
+       soundFilePath = [NSString stringWithFormat:@"%@/FACE_RIGHT.wav",[[[NSBundle alloc] initWithURL:bundleURL] resourcePath]];
+    }
+    else if([lco isEqualToString:@"SMILE"]){
+        soundFilePath = [NSString stringWithFormat:@"%@/SMILE.wav",[[[NSBundle alloc] initWithURL:bundleURL] resourcePath]];
+    }
+    else if([lco isEqualToString:@"BLINK"]){
+        soundFilePath = [NSString stringWithFormat:@"%@/BLINK.wav",[[[NSBundle alloc] initWithURL:bundleURL] resourcePath]];
+    }
+    NSURL *soundFileURL = [NSURL fileURLWithPath:soundFilePath];
+    NSError *error;
+    AVAudioSession *session = [AVAudioSession sharedInstance];
+    [session setCategory:AVAudioSessionCategoryPlayback error:nil];
+    self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:soundFileURL error:&error];
+    self.player.numberOfLoops = 0; //Infinite
+    [self.player play];
+  }
+}
+
+-(void) illuminateCircles:(NSString*) lcoSignal {
+    if ([lcoSignal isEqualToString:@"FACE_UP"]) {
+        self.progressCircle.path = [UIBezierPath bezierPathWithArcCenter: self.cameraCenterPoint radius:(self.backgroundWidthHeight / 2) startAngle: M_PI endAngle: 0 * M_PI clockwise:YES].CGPath;
+        self.progressCircle.drawsAsynchronously = YES;
+        self.progressCircle.borderWidth = 20;
+        self.progressCircle.fillColor =  [UIColor greenColor].CGColor;
+    } else if ([lcoSignal isEqualToString:@"FACE_DOWN"]) {
+        self.progressCircle.path = [UIBezierPath bezierPathWithArcCenter: self.cameraCenterPoint radius:(self.backgroundWidthHeight / 2) startAngle: 0 endAngle: M_PI clockwise:YES].CGPath;
+        self.progressCircle.drawsAsynchronously = YES;
+        self.progressCircle.borderWidth = 20;
+        self.progressCircle.fillColor =  [UIColor greenColor].CGColor;
+    } else if ([lcoSignal isEqualToString:@"FACE_RIGHT"]) {
+        [self playSound:lcoSignal];
+        self.progressCircle.path = [UIBezierPath bezierPathWithArcCenter: self.cameraCenterPoint radius:(self.backgroundWidthHeight / 2) startAngle: 1.75 * M_PI endAngle: 0.25 * M_PI clockwise:YES].CGPath;
+        self.progressCircle.drawsAsynchronously = YES;
+        self.progressCircle.borderWidth = 20;
+        self.progressCircle.fillColor =  [UIColor greenColor].CGColor;
+    } else if ([lcoSignal isEqualToString:@"FACE_LEFT"]) {
+        [self playSound:lcoSignal];
+        self.progressCircle.path = [UIBezierPath bezierPathWithArcCenter: self.cameraCenterPoint radius:(self.backgroundWidthHeight / 2) startAngle: 0.75 * M_PI endAngle: 1.25 * M_PI clockwise:YES].CGPath;
+        self.progressCircle.borderWidth = 20;
+        self.progressCircle.drawsAsynchronously = YES;
+        self.progressCircle.fillColor =  [UIColor greenColor].CGColor;
+    } else if([lcoSignal isEqualToString:@"FACE_TILT_LEFT"]){
+        self.progressCircle.path = [UIBezierPath bezierPathWithArcCenter: self.cameraCenterPoint radius:(self.backgroundWidthHeight / 2) startAngle: -0.5 * M_PI endAngle:-M_PI clockwise:NO].CGPath;
+        self.progressCircle.borderWidth = 20;
+        self.progressCircle.drawsAsynchronously = YES;
+        self.progressCircle.fillColor =  [UIColor greenColor].CGColor;
+    }else if([lcoSignal isEqualToString:@"FACE_TILT_RIGHT"]){
+        self.progressCircle.path = [UIBezierPath bezierPathWithArcCenter: self.cameraCenterPoint radius:(self.backgroundWidthHeight / 2) startAngle: 0 endAngle: -0.4*M_PI clockwise:NO].CGPath;
+        self.progressCircle.borderWidth = 20;
+        self.progressCircle.drawsAsynchronously = YES;
+        self.progressCircle.fillColor =  [UIColor greenColor].CGColor;
+    } else{
+        [self playSound:lcoSignal];
+    }
+}
+
 - (void)notEnoughEnrollments:(NSString *) jsonResponse {
     [self setMessage:[ResponseManager getMessage: @"TVER"]];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2.5 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
@@ -245,7 +338,6 @@
 -(void)startDelayedRecording:(NSTimeInterval)delayTime{
     
     if(self.doLivenessDetection && self.isChallengeRetrieved) {
-        [self setMessage:self.challengeString];
         [self startRecordingWithLiveness];
     }
     else{
@@ -265,9 +357,12 @@
 -(void) startRecordingWithLiveness{
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, [self.livenessChallengeTime floatValue] * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         [self setMessage:[ResponseManager getMessage:@"VERIFY" variable:self.thePhrase]];
+        self.progressCircle.fillColor =  [UIColor clearColor].CGColor;
+        [self animateProgressCircle];
     });
     [self startWritingToVideoFile];
     [self startRecording];
+    [self setLivenessChallengeMessages];
 }
 
 - (UIImage *)imageFromCIImage:(CIImage *)ciImage {
@@ -356,12 +451,10 @@
     [self.audioRecorder setMeteringEnabled:YES];
     if(!self.doLivenessDetection){
         [self.audioRecorder recordForDuration:4.8];
+        [self animateProgressCircle];
     } else{
         [self.audioRecorder recordForDuration:[self.livenessChallengeTime floatValue] + 5];
-    }
-    // Start Progress Circle Around Face Animation
-    [self animateProgressCircle];
-}
+    }}
 
 -(void)stopRecording{
     self.isRecording = NO;
@@ -369,9 +462,20 @@
 }
 
 - (IBAction)cancelClicked:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:^{
-        [self userVerificationCancelled]();
-    }];
+    if(!self.doLivenessDetection){
+        [self dismissViewControllerAnimated:YES completion:^{
+            [self userVerificationCancelled]();
+        }];
+    } else{
+        if(self.verificationStarted == YES && [self.cancelButton.titleLabel.text isEqual:@"Continue"]){
+            [self checkEnrollments:self.doLivenessDetection];
+        }
+        if(self.verificationStarted == NO || [self.cancelButton.titleLabel.text isEqual:@"Cancel"]){
+            [self dismissViewControllerAnimated:YES completion:^{
+                [self userVerificationCancelled]();
+            }];
+        }
+    }
 }
 
 #pragma mark - Camera Delegate Methods
@@ -393,7 +497,9 @@ didOutputMetadataObjects:(NSArray<__kindof AVMetadataObject *> *)metadataObjects
         self.lookingIntoCam = self.lookingIntoCamCounter > MAX_TIME_TO_WAIT_TILL_FACE_FOUND;
         if (self.lookingIntoCam && !self.verificationStarted) {
             self.verificationStarted = YES;
-            [self checkEnrollments:self.doLivenessDetection];
+            if(!self.doLivenessDetection){
+                [self checkEnrollments:self.doLivenessDetection];
+            }
         }
     } else {
         self.lookingIntoCam = NO;
@@ -406,10 +512,25 @@ didOutputMetadataObjects:(NSArray<__kindof AVMetadataObject *> *)metadataObjects
 didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
        fromConnection:(AVCaptureConnection *)connection {
     
-    // Don't do any analysis when not looking into the camera
-    if(!self.lookingIntoCam){
+    // Don't do any analysis when not looking into the camera with no liveness test enabled
+    if(!self.lookingIntoCam && !self.doLivenessDetection){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.messageLabel setText: [ResponseManager getMessage:@"LOOK_INTO_CAM"]];
+        });
         return;
     }
+    
+    // Don't do any analysis when not looking into the camera with liveness test enabled
+    // Set button to Cancel and change message to Look into Camera
+    if(!self.lookingIntoCam && self.doLivenessDetection && !self.isRecording){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.messageLabel setText: [ResponseManager getMessage:@"LOOK_INTO_CAM"]];
+            [self.cancelButton setTitle:[ResponseManager getMessage:@"Cancel"] forState:UIControlStateNormal];
+        });
+        return;
+    }
+    
+    // When enough looking into camera time has passed and recording has not yet begun with no liveness
     if(self.lookingIntoCamCounter > 5 && self.imageNotSaved && !self.doLivenessDetection){
         // Convert to CIPixelBuffer for faceDetector
         CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
@@ -419,6 +540,23 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
         CIImage *image = [CIImage imageWithCVImageBuffer:pixelBuffer];
         [self saveImageData:image];
     }
+    
+    // When enough looking into camera time has passed and recording has not yet begun with liveness
+    // Change message to liveness instruction and button nature to continue
+    if(self.lookingIntoCamCounter > 5 && !self.isRecording && self.doLivenessDetection && !self.hasRecordingEnded){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.cancelButton setTitle:[ResponseManager getMessage:@"Continue"] forState:UIControlStateNormal];
+            [self.messageLabel setText: self.livenessInstruction];
+        });
+    }
+    
+    if(self.lookingIntoCamCounter > 5 && self.isRecording && self.doLivenessDetection){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.cancelButton setTitle:[ResponseManager getMessage:@"Cancel"] forState:UIControlStateNormal];
+        });
+    }
+    
+    // Start recording and saving video when liveness is enabled and user hits continue
     if (self.isReadyToWrite && self.doLivenessDetection){
         CVImageBufferRef imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
         // a very dense way to keep track of the time at which this frame
@@ -472,19 +610,17 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     [self stopRecording];
     [self stopWritingToVideoFile];
     [self showLoading];
-    
+    // reset this flag to NO when finished processing the response
+    self.hasRecordingEnded = YES;
     self.savedVideoPath = [Utilities pathForTemporaryMergedFileWithSuffix:@"mp4"];
     
     if(self.doLivenessDetection){
         [Utilities mergeAudio:self.audioPath withVideo:self.videoPath andSaveToPathUrl:self.savedVideoPath completion:^ {
             
             [self.myVoiceIt videoVerificationWithLiveness:self.lcoId userId: self.userToVerifyUserId contentLanguage:self.contentLanguage videoPath:self.savedVideoPath phrase:self.thePhrase callback:^(NSString * result) {
-                NSLog(@"%@", result);
+                [self removeLoading];
+                [self handleLivenessResponse: result];
             }];
-            
-            // send file to api
-            // handle response
-            // delete file from saved path
         }];
     }
     

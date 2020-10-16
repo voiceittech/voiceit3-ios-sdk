@@ -35,6 +35,7 @@
 #pragma mark -  Camera Related Stuff
 @property  AVCaptureSession * captureSession;
 @property AVCaptureDevice * videoDevice;
+@property (nonatomic,strong) AVAudioPlayer *player;
 @property(nonatomic, strong) AVCaptureVideoDataOutput *videoDataOutput;
 @property(nonatomic, strong) dispatch_queue_t videoDataOutputQueue;
 @property(nonatomic, strong) AVCaptureVideoPreviewLayer *previewLayer;

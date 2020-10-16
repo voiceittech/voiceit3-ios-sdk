@@ -58,4 +58,6 @@
 #pragma mark - callbacks
 @property (nonatomic, copy) void (^livenessFailed)(void);
 @property (nonatomic, copy) void (^livenessSuccess)(NSData *);
+#pragma mark - methods for displaying green circles
+-(void)showGreenCircleLeft:(BOOL) showCircle;
 @end
