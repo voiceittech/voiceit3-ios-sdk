@@ -66,5 +66,7 @@
 #pragma mark - callbacks
 @property (nonatomic, copy) void (^userVerificationCancelled)(void);
 @property (nonatomic, copy) void (^userVerificationSuccessful)(float, float, NSString *);
+@property (nonatomic, copy) void (^userVerificationSuccessfulWithLiveness)(NSString *);
+@property (nonatomic, copy) void (^userVerificationFailedWithLiveness)(NSString *);
 @property (nonatomic, copy) void (^userVerificationFailed)(float, float, NSString *);
 @end
