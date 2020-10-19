@@ -135,7 +135,7 @@
 
 -(void)setLivenessChallengeMessages{
     
-    float time = [self.livenessChallengeTime floatValue];
+    float time = [self.livenessChallengeTime floatValue] + 0.5;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, time * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         [self clearCircleForAnimation];
         [self.messageLabel setText:@""];
@@ -682,7 +682,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
         if(self.assetWriterInput.readyForMoreMediaData){
             if(self.pixelBufferAdaptor != nil){
                 [self.pixelBufferAdaptor appendPixelBuffer:imageBuffer
-                                      withPresentationTime:CMTimeMake(frameNumber, 25)];
+                                      withPresentationTime:CMTimeMake(frameNumber, 30)];
                 frameNumber++;
             }
         }
