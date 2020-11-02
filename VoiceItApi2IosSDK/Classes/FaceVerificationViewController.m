@@ -306,7 +306,7 @@
         });
         NSBundle * podBundle = [NSBundle bundleForClass: self.classForCoder];
         NSURL * bundleURL = [[podBundle resourceURL] URLByAppendingPathComponent:@"VoiceItApi2IosSDK.bundle"];
-        NSString* soundFilePath = [NSString stringWithFormat:@"%@/wav/%@/%@",[[[NSBundle alloc] initWithURL:bundleURL] resourcePath],self.contentLanguage, lco];
+        NSString* soundFilePath = [NSString stringWithFormat:@"%@/%@",[[[NSBundle alloc] initWithURL:bundleURL] resourcePath], lco];
         NSURL *soundFileURL = [NSURL fileURLWithPath:soundFilePath];
         NSError *error;
         AVAudioSession *session = [AVAudioSession sharedInstance];
