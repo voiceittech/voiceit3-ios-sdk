@@ -195,7 +195,10 @@
     NSURL *audio_url = [NSURL fileURLWithPath: audURL];
     AVURLAsset* audioAsset = [[AVURLAsset alloc]initWithURL:audio_url options:nil];
     CMTimeRange audio_timeRange = CMTimeRangeMake(kCMTimeZero, audioAsset.duration);
-
+    NSLog(@"audio_url: %@", audio_url);
+    NSLog(@"audioAsset: %@", audioAsset);
+    NSLog(@"audio_timeRange: %f",  CMTimeGetSeconds(audio_timeRange.duration));
+    
     //Now we are creating the first AVMutableCompositionTrack containing our audio and add it to our AVMutableComposition object.
     AVMutableCompositionTrack *b_compositionAudioTrack = [mixComposition addMutableTrackWithMediaType:AVMediaTypeAudio preferredTrackID:kCMPersistentTrackID_Invalid];
     [b_compositionAudioTrack insertTimeRange:audio_timeRange ofTrack:[[audioAsset tracksWithMediaType:AVMediaTypeAudio] objectAtIndex:0] atTime:kCMTimeZero error:nil];
@@ -204,10 +207,13 @@
     NSURL *video_url = [NSURL fileURLWithPath: vidURL];;
     AVURLAsset* videoAsset = [[AVURLAsset alloc]initWithURL:video_url options:nil];
     CMTimeRange video_timeRange = CMTimeRangeMake(kCMTimeZero,audioAsset.duration);
+    NSLog(@"video_url: %@", video_url);
+    NSLog(@"videoAsset: %@", videoAsset);
+    NSLog(@"video_timeRange: %f", CMTimeGetSeconds(video_timeRange.duration));
+    NSLog(@"array count => %d",[videoAsset tracksWithMediaType:AVMediaTypeVideo].count);
 
     AVAssetTrack *assetVideoTrack = [videoAsset tracksWithMediaType:AVMediaTypeVideo].lastObject;
-    
-    
+        
     //Now we are creating the second AVMutableCompositionTrack containing our video and add it to our AVMutableComposition object.
     AVMutableCompositionTrack *a_compositionVideoTrack = [mixComposition addMutableTrackWithMediaType:AVMediaTypeVideo preferredTrackID:kCMPersistentTrackID_Invalid];
     [a_compositionVideoTrack insertTimeRange:video_timeRange ofTrack:[[videoAsset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0] atTime:kCMTimeZero error:nil];

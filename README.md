@@ -103,10 +103,10 @@ You might have to unlock the Cocoapod to edit the file.
 
 #### *Swift*
 
-First import *VoiceIt2-IosSDK* in your Swift file then initialize a reference to the SDK inside a ViewController, passing in a reference to the ViewController as the first argument, then the API Credentials, and finally a styles dictionary ( *kThemeColor* can be any hexadecimal color code and *kIconStyle* can be "default" or "monochrome").
+First import *VoiceIt2IosSDK* in your Swift file then initialize a reference to the SDK inside a ViewController, passing in a reference to the ViewController as the first argument, then the API Credentials, and finally a styles dictionary ( *kThemeColor* can be any hexadecimal color code and *kIconStyle* can be "default" or "monochrome").
 
 ```swift
-import VoiceIt2-IosSDK
+import VoiceIt2IosSDK
 
 class ViewController: UIViewController {
     var myVoiceIt:VoiceItAPITwo?

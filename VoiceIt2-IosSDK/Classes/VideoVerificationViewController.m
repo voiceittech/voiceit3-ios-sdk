@@ -88,7 +88,7 @@
 }
 
 #pragma mark - Liveness
-
+    
 -(void)handleLivenessResponse: (NSString*)result{
     NSDictionary *jsonObj = [Utilities getJSONObject:result];
     self.uiMessage = [jsonObj objectForKey:@"uiMessage"];
@@ -110,26 +110,43 @@
     
     if(!self.success && !retry){
         [self removeLoading];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.cancelButton setTitle:[ResponseManager getMessage:@"Cancel"] forState:UIControlStateNormal];
-            [self.messageLabel setText:self.uiMessage];
-        });
+        // Play LCO Failed Audio File
+        [self playSound:self.audioPromptType];
+        // Delete video file
         [Utilities deleteFile:self.audioPath];
         [Utilities deleteFile:self.videoPath];
         [Utilities deleteFile:self.savedVideoPath];
-        [self playSound:self.audioPromptType];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.messageLabel setText:self.uiMessage];
+        });
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+            [self dismissViewControllerAnimated: YES completion:^{
+                [self userVerificationFailed](0.0, 0.0, self.uiMessage);
+            }];
+        });
+
     }
     
     if(self.success){
         [self removeLoading];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.cancelButton setTitle:[ResponseManager getMessage:@"Done"] forState:UIControlStateNormal];
-            [self.messageLabel setText:self.uiMessage];
-        });
         [Utilities deleteFile:self.audioPath];
+        // Delete Video Files
         [Utilities deleteFile:self.videoPath];
         [Utilities deleteFile:self.savedVideoPath];
         [self playSound:self.audioPromptType];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.messageLabel setText:self.uiMessage];
+        });
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+            [self dismissViewControllerAnimated: YES completion:^{
+                [self userVerificationSuccessful](0.0, 0.0, self.uiMessage);
+            }];
+        });
+
     }
 }
 
@@ -710,6 +727,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
                 [self handleLivenessResponse: result];
             }];
         }];
+
     }
     
     else{
@@ -775,6 +793,14 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 -(void)stopWritingToVideoFile {
     self.isReadyToWrite = NO;
     [self.assetWriterMyData finishWritingWithCompletionHandler:^{
+        NSLog(@"Finished writing...checking completion status...");
+         if (self.assetWriterMyData.status != AVAssetWriterStatusFailed && self.assetWriterMyData.status == AVAssetWriterStatusCompleted)
+         {
+             NSLog(@"Video writing success");
+         } else
+         {
+             NSLog(@"Video writing failed: %@", self.assetWriterMyData.error);
+         }
         if(!self.continueRunning){
             return;
         }

@@ -1,14 +1,13 @@
 //
-//  VoiceIt2-IosSDK.h
+//  VoiceIt2IosSDK.m
 //  Pods
 //
 //  Created by VoiceIt Technologies, LLC
 //  Copyright (c) 2020 VoiceIt Technologies, LLC. All rights reserved.
 //
-//
 
-#import <Foundation/Foundation.h>
+#import "VoiceIt2IosSDK.h"
 
-@interface VoiceIt2IosSDK : NSObject
+@implementation VoiceIt2IosSDK
 
 @end

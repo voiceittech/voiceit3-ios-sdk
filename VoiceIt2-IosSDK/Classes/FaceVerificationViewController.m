@@ -125,11 +125,17 @@
 
     if(!self.success && !retry){
         [self removeLoading];
+        // Play LCO Failed Audio File
+        [self playSound:self.audioPromptType];
+        // Display message on UI
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self.cancelButton setTitle:[ResponseManager getMessage:@"Cancel"] forState:UIControlStateNormal];
             [self.messageLabel setText:self.uiMessage];
         });
-        [self playSound:self.audioPromptType];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+            [self dismissViewControllerAnimated: YES completion:^{
+                [self userVerificationFailed](0.0, self.uiMessage);
+            }];
+        });
     }
     
     if(self.success){
@@ -138,6 +144,11 @@
         [self removeLoading];
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.messageLabel setText:self.uiMessage];
+        });
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+            [self dismissViewControllerAnimated: YES completion:^{
+                [self userVerificationSuccessful](0.0, self.uiMessage);
+            }];
         });
         [self playSound:self.audioPromptType];
     }
