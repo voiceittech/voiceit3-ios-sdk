@@ -1,12 +1,12 @@
 use_frameworks!
 
-target 'VoiceItApi2IosSDK_Example' do
+target 'VoiceIt2-IosSDK_Example' do
   platform :ios, '11.0'
-  pod 'VoiceItApi2IosSDK', :path => '../'
+  pod 'VoiceIt2-IosSDK', :path => '../'
 end
 
-target 'VoiceItApi2IosSDK_Test' do
+target 'VoiceIt2-IosSDK_Test' do
     platform :ios, '11.0'
     inherit! :search_paths
-    pod 'VoiceItApi2IosSDK', :path => '../'
+    pod 'VoiceIt2-IosSDK', :path => '../'
 end

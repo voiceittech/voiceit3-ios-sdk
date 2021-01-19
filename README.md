@@ -1,6 +1,6 @@
-<img src="https://raw.githubusercontent.com/voiceittech/VoiceItApi2IosSDK/master/Graphics/ios.png" width="100%" style="width:100%">
+<img src="https://raw.githubusercontent.com/voiceittech/VoiceIt2-IosSDK/master/Graphics/ios.png" width="100%" style="width:100%">
 
-# VoiceIt2 iOS SDK [![Version](https://img.shields.io/cocoapods/v/VoiceItApi2IosSDK.svg?style=flat)](http://cocoapods.org/pods/VoiceItApi2IosSDK) [![Build Status](https://travis-ci.org/voiceittech/VoiceIt2-IosSDK.svg?branch=master)](https://travis-ci.org/voiceittech/VoiceIt2-IosSDK) ![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg) [![Platform](https://img.shields.io/cocoapods/p/VoiceItApi2IosSDK.svg?style=flat)](http://cocoapods.org/pods/VoiceItApi2IosSDK)
+# VoiceIt2 iOS SDK [![Version](https://img.shields.io/cocoapods/v/VoiceIt2-IosSDK.svg?style=flat)](http://cocoapods.org/pods/VoiceIt2-IosSDK) [![Build Status](https://travis-ci.org/voiceittech/VoiceIt2-IosSDK.svg?branch=master)](https://travis-ci.org/voiceittech/VoiceIt2-IosSDK) ![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg) [![Platform](https://img.shields.io/cocoapods/p/VoiceIt2-IosSDK.svg?style=flat)](http://cocoapods.org/pods/VoiceIt2-IosSDK)
 
 A fully comprehensive SDK that gives you access to VoiceIt's API 2.0 featuring Voice + Face Verification and Identification with built in user interfaces and liveness detection.
 
@@ -68,11 +68,11 @@ Sign up for a free Developer Account at <a href="https://voiceit.io/signup" targ
 
 ## Installation
 
-VoiceItApi2IosSDK is available through [CocoaPods](http://cocoapods.org). To install
+VoiceIt2-IosSDK is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod "VoiceItApi2IosSDK"
+pod "VoiceIt2-IosSDK"
 ```
 
 and then run pod install in your terminal
@@ -93,7 +93,7 @@ Also add the following permission keys to your <b>info.plist</b> file like shown
 All strings utilized in the encapsulated views for the SDK and the prompts provided to the user can be modified by editing the strings in the Prompts.strings file located at
 
 ```
-Pods/VoiceItApi2IosSDK/Resources/Prompts.strings
+Pods/VoiceIt2-IosSDK/Resources/Prompts.strings
 ```
 You might have to unlock the Cocoapod to edit the file.
 
@@ -103,10 +103,10 @@ You might have to unlock the Cocoapod to edit the file.
 
 #### *Swift*
 
-First import *VoiceItApi2IosSDK* in your Swift file then initialize a reference to the SDK inside a ViewController, passing in a reference to the ViewController as the first argument, then the API Credentials, and finally a styles dictionary ( *kThemeColor* can be any hexadecimal color code and *kIconStyle* can be "default" or "monochrome").
+First import *VoiceIt2-IosSDK* in your Swift file then initialize a reference to the SDK inside a ViewController, passing in a reference to the ViewController as the first argument, then the API Credentials, and finally a styles dictionary ( *kThemeColor* can be any hexadecimal color code and *kIconStyle* can be "default" or "monochrome").
 
 ```swift
-import VoiceItApi2IosSDK
+import VoiceIt2-IosSDK
 
 class ViewController: UIViewController {
     var myVoiceIt:VoiceItAPITwo?
@@ -849,4 +849,4 @@ VoiceIt Technologies, support@voiceit.io
 
 ## License
 
-VoiceItApi2IosSDK is available under the MIT license. See the LICENSE file for more info.
+VoiceIt2-IosSDK is available under the MIT license. See the LICENSE file for more info.

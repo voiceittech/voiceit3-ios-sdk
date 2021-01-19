@@ -1,0 +1,82 @@
+
+//  Localizable.strings
+//  VoiceIt2-IosSDK
+//
+//  Created by VoiceIt Technologies, LLC
+//  Copyright (c) 2020 VoiceIt Technologies, LLC. All rights reserved.
+//
+
+/* General Label Text */
+"CONTINUE" = "Continue";
+"CANCEL" = "Cancel";
+"DONE" = "Done";
+"VOICE_FACE_SETUP" = "Setup Face + Voice Verification";
+"VOICE_FACE_SETUP_SUBTITLE" = "This lets you log in by verifying your face and voice";
+"VOICE_FACE_READY" = "Face + Voice verification is ready to use";
+"VOICE_FACE_READY_SUBTITLE" = "You can now use your face and voice instead of a password to securely log in anytime";
+"FACE_SETUP" = "Setup Face Verification";
+"FACE_SETUP_SUBTITLE" = "This lets you log in by verifying your face";
+"FACE_READY" = "Face Verification is Ready";
+"FACE_READY_SUBTITLE" = "You can now use your face instead of a password to securely log in anytime";
+"VOICE_SETUP" = "Setup Voice Verification";
+"VOICE_SETUP_SUBTITLE" = "This lets you log in by verifying your voice";
+"VOICE_READY" = "Voice Verification is Ready";
+"VOICE_READY_SUBTITLE" = "You can now use your voice instead of a password to securely log in anytime";
+"CHECKING" = "Checking";
+
+/* Prompts for Enrollment, Verification & Identification Flow */
+"LOOK_INTO_CAM" = "Please look into the camera";
+"GET_ENROLLED" = "There you are, let's get you enrolled";
+"GET_VERIFIED" = "There you are, let's get you verified";
+"READY_FOR_VOICE_VERIFICATION" = "Please get ready to verify your voice";
+"READY_FOR_VOICE_IDENTIFICATION" = "Please get ready for voice identification";
+"VERIFY" = "Say\n\"%@\"";
+"IDENTIFY" = "Say\n\"%@\"";
+"VIDEO_VERIFY_FAILED" = "Failed video verification";
+"VIDEO_IDENTIFY_FAILED" = "Failed video identification";
+"VERIFY_FACE" = "Please wait while your face is verified";
+"VERIFY_FACE_FAILED" = "Failed face verification";
+"VERIFY_FACE_FAILED_TRY_AGAIN" = "Failed face verification. Try again.";
+"IDENTIFY_FACE" = "Please wait while your face is identified";
+"IDENTIFY_FACE_FAILED" = "Failed face identification";
+"IDENTIFY_FACE_FAILED_TRY_AGAIN" = "Failed face identification. Try again.";
+"ENROLL_0"= "Say \"%@\" into the iPhone";
+"ENROLL_1"= "Say \"%@\" again";
+"ENROLL_2"= "Say \"%@\" one more time";
+"FACE_ENROLL"= "Please wait for your face to be enrolled";
+"WAITING"= "Please wait";
+"WAIT_FOR_FACE_VERIFICATION" = "Please wait while we verify your face";
+"WAIT_FOR_FACE_IDENTIFICATION" = "Please wait while we identify your face";
+"TOO_MANY_ATTEMPTS" = "Sorry! You failed too many times! Try again later.";
+"SUCCESS" = "You have been successfully verified";
+"SUCCESS_IDENTIFIED" = "You have been successfully identifed";
+
+/* Response Code Based Prompts */
+"FNFD" = "Sorry, I couldn't quite see your face.\nPlease try again.";
+"DDNE" = "Sorry, something went wrong.\nPlease try again.";
+"FAIL" = "Failed.\nPlease try again.";
+"IFWD" = "Sorry, something went wrong.\nPlease try again.";
+"SRNR"= "Sorry, I couldn't quite hear you.\nPlease speak louder.";
+"TVER"= "Sorry, not enough video enrollments detected.\nPlease enroll before verifying.";
+"NFEF"= "Sorry, not enough face enrollments detected.\nPlease enroll before verifying.";
+"NFEF_IDENTIFICATION"= "Sorry, not enough face enrollments detected.\nPlease enroll before identification.";
+"NEHSD" = "Sorry, I couldn't quite catch that.\nPlease speak slower.";
+"STTF" = "Sorry, I couldn't understand you.\nPlease make sure you are saying \"%@\"";
+"SSTQ" = "Sorry, I couldn't quite hear you.\nPlease speak louder.";
+"SSTL" = "Oh! Its getting a little too loud in here.\nLet's try this again, speaking at a normal volume";
+"STTF" = "Sorry, I couldn't understand you.\nPlease make sure you are saying \"%@\"";
+"PDNM" = "Sorry, that is an invalid phrase.\nPlease make sure you are saying \"%@\"";
+"RWPU" = "Please do not use recordings. Try that again.";
+"FTMF"= "Make sure only your face is visible.\nPlease try again.";
+"PNTE"= "Sorry, not enough enrollments detected.\nPlease enroll before verifying.";
+"PNTE_IDENTIFICATION"= "Sorry, not enough enrollments detected.\nPlease enroll before identification.";
+"GERR"= "Sorry, something went wrong.\nPlease try again.";
+"CONTACT_DEVELOPER" = "Error:\n Please contact app developer with response code \"%@\".";
+
+/* Liveness Prompts */
+"SMILE" = "Please smile into the camera";
+"BLINK" = "Please blink three times";
+"FACE_LEFT" = "Please turn your face to the left and back";
+"FACE_RIGHT" = "Please turn your face to the right and back";
+"LIVENESS_SUCCESS" = "Challenge passed!";
+"LIVENESS_TRY_AGAIN" = "Failed liveness! Please try again";
