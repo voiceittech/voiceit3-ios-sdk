@@ -1,4 +1,0 @@
-FaceDetector filter=lfs diff=lfs merge=lfs -text
-Example/Pods/GoogleMobileVision/FaceDetector/Frameworks/frameworks/FaceDetector.framework/FaceDetector filter=lfs diff=lfs merge=lfs -text
-FaceDetector/* filter=lfs diff=lfs merge=lfs -text
-Example/Pods/GoogleMobileVision/FaceDetector/Frameworks/frameworks/FaceDetector.framework/* filter=lfs diff=lfs merge=lfs -text
