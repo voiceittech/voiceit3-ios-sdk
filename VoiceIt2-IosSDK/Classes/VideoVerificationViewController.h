@@ -12,7 +12,7 @@
 #import "ResponseManager.h"
 #import "VoiceItAPITwo.h"
 
-@interface VideoVerificationViewController : UIViewController <AVCaptureMetadataOutputObjectsDelegate,AVCaptureVideoDataOutputSampleBufferDelegate,AVAudioRecorderDelegate>
+@interface VideoVerificationViewController : UIViewController <AVCaptureMetadataOutputObjectsDelegate,AVCaptureVideoDataOutputSampleBufferDelegate,AVAudioRecorderDelegate,AVCaptureFileOutputRecordingDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *cancelButton;
 
@@ -35,6 +35,7 @@
 #pragma mark -  Camera Related Stuff
 @property  AVCaptureSession * captureSession;
 @property AVCaptureDevice * videoDevice;
+@property AVCaptureMovieFileOutput *movieFileOutput;
 @property (nonatomic,strong) AVAudioPlayer *player;
 @property(nonatomic, strong) AVCaptureVideoDataOutput *videoDataOutput;
 @property(nonatomic, strong) dispatch_queue_t videoDataOutputQueue;
