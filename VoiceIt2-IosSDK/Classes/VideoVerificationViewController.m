@@ -158,7 +158,9 @@
 
 -(void)setLivenessChallengeMessages{
     self.hasSessionEnded = NO;
-    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.cancelButton setTitle:[ResponseManager getMessage:@"Cancel"] forState:UIControlStateNormal];
+    });
     [self recordVideoLiveness];
     [self setMessage:[self.lcoStrings firstObject]];
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -244,7 +246,6 @@
             [self.captureSession setSessionPreset:AVCaptureSessionPresetMedium];
         }
         AVCaptureConnection *CaptureConnection = [self.movieFileOutput connectionWithMediaType:AVMediaTypeVideo];
-        //Set landscape (if required)
         if ([CaptureConnection isVideoOrientationSupported])
         {
             AVCaptureVideoOrientation orientation = AVCaptureVideoOrientationPortrait;
@@ -255,7 +256,6 @@
 
 - (void)recordVideoLiveness
 {
-    //Create temporary URL to record to
     NSString *outputPath = [Utilities pathForTemporaryFileWithSuffix:@"mov"];
     NSURL *outputURL = [[NSURL alloc] initFileURLWithPath:outputPath];
     [self.movieFileOutput startRecordingToOutputFileURL:outputURL recordingDelegate:self];
@@ -510,7 +510,7 @@ didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL
 -(void)animateProgressCircle{
     dispatch_async(dispatch_get_main_queue(), ^{
         if(self.doLivenessDetection){
-            self.progressCircle.path = [UIBezierPath bezierPathWithArcCenter: self.cameraCenterPoint radius:(self.backgroundWidthHeight / 2) startAngle: 0*M_PI endAngle: 2 * M_PI clockwise:YES].CGPath;
+            self.progressCircle.path = [UIBezierPath bezierPathWithArcCenter: self.cameraCenterPoint radius:(self.backgroundWidthHeight / 2) startAngle: 1.5*M_PI endAngle: (2 * M_PI)+(1.5*M_PI) clockwise:YES].CGPath;
             self.progressCircle.drawsAsynchronously = YES;
             self.progressCircle.borderWidth = 20;
             self.progressCircle.fillColor =  [UIColor clearColor].CGColor;
@@ -571,6 +571,7 @@ didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL
         if(self.verificationStarted == NO || [self.cancelButton.titleLabel.text isEqual:@"Cancel"]){
             [self dismissViewControllerAnimated:YES completion:^{
                 [self userVerificationCancelled]();
+                [self.player stop];
             }];
         }
         if([self.cancelButton.titleLabel.text isEqual:@"Done"]){
