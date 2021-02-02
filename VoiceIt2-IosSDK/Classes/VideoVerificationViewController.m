@@ -95,7 +95,7 @@
     self.success = [[jsonObj objectForKey:@"success"] boolValue];
     self.audioPromptType = [jsonObj objectForKey:@"audioPrompt"];
     self.result = result;
-    
+        
     if(!self.success && retry){
         [self removeLoading];
         [self playSound:self.audioPromptType];
@@ -158,7 +158,7 @@
 
 -(void)setLivenessChallengeMessages{
     self.hasSessionEnded = NO;
-
+    
     [self recordVideoLiveness];
     [self setMessage:[self.lcoStrings firstObject]];
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -256,21 +256,8 @@
 - (void)recordVideoLiveness
 {
     //Create temporary URL to record to
-    NSString *outputPath;
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    outputPath = [documentsDirectory stringByAppendingFormat:@"/firstVideo.mp4"];
+    NSString *outputPath = [Utilities pathForTemporaryFileWithSuffix:@"mov"];
     NSURL *outputURL = [[NSURL alloc] initFileURLWithPath:outputPath];
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    if ([fileManager fileExistsAtPath:outputPath])
-    {
-        NSError *error;
-        if ([fileManager removeItemAtPath:outputPath error:&error] == NO)
-        {
-            //Error - handle if requried
-        }
-    }
-    //Start recording
     [self.movieFileOutput startRecordingToOutputFileURL:outputURL recordingDelegate:self];
 }
 
@@ -286,9 +273,10 @@ didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL
       fromConnections:(NSArray *)connections
                 error:(NSError *)error
 {
-    [self.myVoiceIt videoVerificationWithLiveness:self.lcoId userId: self.userToVerifyUserId contentLanguage:self.contentLanguage videoPath:outputFileURL.absoluteString phrase:self.thePhrase pageCategory:@"verification" callback:^(NSString * result) {
+    [self.myVoiceIt videoVerificationWithLiveness:self.lcoId userId: self.userToVerifyUserId contentLanguage:self.contentLanguage videoPath:[outputFileURL path] phrase:self.thePhrase pageCategory:@"verification" callback:^(NSString * result) {
         [self handleLivenessResponse: result];
     }];
+    
 }
 
 -(void)setupCameraCircle{

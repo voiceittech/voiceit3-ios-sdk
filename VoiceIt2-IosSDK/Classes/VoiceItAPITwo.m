@@ -1328,7 +1328,7 @@ NSString * const platformId = @"41";
     [self addFileToBody:body filePath:audioPath fieldName:@"audio"];
     [self addImageToBody:body imageData:imageData fieldName:@"photo"];
     [self endBody:body];
-
+    
     NSURLSessionDataTask *task =  [session uploadTaskWithRequest:request fromData:body completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSString *result =
         [[NSString alloc] initWithData:data
@@ -1405,7 +1405,7 @@ NSString * const platformId = @"41";
     NSMutableData *body = [NSMutableData data];
 
     [self addParamsToBody:body parameters:params];
-    [self addFileToBody:body filePath:videoPath fieldName:@"file"];
+    [self addFileToBody:body filePath: videoPath fieldName:@"file"];
     [self endBody:body];
 
     NSURLSessionDataTask *task =  [session uploadTaskWithRequest:request fromData:body completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -1683,7 +1683,7 @@ NSString * const platformId = @"41";
     NSString *filename  = [filePath lastPathComponent];
     NSData   *data      = [NSData dataWithContentsOfFile:filePath];
     NSString *mimetype  = [self mimeTypeForPath:filePath];
-
+    
     [httpBody appendData:[[NSString stringWithFormat:@"--%@\r\n", self.boundary] dataUsingEncoding:NSUTF8StringEncoding]];
     [httpBody appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"; filename=\"%@\"\r\n", fieldName, filename] dataUsingEncoding:NSUTF8StringEncoding]];
     [httpBody appendData:[[NSString stringWithFormat:@"Content-Type: %@\r\n\r\n", mimetype] dataUsingEncoding:NSUTF8StringEncoding]];
