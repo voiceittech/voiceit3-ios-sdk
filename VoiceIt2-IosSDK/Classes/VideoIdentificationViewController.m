@@ -339,6 +339,7 @@
             [self.cancelButton setTitle:[ResponseManager getMessage:@"Continue"] forState:UIControlStateNormal];
         });
     } pageCateory:@"verification"];
+    // handle failed lco call
 }
 
 - (void)recordVideoLiveness
@@ -358,10 +359,8 @@ didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL
       fromConnections:(NSArray *)connections
                 error:(NSError *)error
 {
-    //    [self.myVoiceIt videoVerificationWithLiveness:self.lcoId userId: self.userToVerifyUserId contentLanguage:self.contentLanguage videoPath:[outputFileURL path] phrase:self.thePhrase pageCategory:@"verification" callback:^(NSString * result) {
-    //        [self handleLivenessResponse: result];
-    //    }];
-    
+    // make api call and send video
+    // handle response
 }
 
 #pragma mark - Action Methods
@@ -552,80 +551,6 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
         CIImage *image = [CIImage imageWithCVImageBuffer:pixelBuffer];
         [self saveImageData:image];
     }
-}
-
-#pragma mark - AVAudioRecorderDelegate Methods
-
-- (void)audioRecorderDidFinishRecording:(AVAudioRecorder *)recorder successfully:(BOOL)flag{
-    if(!self.continueRunning){
-        return;
-    }
-    [self setAudioSessionInactive];
-    [self stopRecording];
-    [self showLoading];
-    [self.myVoiceIt videoIdentification:self.groupToIdentifyGroupId contentLanguage: self.contentLanguage imageData:self.finalCapturedPhotoData audioPath:self.audioPath phrase:self.thePhrase callback:^(NSString * jsonResponse){
-        [Utilities deleteFile:self.audioPath];
-        self.imageNotSaved = YES;
-        [self removeLoading];
-        NSLog(@"Video Identification JSON Response : %@", jsonResponse);
-        NSDictionary *jsonObj = [Utilities getJSONObject:jsonResponse];
-        NSString * responseCode = [jsonObj objectForKey:@"responseCode"];
-        
-        if([responseCode isEqualToString:@"SUCC"]){
-            [self setMessage:[ResponseManager getMessage:@"SUCCESS_IDENTIFIED"]];
-            float faceConfidence = [[jsonObj objectForKey:@"faceConfidence"] floatValue];
-            float voiceConfidence = [[jsonObj objectForKey:@"voiceConfidence"] floatValue];
-            NSString * foundUserId = [jsonObj objectForKey:@"userId"];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-                [self dismissViewControllerAnimated: YES completion:^{
-                    [self userIdentificationSuccessful](faceConfidence, voiceConfidence, foundUserId, jsonResponse);
-                }];
-            });
-        }
-        
-        else if([responseCode isEqualToString:@"FNFD"]){
-            [self setMessage:[ResponseManager getMessage: responseCode]];
-            [self startDelayedRecording:3.0];
-            
-        } else {
-            self.failCounter += 1;
-            
-            if([Utilities isBadResponseCode:responseCode]){
-                [self setMessage:[ResponseManager getMessage: @"CONTACT_DEVELOPER" variable: responseCode]];
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 5.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-                    [self dismissViewControllerAnimated: YES completion:^{
-                        [self userIdentificationFailed](0.0, 0.0, jsonResponse);
-                    }];
-                });
-            }
-            else if(self.failCounter < self.failsAllowed){
-                if([responseCode isEqualToString:@"STTF"] || [responseCode isEqualToString:@"PDNM"]){
-                    [self setMessage:[ResponseManager getMessage: responseCode variable:self.thePhrase]];
-                    [self startDelayedRecording:3.0];
-                }
-                else if ([responseCode isEqualToString:@"PNTE"]){
-                    [self setMessage:[ResponseManager getMessage: @"PNTE_IDENTIFICATION"]];
-                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2.5 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-                        [self dismissViewControllerAnimated: YES completion:^{
-                            [self userIdentificationFailed](0.0, 0.0, jsonResponse);
-                        }];
-                    });
-                }else{
-                    [self setMessage:[ResponseManager getMessage: responseCode]];
-                    [self startDelayedRecording:3.0];
-                }
-            } else {
-                [self setMessage:[ResponseManager getMessage: @"TOO_MANY_ATTEMPTS"]];
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-                    float faceConfidence = [responseCode isEqualToString:@"FAIL"] ? [[jsonObj objectForKey:@"faceConfidence"] floatValue] : 0.0;
-                    float voiceConfidence = [responseCode isEqualToString:@"FAIL"] ? [[jsonObj objectForKey:@"voiceConfidence"] floatValue] : 0.0;
-                    [self dismissViewControllerAnimated: YES completion:^{
-                        [self userIdentificationFailed](faceConfidence, voiceConfidence, jsonResponse);
-                    }];
-                });
-            }
-        }
-    }];
 }
 
 -(void)audioRecorderEncodeErrorDidOccur:(AVAudioRecorder *)recorder error:(NSError *)error

@@ -93,41 +93,6 @@
     }];
 }
 
-- (IBAction)faceIdentificationClicked:(id)sender {
-    NSLog(@"FACE IDENTIFICATION CLICKED");
-    [self.myVoiceIt encapsulatedFaceIdentification:self.TEST_GROUP_ID
-                               doLivenessDetection:self.livenessToggle.isOn
-                                    doAudioPrompts:self.audioPromptsToggle.isOn
-                                   contentLanguage:self.TEST_CONTENT_LANGUAGE
-    userIdentificationCancelled:^{
-        NSLog(@"User Face Identification Cancelled");
-    } userIdentificationSuccessful:^(float voiceConfidence , NSString * foundUserId, NSString * jsonResponse){
-        NSLog(@"User Face Identification Successful faceConfidence : %g and RESPONSE : %@", voiceConfidence, jsonResponse);
-        [self showAlert:[[NSString alloc] initWithFormat:@"Succesfully identified user : %@ with faceConfidence %g", foundUserId, voiceConfidence]];
-        NSLog(@"Found user %@", foundUserId);
-    } userIdentificationFailed:^(float voiceConfidence , NSString * jsonResponse){
-        NSLog(@"User Voice Identification Failed voiceConfidence : %g and RESPONSE : %@", voiceConfidence, jsonResponse);
-    }];
-}
-
-- (IBAction)videoIdentificationClicked:(id)sender {
-    NSLog(@"VIDEO IDENTIFICATION CLICKED");
-    [self.myVoiceIt encapsulatedVideoIdentification:self.TEST_GROUP_ID
-                                    contentLanguage:self.TEST_CONTENT_LANGUAGE
-                                   voicePrintPhrase:self.TEST_PHRASE
-                                doLivenessDetection:self.livenessToggle.isOn
-                                     doAudioPrompts:self.audioPromptsToggle.isOn
-    userIdentificationCancelled:^{
-        NSLog(@"User Video Identification Cancelled");
-    } userIdentificationSuccessful:^(float voiceConfidence , float faceConfidence, NSString * foundUserId, NSString * jsonResponse){
-        NSLog(@"User Video Identification Successful voiceConfidence : %g and faceConfidence : %g and RESPONSE : %@", voiceConfidence, faceConfidence, jsonResponse);
-        [self showAlert:[[NSString alloc] initWithFormat:@"Succesfully identified user : %@ with voiceConfidence %g and faceConfidence %g", foundUserId, voiceConfidence, faceConfidence]];
-        NSLog(@"Found user %@", foundUserId);
-    } userIdentificationFailed:^(float voiceConfidence , float faceConfidence, NSString * jsonResponse){
-        NSLog(@"User Video Identification Failed voiceConfidence : %g and RESPONSE : %@", voiceConfidence, jsonResponse);
-    }];
-}
-
 - (IBAction)faceVerificationClicked:(id)sender {
     [self.myVoiceIt encapsulatedFaceVerification:self.TEST_USER_ID
                              doLivenessDetection:self.livenessToggle.isOn

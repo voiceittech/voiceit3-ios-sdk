@@ -343,6 +343,7 @@
             [self.cancelButton setTitle:[ResponseManager getMessage:@"Continue"] forState:UIControlStateNormal];
         });
     } pageCateory:@"verification"];
+    // handle failed lco response
 }
 
 - (void)recordVideoLiveness
@@ -362,9 +363,8 @@ didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL
       fromConnections:(NSArray *)connections
                 error:(NSError *)error
 {
-    //    [self.myVoiceIt videoVerificationWithLiveness:self.lcoId userId: self.userToVerifyUserId contentLanguage:self.contentLanguage videoPath:[outputFileURL path] phrase:self.thePhrase pageCategory:@"verification" callback:^(NSString * result) {
-    //        [self handleLivenessResponse: result];
-    //    }];
+    //  call to send video to api
+    //  handle respenses
     
 }
 
@@ -459,9 +459,6 @@ didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL
     if(!self.continueRunning){
         return;
     }
-    [self.myVoiceIt faceIdentification:self.groupToIdentifyGroupId imageData:self.finalCapturedPhotoData callback:^(NSString * jsonResponse){
-        [self finishIdentification:jsonResponse];
-    }];
 }
 
 -(void)stopWritingToVideoFile {
@@ -471,10 +468,6 @@ didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL
         if(!self.continueRunning){
             return;
         }
-        [self.myVoiceIt faceIdentification:self.groupToIdentifyGroupId videoPath:self.videoPath callback:^(NSString * jsonResponse){
-            [Utilities deleteFile:self.videoPath];
-            [self finishIdentification:jsonResponse];
-        }];
     }];
 }
 

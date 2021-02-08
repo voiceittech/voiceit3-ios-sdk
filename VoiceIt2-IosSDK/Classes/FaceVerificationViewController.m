@@ -153,7 +153,6 @@
 }
 
 -(void)setLivenessChallengeMessages{
-    
     float time = [self.livenessChallengeTime floatValue];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, time * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         [self stopRecording];
@@ -572,7 +571,6 @@
 }
 
 -(void)animateProgressCircle {
-    
     if(self.doLivenessDetection){
         [self clearCircleForAnimation];
     }
@@ -687,7 +685,6 @@ didOutputMetadataObjects:(NSArray<__kindof AVMetadataObject *> *)metadataObjects
                 [Utilities showFaceRectangle:self.faceRectangleLayer face:face];
             }
         }
-        
         if(faceFound) {
             self.lookingIntoCamCounter += 1;
             self.lookingIntoCam = self.lookingIntoCamCounter > MAX_TIME_TO_WAIT_TILL_FACE_FOUND;

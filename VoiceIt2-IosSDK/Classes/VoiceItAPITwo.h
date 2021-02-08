@@ -15,8 +15,7 @@
 #import "FaceVerificationViewController.h"
 #import "VideoVerificationViewController.h"
 #import "VoiceIdentificationViewController.h"
-#import "FaceIdentificationViewController.h"
-#import "VideoIdentificationViewController.h"
+
 
 @import MobileCoreServices;
 
@@ -128,26 +127,6 @@
                      phrase:(NSString*)phrase
                    callback:(void (^)(NSString *))callback;
 
-- (void)faceIdentification:(NSString *)groupId
-                 videoPath:(NSString*)videoPath
-                  callback:(void (^)(NSString *))callback;
-
-- (void)faceIdentification:(NSString *)groupId
-               imageData:(NSData*)imageData
-                callback:(void (^)(NSString *))callback;
-
-- (void)videoIdentification:(NSString *)groupId
-            contentLanguage:(NSString*)contentLanguage
-                  videoPath:(NSString*)videoPath
-                     phrase:(NSString*)phrase
-                   callback:(void (^)(NSString *))callback;
-
-- (void)videoIdentification:(NSString *)groupId
-          contentLanguage:(NSString*)contentLanguage
-                imageData:(NSData*)imageData
-                audioPath:(NSString*)audioPath
-                   phrase:(NSString*)phrase
-                 callback:(void (^)(NSString *))callback;
 
 #pragma mark - Encapsulated Enrollment Methods
 
@@ -239,43 +218,6 @@
            userIdentificationSuccessful:(void (^)(float, NSString *, NSString *))userIdentificationSuccessful
                userIdentificationFailed:(void (^)(float, NSString *))userIdentificationFailed;
 
-- (void)encapsulatedFaceIdentification:(NSString *)groupId
-                   doLivenessDetection:(bool)doLivenessDetection
-                        doAudioPrompts:(bool)doAudioPrompts
-                       contentLanguage:(NSString *)contentLanguage
-           userIdentificationCancelled:(void (^)(void))userIdentificationCancelled
-          userIdentificationSuccessful:(void (^)(float, NSString *, NSString *))userIdentificationSuccessful
-              userIdentificationFailed:(void (^)(float, NSString *))userIdentificationFailed;
-
-- (void)encapsulatedFaceIdentification:(NSString *)groupId
-                   doLivenessDetection:(bool)doLivenessDetection
-                        doAudioPrompts:(bool)doAudioPrompts
-                       contentLanguage:(NSString *)contentLanguage
-                       numFailsAllowed:(int)numFailsAllowed
-         livenessChallengeFailsAllowed:(int)livenessChallengeFailsAllowed
-           userIdentificationCancelled:(void (^)(void))userIdentificationCancelled
-          userIdentificationSuccessful:(void (^)(float, NSString *, NSString *))userIdentificationSuccessful
-              userIdentificationFailed:(void (^)(float, NSString *))userIdentificationFailed;
-
-- (void)encapsulatedVideoIdentification:(NSString *)groupId
-                        contentLanguage:(NSString*)contentLanguage
-                       voicePrintPhrase:(NSString*)voicePrintPhrase
-                    doLivenessDetection:(bool)doLivenessDetection
-                         doAudioPrompts:(bool)doAudioPrompts
-            userIdentificationCancelled:(void (^)(void))userIdentificationCancelled
-           userIdentificationSuccessful:(void (^)(float, float, NSString *, NSString *))userIdentificationSuccessful
-               userIdentificationFailed:(void (^)(float, float, NSString *))userIdentificationFailed;
-
-- (void)encapsulatedVideoIdentification:(NSString *)groupId
-                        contentLanguage:(NSString*)contentLanguage
-                       voicePrintPhrase:(NSString*)voicePrintPhrase
-                    doLivenessDetection:(bool)doLivenessDetection
-                         doAudioPrompts:(bool)doAudioPrompts
-                        numFailsAllowed:(int)numFailsAllowed
-          livenessChallengeFailsAllowed:(int)livenessChallengeFailsAllowed
-            userIdentificationCancelled:(void (^)(void))userIdentificationCancelled
-           userIdentificationSuccessful:(void (^)(float, float, NSString *, NSString *))userIdentificationSuccessful
-               userIdentificationFailed:(void (^)(float, float, NSString *))userIdentificationFailed;
 
 #pragma mark - Liveness API Calls
 - (void)getLivenessID:(NSString *)userId
