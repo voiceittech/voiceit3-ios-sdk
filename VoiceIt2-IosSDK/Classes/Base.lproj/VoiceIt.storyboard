@@ -605,6 +605,8 @@
                                         <state key="normal" title="Button" image="clear" catalog="system"/>
                                         <connections>
                                             <action selector="closeButtonClicked:" destination="mcQ-T2-swO" eventType="touchUpInside" id="9Lx-5l-gIE"/>
+                                            <action selector="closeButtonClicked:" destination="51Z-Pi-7vF" eventType="touchUpInside" id="fyU-GJ-bAV"/>
+                                            <action selector="closeClicked:" destination="51Z-Pi-7vF" eventType="touchUpInside" id="yCk-c2-XQh"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -641,6 +643,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MdD-Qm-Me7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="51Z-Pi-7vF" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2044" y="922"/>
         </scene>
@@ -655,6 +658,14 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fvx-tY-wsS">
                                 <rect key="frame" x="57" y="248" width="300" height="400"/>
                                 <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cg6-Lg-Ssl">
+                                        <rect key="frame" x="10" y="10" width="40" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="40" id="PaO-lL-yPP"/>
+                                            <constraint firstAttribute="height" constant="40" id="aeB-Dw-cHX"/>
+                                        </constraints>
+                                        <state key="normal" title="Button" image="clear" catalog="system"/>
+                                    </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mbE-B5-xCf">
                                         <rect key="frame" x="8" y="228" width="284" height="120"/>
                                         <constraints>
@@ -687,10 +698,12 @@
                                     <constraint firstAttribute="height" constant="400" id="L5d-hi-c0C"/>
                                     <constraint firstItem="dW3-8J-1vy" firstAttribute="leading" secondItem="fvx-tY-wsS" secondAttribute="leading" id="PHm-C9-J7J"/>
                                     <constraint firstAttribute="width" constant="300" id="Rya-T0-GFW"/>
+                                    <constraint firstItem="Cg6-Lg-Ssl" firstAttribute="leading" secondItem="fvx-tY-wsS" secondAttribute="leading" constant="10" id="TgB-iU-xlG"/>
                                     <constraint firstItem="dW3-8J-1vy" firstAttribute="top" secondItem="mbE-B5-xCf" secondAttribute="bottom" constant="8" id="Wc1-Kx-if9"/>
                                     <constraint firstAttribute="trailing" secondItem="dW3-8J-1vy" secondAttribute="trailing" id="any-1F-9jz"/>
                                     <constraint firstAttribute="trailing" secondItem="Llb-my-N3Z" secondAttribute="trailing" id="fQ4-up-2E3"/>
                                     <constraint firstItem="mbE-B5-xCf" firstAttribute="leading" secondItem="fvx-tY-wsS" secondAttribute="leading" constant="8" id="ms5-G3-875"/>
+                                    <constraint firstItem="Cg6-Lg-Ssl" firstAttribute="top" secondItem="fvx-tY-wsS" secondAttribute="top" constant="10" id="nDC-jd-cza"/>
                                     <constraint firstItem="Llb-my-N3Z" firstAttribute="leading" secondItem="fvx-tY-wsS" secondAttribute="leading" id="o7O-iD-Lk9"/>
                                     <constraint firstAttribute="trailing" secondItem="mbE-B5-xCf" secondAttribute="trailing" constant="8" id="sEF-g5-O17"/>
                                     <constraint firstAttribute="bottom" secondItem="dW3-8J-1vy" secondAttribute="bottom" id="xtG-xj-6dj"/>
@@ -712,7 +725,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xek-FN-BxR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2044" y="922"/>
+            <point key="canvasLocation" x="2043.4782608695655" y="921.42857142857133"/>
         </scene>
         <!--Voice Enrollment View Controller-->
         <scene sceneID="uQI-Sf-BVf">

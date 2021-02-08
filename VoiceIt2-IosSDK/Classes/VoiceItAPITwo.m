@@ -916,6 +916,7 @@ NSString * const platformId = @"41";
 
 - (void)encapsulatedFaceIdentification:(NSString *)groupId
                    doLivenessDetection:(bool)doLivenessDetection
+                       contentLanguage:(NSString *)contentLanguage
                         doAudioPrompts:(bool)doAudioPrompts
            userIdentificationCancelled:(void (^)(void))userIdentificationCancelled
           userIdentificationSuccessful:(void (^)(float, NSString *, NSString *))userIdentificationSuccessful
@@ -923,6 +924,7 @@ NSString * const platformId = @"41";
 {
         [self encapsulatedFaceIdentification:groupId
                          doLivenessDetection:doLivenessDetection
+                             contentLanguage:contentLanguage
                               doAudioPrompts:(bool)doAudioPrompts
                              numFailsAllowed:3
                livenessChallengeFailsAllowed:0
@@ -933,6 +935,7 @@ NSString * const platformId = @"41";
 
 - (void)encapsulatedFaceIdentification:(NSString *)groupId
                    doLivenessDetection:(bool)doLivenessDetection
+                       contentLanguage:(NSString *) contentLanguage
                         doAudioPrompts:(bool)doAudioPrompts
                        numFailsAllowed:(int)numFailsAllowed
          livenessChallengeFailsAllowed:(int)livenessChallengeFailsAllowed
@@ -959,6 +962,7 @@ NSString * const platformId = @"41";
     faceIdentificationVC.doLivenessDetection = doLivenessDetection;
     faceIdentificationVC.doAudioPrompts = doAudioPrompts;
     faceIdentificationVC.failsAllowed = numFailsAllowed;
+    faceIdentificationVC.contentLanguage = contentLanguage;
     faceIdentificationVC.numberOfLivenessFailsAllowed = livenessChallengeFailsAllowed;
     [[self masterViewController] presentViewController: faceIdentificationVC animated:YES completion:nil];
 }

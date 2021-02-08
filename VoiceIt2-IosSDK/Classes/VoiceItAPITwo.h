@@ -241,6 +241,7 @@
 
 - (void)encapsulatedFaceIdentification:(NSString *)groupId
                    doLivenessDetection:(bool)doLivenessDetection
+                       contentLanguage:(NSString *)contentLanguage
                         doAudioPrompts:(bool)doAudioPrompts
            userIdentificationCancelled:(void (^)(void))userIdentificationCancelled
           userIdentificationSuccessful:(void (^)(float, NSString *, NSString *))userIdentificationSuccessful

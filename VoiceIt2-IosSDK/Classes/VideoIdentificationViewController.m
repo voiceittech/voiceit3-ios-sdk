@@ -501,7 +501,6 @@ didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL
             }];
         }
     }
-    
 }
 
 #pragma mark - Camera Delegate Methods

@@ -97,6 +97,7 @@
     NSLog(@"FACE IDENTIFICATION CLICKED");
     [self.myVoiceIt encapsulatedFaceIdentification:self.TEST_GROUP_ID
                                doLivenessDetection:self.livenessToggle.isOn
+                                   contentLanguage:self.TEST_CONTENT_LANGUAGE
                                     doAudioPrompts:self.audioPromptsToggle.isOn
     userIdentificationCancelled:^{
         NSLog(@"User Face Identification Cancelled");

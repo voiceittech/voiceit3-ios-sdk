@@ -12,7 +12,7 @@
 #import "ResponseManager.h"
 #import "VoiceItAPITwo.h"
 
-@interface FaceIdentificationViewController : UIViewController <AVCaptureMetadataOutputObjectsDelegate,AVCaptureVideoDataOutputSampleBufferDelegate>
+@interface FaceIdentificationViewController : UIViewController <AVCaptureMetadataOutputObjectsDelegate,AVCaptureVideoDataOutputSampleBufferDelegate,AVCaptureFileOutputRecordingDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *cancelButton;
 
@@ -34,6 +34,8 @@
 @property(nonatomic, strong) dispatch_queue_t videoDataOutputQueue;
 @property(nonatomic, strong) AVCaptureVideoPreviewLayer *previewLayer;
 @property (nonatomic, strong) NSData *finalCapturedPhotoData;
+@property (nonatomic,strong) AVAudioPlayer *player;
+@property AVCaptureMovieFileOutput *movieFileOutput;
 
 #pragma mark -  Boolean Switches
 @property BOOL lookingIntoCam;
@@ -54,6 +56,8 @@
 #pragma mark -  Developer Passed Options
 @property (strong, nonatomic)  NSString * groupToIdentifyGroupId;
 @property (strong, nonatomic)  NSObject * voiceItMaster;
+@property (strong, nonatomic)  NSString * contentLanguage;
+
 
 #pragma mark - callbacks
 @property (nonatomic, copy) void (^userIdentificationCancelled)(void);
