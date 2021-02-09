@@ -668,7 +668,6 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 }
 
 - (void)audioRecorderDidFinishRecording:(AVAudioRecorder *)recorder successfully:(BOOL)flag{
-    // called after liveness + 5 sec lapse
     if(!self.continueRunning){
         return;
     }
