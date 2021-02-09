@@ -90,6 +90,9 @@ Also add the following permission keys to your <b>info.plist</b> file like shown
 
 ## Requirements 
 
+#### Deployment Target (IOS Version)
+Please make sure that the minimum Deployment Target for your project is IOS 11
+
 #### Billing 
 
 In order to use en-US or other content languages you need to have a developer account that has funds. In order to add funds to your account please login at: https://voiceit.io/login and navigate to: https://voiceit.io/billing and add funds.
