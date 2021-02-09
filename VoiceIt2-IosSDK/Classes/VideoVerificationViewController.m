@@ -151,6 +151,8 @@
             [self.messageLabel setText: [ResponseManager getMessage:self.livenessInstruction]];
             [self.cancelButton setTitle:[ResponseManager getMessage:@"Continue"] forState:UIControlStateNormal];
         });
+    } onFailed:^(NSError * error) {
+        NSLog(@"%@",error);
     } pageCateory:@"verification"];
 }
 

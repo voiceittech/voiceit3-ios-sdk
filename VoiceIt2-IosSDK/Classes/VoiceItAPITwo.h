@@ -221,7 +221,8 @@
 
 #pragma mark - Liveness API Calls
 - (void)getLivenessID:(NSString *)userId
-                countryCode: (NSString *) countryCode
-                callback:(void (^)(NSString *))callback
+          countryCode: (NSString *) countryCode
+             callback:(void (^)(NSString *))callback
+             onFailed:(void(^)(NSError *))onFailed
           pageCateory: (NSString *) pageCategory;
 @end

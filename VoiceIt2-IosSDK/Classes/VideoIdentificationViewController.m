@@ -338,8 +338,13 @@
             [self.messageLabel setText: [ResponseManager getMessage:self.livenessInstruction]];
             [self.cancelButton setTitle:[ResponseManager getMessage:@"Continue"] forState:UIControlStateNormal];
         });
+    } onFailed:^(NSError * error) {
+        NSLog(@"%@",error);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.messageLabel setText: @"Liveness service failed. Please Try again Later."];
+            [self.cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
+        });
     } pageCateory:@"verification"];
-    // handle failed lco call
 }
 
 - (void)recordVideoLiveness

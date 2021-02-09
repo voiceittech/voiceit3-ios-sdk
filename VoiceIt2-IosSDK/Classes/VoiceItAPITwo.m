@@ -1650,6 +1650,7 @@ NSString * const platformId = @"41";
 - (void)getLivenessID:(NSString *)userId
           countryCode: (NSString *) countryCode
              callback:(void (^)(NSString *))callback
+             onFailed:(void(^)(NSError *))onFailed
           pageCateory: (NSString *) pageCategory
 {
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
@@ -1666,12 +1667,14 @@ NSString * const platformId = @"41";
     [session dataTaskWithRequest:request
                completionHandler:^(NSData *data, NSURLResponse *response,
                                    NSError *error) {
-        
+        if(error){
+            onFailed(error);
+        } else {
         NSString *result =
         [[NSString alloc] initWithData:data
                               encoding:NSUTF8StringEncoding];
         callback(result);
-    }];
+        }}];
     [task resume];
 }
 

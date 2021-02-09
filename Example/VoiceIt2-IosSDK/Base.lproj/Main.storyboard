@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="whP-gf-Uak">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="whP-gf-Uak">
     <device id="retina5_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -50,7 +50,7 @@
                                     </switch>
                                 </subviews>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dRg-oG-HjD">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dRg-oG-HjD">
                                 <rect key="frame" x="28" y="351" width="358" height="34"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                 <state key="normal" title="Voice Enrollment">
@@ -60,7 +60,7 @@
                                     <action selector="voiceEnrollmentClicked:" destination="whP-gf-Uak" eventType="touchUpInside" id="llH-Mt-Igr"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hsW-Co-a3P">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hsW-Co-a3P">
                                 <rect key="frame" x="28" y="389" width="358" height="34"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                 <state key="normal" title="Face Enrollment">
@@ -70,7 +70,7 @@
                                     <action selector="faceEnrollmentClicked:" destination="whP-gf-Uak" eventType="touchUpInside" id="TAO-WY-rHo"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uLa-7O-kV6">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uLa-7O-kV6">
                                 <rect key="frame" x="28" y="427" width="358" height="34"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                 <state key="normal" title="Video Enrollment">
@@ -80,7 +80,7 @@
                                     <action selector="videoEnrollmentClicked:" destination="whP-gf-Uak" eventType="touchUpInside" id="0ki-4r-WiA"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C7d-MH-rgQ">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C7d-MH-rgQ">
                                 <rect key="frame" x="28" y="465" width="358" height="34"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                 <state key="normal" title="Voice Verification">
@@ -90,7 +90,7 @@
                                     <action selector="voiceVerificationClicked:" destination="whP-gf-Uak" eventType="touchUpInside" id="wBY-Wj-Wvt"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zbc-xY-4c8">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zbc-xY-4c8">
                                 <rect key="frame" x="28" y="503" width="358" height="34"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                 <state key="normal" title="Face Verification">
@@ -100,7 +100,7 @@
                                     <action selector="faceVerificationClicked:" destination="whP-gf-Uak" eventType="touchUpInside" id="GEi-TB-0EM"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tbU-eX-1KH">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tbU-eX-1KH">
                                 <rect key="frame" x="28" y="541" width="358" height="34"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                 <state key="normal" title="Video Verification">
@@ -110,7 +110,7 @@
                                     <action selector="videoVerificationClicked:" destination="whP-gf-Uak" eventType="touchUpInside" id="uSx-Ao-yYW"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bh0-eC-VKg" userLabel="Voice Identification">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bh0-eC-VKg" userLabel="Voice Identification">
                                 <rect key="frame" x="28" y="579" width="358" height="34"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                 <state key="normal" title="Voice Identification">
@@ -118,26 +118,6 @@
                                 </state>
                                 <connections>
                                     <action selector="voiceIdentificationClicked:" destination="whP-gf-Uak" eventType="touchUpInside" id="CkQ-in-14d"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="psr-jr-x0R">
-                                <rect key="frame" x="28" y="617" width="358" height="34"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
-                                <state key="normal" title="Face Identification">
-                                    <color key="titleColor" red="0.1333333333" green="0.1333333333" blue="0.1333333333" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="faceIdentificationClicked:" destination="whP-gf-Uak" eventType="touchUpInside" id="RlM-6a-Zo5"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qdF-Gy-pLy">
-                                <rect key="frame" x="28" y="655" width="358" height="34"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
-                                <state key="normal" title="Video Identification">
-                                    <color key="titleColor" red="0.1333333333" green="0.1333333333" blue="0.1333333333" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="videoIdentificationClicked:" destination="whP-gf-Uak" eventType="touchUpInside" id="luB-b5-M7Y"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -148,18 +128,14 @@
                             <constraint firstAttribute="trailingMargin" secondItem="bh0-eC-VKg" secondAttribute="trailing" constant="8" id="7Ne-NR-PhX"/>
                             <constraint firstItem="ANk-Mc-nfJ" firstAttribute="leading" secondItem="TpU-gO-2f1" secondAttribute="leadingMargin" constant="8" id="7XM-6S-UX9"/>
                             <constraint firstAttribute="trailing" secondItem="08k-L6-htw" secondAttribute="trailing" id="B38-yr-LJK"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="qdF-Gy-pLy" secondAttribute="trailing" constant="8" id="F3f-MM-pBO"/>
-                            <constraint firstItem="qdF-Gy-pLy" firstAttribute="top" secondItem="psr-jr-x0R" secondAttribute="bottom" constant="4" id="GyR-Gu-ZbK"/>
                             <constraint firstAttribute="trailingMargin" secondItem="hsW-Co-a3P" secondAttribute="trailing" constant="8" id="HdK-aj-eyx"/>
                             <constraint firstItem="uLa-7O-kV6" firstAttribute="top" secondItem="hsW-Co-a3P" secondAttribute="bottom" constant="4" id="Ilp-yl-zl9"/>
-                            <constraint firstItem="psr-jr-x0R" firstAttribute="top" secondItem="bh0-eC-VKg" secondAttribute="bottom" constant="4" id="IyS-9G-ZDG"/>
                             <constraint firstItem="hsW-Co-a3P" firstAttribute="top" secondItem="dRg-oG-HjD" secondAttribute="bottom" constant="4" id="JMb-fp-NJ2"/>
                             <constraint firstItem="08k-L6-htw" firstAttribute="leading" secondItem="TpU-gO-2f1" secondAttribute="leading" id="Jaa-Ra-CIQ"/>
                             <constraint firstItem="hsW-Co-a3P" firstAttribute="leading" secondItem="TpU-gO-2f1" secondAttribute="leadingMargin" constant="8" id="Km5-3i-fRt"/>
                             <constraint firstItem="tbU-eX-1KH" firstAttribute="leading" secondItem="TpU-gO-2f1" secondAttribute="leadingMargin" constant="8" id="N1b-Ss-1Do"/>
                             <constraint firstItem="zbc-xY-4c8" firstAttribute="leading" secondItem="TpU-gO-2f1" secondAttribute="leadingMargin" constant="8" id="Pwl-Bl-l7g"/>
                             <constraint firstItem="dRg-oG-HjD" firstAttribute="centerY" secondItem="TpU-gO-2f1" secondAttribute="centerY" id="Vsh-0U-B7u"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="psr-jr-x0R" secondAttribute="trailing" constant="8" id="WPk-kD-buO"/>
                             <constraint firstItem="dRg-oG-HjD" firstAttribute="leading" secondItem="TpU-gO-2f1" secondAttribute="leadingMargin" constant="8" id="bDI-eS-Ko3"/>
                             <constraint firstItem="8Lt-7z-QBg" firstAttribute="top" secondItem="ANk-Mc-nfJ" secondAttribute="bottom" constant="8" id="c3z-pR-GJn"/>
                             <constraint firstAttribute="trailingMargin" secondItem="ANk-Mc-nfJ" secondAttribute="trailing" constant="8" id="dGm-9V-ezZ"/>
@@ -169,9 +145,6 @@
                             <constraint firstItem="tbU-eX-1KH" firstAttribute="top" secondItem="zbc-xY-4c8" secondAttribute="bottom" constant="4" id="hGd-nn-Dkk"/>
                             <constraint firstItem="8Lt-7z-QBg" firstAttribute="leading" secondItem="TpU-gO-2f1" secondAttribute="leadingMargin" constant="8" id="hbL-iJ-Ghw"/>
                             <constraint firstAttribute="trailingMargin" secondItem="dRg-oG-HjD" secondAttribute="trailing" constant="8" id="ig9-Y0-z99"/>
-                            <constraint firstItem="qdF-Gy-pLy" firstAttribute="leading" secondItem="TpU-gO-2f1" secondAttribute="leadingMargin" constant="8" id="jy8-v0-WUi"/>
-                            <constraint firstItem="psr-jr-x0R" firstAttribute="leading" secondItem="TpU-gO-2f1" secondAttribute="leadingMargin" constant="8" id="ncC-NN-bmj"/>
-                            <constraint firstItem="qdF-Gy-pLy" firstAttribute="top" secondItem="psr-jr-x0R" secondAttribute="bottom" constant="4" id="oA4-KO-1cw"/>
                             <constraint firstAttribute="trailingMargin" secondItem="zbc-xY-4c8" secondAttribute="trailing" constant="8" id="okE-Bh-vDD"/>
                             <constraint firstAttribute="trailingMargin" secondItem="uLa-7O-kV6" secondAttribute="trailing" constant="8" id="ozP-f7-d3h"/>
                             <constraint firstItem="zbc-xY-4c8" firstAttribute="top" secondItem="C7d-MH-rgQ" secondAttribute="bottom" constant="4" id="pTZ-Vz-igF"/>
