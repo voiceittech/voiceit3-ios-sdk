@@ -114,8 +114,12 @@
         
     if(!self.success && retry){
         [self removeLoading];
-        [self setMessage:self.uiMessage];
+        // Play LCO Failed Audio File
         [self playSound:self.audioPromptType];
+        // Display message on UI
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.messageLabel setText:self.uiMessage];
+        });
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
             [self startRecording];
         });
@@ -475,7 +479,6 @@
     }
     [self setMessage:@""];
     [self.myVoiceIt faceVerificationWithLiveness:self.userToVerifyUserId videoPath:self.videoPath callback:^(NSString *jsonResponse){
-        NSLog(@"%@",jsonResponse);
         [self handleLivenessResponse:jsonResponse];
     } lcoId: self.lcoId pageCategory:@"verification"];
 }
