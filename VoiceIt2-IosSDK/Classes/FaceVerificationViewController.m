@@ -111,9 +111,11 @@
     self.result = result;
     
     [Utilities deleteFile:self.videoPath];
-        
+    // Remove rotating circle
+    [self removeLoading];
+
     if(!self.success && retry){
-        [self removeLoading];
+        NSLog(@"Liveness Failed and Retry is True : result : %@", result);
         // Play LCO Failed Audio File
         [self playSound:self.audioPromptType];
         // Display message on UI
@@ -126,7 +128,7 @@
     }
 
     if(!self.success && !retry){
-        [self removeLoading];
+        NSLog(@"Liveness Failed and Retry is False : result : %@", result);
         // Play LCO Failed Audio File
         [self playSound:self.audioPromptType];
         // Display message on UI
@@ -141,9 +143,9 @@
     }
     
     if(self.success){
+        NSLog(@"Liveness Passed and Retry is False : result : %@", self.uiMessage);
         self.isProcessing = NO;
         self.isSuccess = YES;
-        [self removeLoading];
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.messageLabel setText:self.uiMessage];
         });
@@ -681,8 +683,13 @@ didOutputMetadataObjects:(NSArray<__kindof AVMetadataObject *> *)metadataObjects
             [self.cancelButton setTitle:[ResponseManager getMessage:@"Cancel"] forState:UIControlStateNormal];
         }
         if(self.doLivenessDetection && !self.isRecording && self.lookingIntoCam && !self.isProcessing){
-            [self setMessage:self.livenessInstruction];
-            [self.cancelButton setTitle:[ResponseManager getMessage:@"Continue"] forState:UIControlStateNormal];
+            if (!self.isSuccess) {
+                [self setMessage:self.livenessInstruction];
+                [self.cancelButton setTitle:[ResponseManager getMessage:@"Continue"] forState:UIControlStateNormal];
+            } else {
+                [self.cancelButton setHidden:YES];
+            }
+
         }
         if(self.isProcessing){
             [self.cancelButton setTitle:[ResponseManager getMessage:@"Cancel"] forState:UIControlStateNormal];
