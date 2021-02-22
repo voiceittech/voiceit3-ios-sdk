@@ -9,7 +9,7 @@ A fully comprehensive SDK that gives you access to VoiceIt's API 2.0 featuring V
 * [UI Previews](#ui-previews)
 * [Getting Started](#getting-started)
 * [Installation](#installation)
-* [Installation](#local-installation)
+* [Local Installation](#local-installation)
 * [Strings and Prompts](#strings-and-prompts)
 * [API Calls](#api-calls)
   * [Initialization](#initialization)
