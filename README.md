@@ -9,6 +9,7 @@ A fully comprehensive SDK that gives you access to VoiceIt's API 2.0 featuring V
 * [UI Previews](#ui-previews)
 * [Getting Started](#getting-started)
 * [Installation](#installation)
+* [Installation](#local-installation)
 * [Strings and Prompts](#strings-and-prompts)
 * [API Calls](#api-calls)
   * [Initialization](#initialization)
@@ -87,6 +88,13 @@ Also add the following permission keys to your <b>info.plist</b> file like shown
 * NSMicrophoneUsageDescription - Needed for Voice Biometrics
 
 <img src="Graphics/Screenshot2.png" alt="API Key and Token" width="400px" style="margin:auto;display:block"/>
+
+## Local Installation
+To run the SDK locally in your porject, please clone this repository, and specifiy the path in your podfile. For instance: 
+```
+  pod "VoiceIt2-IosSDK", :path => './VoiceIt2-IosSDK'
+```
+
 
 ## Requirements 
 
