@@ -226,7 +226,7 @@
 }
 
 -(void)startEnrollmentProcess {
-    [self.myVoiceIt deleteAllEnrollments:self.userToEnrollUserId callback:^(NSString * deleteEnrollmentsJSONResponse){
+    [self.myVoiceIt deleteAllEnrollments:self.userToEnrollUserId callback:^(NSString * deleteEnrollmentsJSONResponse, NSInteger * statusCode){
         [self makeLabelFlyIn: [ResponseManager getMessage:@"GET_ENROLLED"]];
         [self startDelayedRecording:2.0];
     }];
@@ -300,7 +300,7 @@
         [[self navigationController] dismissViewControllerAnimated:YES completion:^{
             [[self myNavController] userEnrollmentsCancelled];
         }];
-        [self.myVoiceIt deleteAllEnrollments:self.userToEnrollUserId callback:^(NSString * deleteEnrollmentsJSONResponse){}];
+        [self.myVoiceIt deleteAllEnrollments:self.userToEnrollUserId callback:^(NSString * deleteEnrollmentsJSONResponse, NSInteger * statusCode){}];
     });
 }
 
@@ -372,7 +372,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
         [self makeLabelFlyIn: [ResponseManager getMessage:@"FNFD"]];
     } else {
         [self showLoading];
-        [self.myVoiceIt createVideoEnrollment:self.userToEnrollUserId contentLanguage:self.contentLanguage imageData:self.finalCapturedPhotoData audioPath:self.audioPath phrase:self.thePhrase callback:^(NSString * jsonResponse){
+        [self.myVoiceIt createVideoEnrollment:self.userToEnrollUserId contentLanguage:self.contentLanguage imageData:self.finalCapturedPhotoData audioPath:self.audioPath phrase:self.thePhrase callback:^(NSString * jsonResponse, NSInteger * statusCode){
             [Utilities deleteFile:self.audioPath];
             [self removeLoading];
             self.imageNotSaved = YES;

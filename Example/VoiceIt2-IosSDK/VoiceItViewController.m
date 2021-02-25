@@ -19,9 +19,9 @@
     [super viewDidLoad];
     
     self.API_KEY = @"key_1df99ca38b97488499e1fe9db9a55e6c";
-    self.API_TOKEN = @"tok_a00f3142ae7948a6ae4bdc75c0625a03";
-    self.TEST_USER_ID_ONE = @"usr_69a5cea13e434ef9b5f0820915374d6b";
-    self.TEST_USER_ID_TWO = @"usr_0987ad4aaec447dea88beb57b53addb9";
+    self.API_TOKEN = @"tok_3d43dcd14f6349ee93247b4a3eb2adc4";
+    self.TEST_USER_ID_ONE = @"usr_deb2d9d8da3949468b12142965771392";
+    self.TEST_USER_ID_TWO = @"usr_64542b8fead840428cec1939342fb52f";
     self.TEST_USER_ID = self.TEST_USER_ID_ONE;
     self.TEST_GROUP_ID = @"grp_2a0b47a8174b44f89587aebd95086ae2";
     self.TEST_PHRASE = @"never forget tomorrow is a new day";

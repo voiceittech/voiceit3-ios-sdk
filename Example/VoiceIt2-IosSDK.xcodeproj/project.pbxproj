@@ -590,7 +590,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.2;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = VS9YK7ML83;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "VoiceIt2-IosSDK/VoiceIt2-IosSDK-Prefix.pch";
 				INFOPLIST_FILE = "VoiceIt2-IosSDK/VoiceIt2-IosSDK-Info.plist";
@@ -613,7 +613,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.2;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = VS9YK7ML83;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "VoiceIt2-IosSDK/VoiceIt2-IosSDK-Prefix.pch";
 				INFOPLIST_FILE = "VoiceIt2-IosSDK/VoiceIt2-IosSDK-Info.plist";

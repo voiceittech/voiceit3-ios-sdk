@@ -266,7 +266,7 @@
         if(!self.continueRunning){
             return;
         }
-        [self.myVoiceIt createFaceEnrollment:self.userToEnrollUserId videoPath:self.videoPath callback:^(NSString * jsonResponse){
+        [self.myVoiceIt createFaceEnrollment:self.userToEnrollUserId videoPath:self.videoPath callback:^(NSString * jsonResponse, NSInteger * statusCode){
             [Utilities deleteFile:self.videoPath];
             [self removeLoading];
             NSLog(@"Face Enrollment JSON Response : %@", jsonResponse);
@@ -294,7 +294,7 @@
 }
 
 -(void)startEnrollmentProcess {
-    [self.myVoiceIt deleteAllEnrollments:self.userToEnrollUserId callback:^(NSString * deleteEnrollmentsJSONResponse){
+    [self.myVoiceIt deleteAllEnrollments:self.userToEnrollUserId callback:^(NSString * deleteEnrollmentsJSONResponse, NSInteger * statusCode){
                 [self makeLabelFlyIn: [ResponseManager getMessage:@"GET_ENROLLED"]];
                 [self startDelayedRecording:2.0];
     }];
@@ -330,7 +330,7 @@
         [[self navigationController] dismissViewControllerAnimated:YES completion:^{
             [[self myNavController] userEnrollmentsCancelled];
         }];
-        [self.myVoiceIt deleteAllEnrollments:self.userToEnrollUserId callback:^(NSString * deleteEnrollmentsJSONResponse){}];
+        [self.myVoiceIt deleteAllEnrollments:self.userToEnrollUserId callback:^(NSString * deleteEnrollmentsJSONResponse, NSInteger * statusCode){}];
     });
 }
 

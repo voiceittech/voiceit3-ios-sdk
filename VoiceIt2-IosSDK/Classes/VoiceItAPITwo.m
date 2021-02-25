@@ -9,8 +9,10 @@
 #import "VoiceItAPITwo.h"
 #import "Styles.h"
 
-NSString * const host = @"https://api.voiceit.io/";
-NSString * const livenessHost = @"https://liveness.voiceit.io/v1/";
+NSString * const host = @"https://staging-api.voiceit.io/";
+NSString * const livenessHost = @"https://45918c42cb47.ngrok.io/";
+//NSString * const livenessHost = @"https://staging-liveness.voiceit.io/v1/";
+//NSString * const livenessHost = @"https://liveness.voiceit.io/v1/";
 NSString * const platformVersion = @"2.2.2";
 NSString * const platformId = @"41";
 @implementation VoiceItAPITwo
@@ -33,7 +35,8 @@ NSString * const platformId = @"41";
 
 #pragma mark - Phrase API Calls
 
-- (void)getPhrases:(NSString *)contentLanguage callback:(void (^)(NSString *))callback
+- (void)getPhrases:(NSString *)contentLanguage
+          callback:(void (^)(NSString *, NSInteger *))callback
 {
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
                                     initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@/%@",[self buildURL:@"phrases"], contentLanguage]]];
@@ -45,22 +48,25 @@ NSString * const platformId = @"41";
     [request addValue:platformVersion forHTTPHeaderField:@"platformVersion"];
     [request addValue:self.authHeader forHTTPHeaderField:@"Authorization"];
     
-    NSURLSessionDataTask *task =
-    [session dataTaskWithRequest:request
-               completionHandler:^(NSData *data, NSURLResponse *response,
-                                   NSError *error) {
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         
-        NSString *result =
-        [[NSString alloc] initWithData:data
-                              encoding:NSUTF8StringEncoding];
-        callback(result);
+        // display HTTP errors here
+        NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+        if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+            NSLog(@"getPhrases : dataTaskWithRequest HTTP status code: %ld", statusCode);
+        }
+        // Send Result
+        NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        if(callback){
+            callback(result, &statusCode);
+        }
     }];
     [task resume];
 }
 
 #pragma mark - User API Calls
 
-- (void)getAllUsers:(void (^)(NSString *))callback
+- (void)getAllUsers:(void (^)(NSString *, NSInteger *))callback
 {
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
                                     initWithURL:[[NSURL alloc] initWithString:[self buildURL:@"users"]]];
@@ -72,21 +78,24 @@ NSString * const platformId = @"41";
     [request addValue:platformVersion forHTTPHeaderField:@"platformVersion"];
     [request addValue:self.authHeader forHTTPHeaderField:@"Authorization"];
     
-    NSURLSessionDataTask *task =
-    [session dataTaskWithRequest:request
-               completionHandler:^(NSData *data, NSURLResponse *response,
-                                   NSError *error) {
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         
-        NSString *result =
-        [[NSString alloc] initWithData:data
-                              encoding:NSUTF8StringEncoding];
-        // Add Call to Callback function passing in result
-        callback(result);
+        // display HTTP errors here
+        NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+        if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+            NSLog(@"getAllUsers : dataTaskWithRequest HTTP status code: %ld", statusCode);
+        }
+        // Send Result
+        NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        if(callback){
+            callback(result, &statusCode);
+        }
     }];
     [task resume];
 }
 
-- (void)checkUserExists:(NSString *)userId callback:(void (^)(NSString *))callback
+- (void)checkUserExists:(NSString *)userId
+               callback:(void (^)(NSString *, NSInteger *))callback
 {
     if([userId isEqualToString:@""] || ![[self getFirst:userId numChars:4] isEqualToString:@"usr_"]){
         @throw [NSException exceptionWithName:@"Cannot Call Get User"
@@ -105,20 +114,25 @@ NSString * const platformId = @"41";
     [request addValue:platformVersion forHTTPHeaderField:@"platformVersion"];
     [request addValue:self.authHeader forHTTPHeaderField:@"Authorization"];
     
-    NSURLSessionDataTask *task =
-    [session dataTaskWithRequest:request
-               completionHandler:^(NSData *data, NSURLResponse *response,
-                                   NSError *error) {
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         
-        NSString *result =
-        [[NSString alloc] initWithData:data
-                              encoding:NSUTF8StringEncoding];
-        callback(result);
+        // display HTTP errors here
+        NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+        if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+            NSLog(@"checkUserExists : dataTaskWithRequest HTTP status code: %ld", statusCode);
+        }
+        // Send Result
+        NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        if(callback){
+            callback(result, &statusCode);
+        }
     }];
     [task resume];
 }
 
-- (void)getGroupsForUser:(NSString *)userId callback:(void (^)(NSString *))callback{
+- (void)getGroupsForUser:(NSString *)userId
+                callback:(void (^)(NSString *, NSInteger *))callback{
+    
     if([userId isEqualToString:@""] || ![[self getFirst:userId numChars:4] isEqualToString:@"usr_"]){
         @throw [NSException exceptionWithName:@"Cannot Call Get Groups for User"
                                        reason:@"Invalid userId passed"
@@ -137,20 +151,23 @@ NSString * const platformId = @"41";
     [request addValue:platformVersion forHTTPHeaderField:@"platformVersion"];
     [request addValue:self.authHeader forHTTPHeaderField:@"Authorization"];
     
-    NSURLSessionDataTask *task =
-    [session dataTaskWithRequest:request
-               completionHandler:^(NSData *data, NSURLResponse *response,
-                                   NSError *error) {
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         
-        NSString *result =
-        [[NSString alloc] initWithData:data
-                              encoding:NSUTF8StringEncoding];
-        callback(result);
+        // display HTTP errors here
+        NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+        if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+            NSLog(@"getGroupsForUser : dataTaskWithRequest HTTP status code: %ld", statusCode);
+        }
+        // Send Result
+        NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        if(callback){
+            callback(result, &statusCode);
+        }
     }];
     [task resume];
 }
 
-- (void)createUser:(void (^)(NSString *))callback
+- (void)createUser:(void (^)(NSString *, NSInteger *))callback
 {
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
                                     initWithURL:[[NSURL alloc] initWithString:[self buildURL:@"users"]]];
@@ -160,21 +177,25 @@ NSString * const platformId = @"41";
     [request addValue:platformVersion forHTTPHeaderField:@"platformVersion"];
     [request addValue:self.authHeader forHTTPHeaderField:@"Authorization"];
     
-    NSURLSessionDataTask *task =
-    [session dataTaskWithRequest:request
-               completionHandler:^(NSData *data, NSURLResponse *response,
-                                   NSError *error) {
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         
-        NSString *result =
-        [[NSString alloc] initWithData:data
-                              encoding:NSUTF8StringEncoding];
-        callback(result);
+        // display HTTP errors here
+        NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+        if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+            NSLog(@"createUser : dataTaskWithRequest HTTP status code: %ld", statusCode);
+        }
+        // Send Result
+        NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        if(callback){
+            callback(result, &statusCode);
+        }
     }];
     [task resume];
 }
 
-- (void)deleteUser: (NSString *)userId callback:(void (^)(NSString *))callback{
-    
+- (void)deleteUser: (NSString *)userId
+          callback:(void (^)(NSString *, NSInteger *))callback{
+
     if([userId isEqualToString:@""] || ![[self getFirst:userId numChars:4] isEqualToString:@"usr_"]){
         @throw [NSException exceptionWithName:@"Cannot Call Delete User"
                                        reason:@"Invalid userId passed"
@@ -190,15 +211,18 @@ NSString * const platformId = @"41";
     [request addValue:platformVersion forHTTPHeaderField:@"platformVersion"];
     [request addValue:self.authHeader forHTTPHeaderField:@"Authorization"];
     
-    NSURLSessionDataTask *task =
-    [session dataTaskWithRequest:request
-               completionHandler:^(NSData *data, NSURLResponse *response,
-                                   NSError *error) {
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         
-        NSString *result =
-        [[NSString alloc] initWithData:data
-                              encoding:NSUTF8StringEncoding];
-        callback(result);
+        // display HTTP errors here
+        NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+        if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+            NSLog(@"deleteUser : dataTaskWithRequest HTTP status code: %ld", statusCode);
+        }
+        // Send Result
+        NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        if(callback){
+            callback(result, &statusCode);
+        }
     }];
     [task resume];
 }
@@ -206,7 +230,7 @@ NSString * const platformId = @"41";
 
 #pragma mark - Group API Calls
 
-- (void)getAllGroups:(void (^)(NSString *))callback
+- (void)getAllGroups:(void (^)(NSString *, NSInteger *))callback
 {
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
                                     initWithURL:[[NSURL alloc] initWithString:[self buildURL:@"groups"]]];
@@ -218,21 +242,25 @@ NSString * const platformId = @"41";
     [request addValue:platformVersion forHTTPHeaderField:@"platformVersion"];
     [request addValue:self.authHeader forHTTPHeaderField:@"Authorization"];
     
-    NSURLSessionDataTask *task =
-    [session dataTaskWithRequest:request
-               completionHandler:^(NSData *data, NSURLResponse *response,
-                                   NSError *error) {
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         
-        NSString *result =
-        [[NSString alloc] initWithData:data
-                              encoding:NSUTF8StringEncoding];
-        callback(result);
+        // display HTTP errors here
+        NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+        if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+            NSLog(@"getAllGroups : dataTaskWithRequest HTTP status code: %ld", statusCode);
+        }
+        // Send Result
+        NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        if(callback){
+            callback(result, &statusCode);
+        }
     }];
     [task resume];
 }
 
-- (void)getGroup:(NSString *)groupId callback:(void (^)(NSString *))callback
-{
+- (void)getGroup:(NSString *)groupId
+        callback:(void (^)(NSString *, NSInteger *))callback{
+
     if([groupId isEqualToString:@""] || ![[self getFirst:groupId numChars:4] isEqualToString:@"grp_"]){
         @throw [NSException exceptionWithName:@"Cannot Call Get Group"
                                        reason:@"Invalid groupId passed"
@@ -251,21 +279,25 @@ NSString * const platformId = @"41";
     [request addValue:platformVersion forHTTPHeaderField:@"platformVersion"];
     [request addValue:self.authHeader forHTTPHeaderField:@"Authorization"];
     
-    NSURLSessionDataTask *task =
-    [session dataTaskWithRequest:request
-               completionHandler:^(NSData *data, NSURLResponse *response,
-                                   NSError *error) {
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         
-        NSString *result =
-        [[NSString alloc] initWithData:data
-                              encoding:NSUTF8StringEncoding];
-        // Add Call to Callback function passing in result
-        callback(result);
+        // display HTTP errors here
+        NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+        if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+            NSLog(@"getGroup : dataTaskWithRequest HTTP status code: %ld", statusCode);
+        }
+        // Send Result
+        NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        if(callback){
+            callback(result, &statusCode);
+        }
     }];
     [task resume];
 }
 
-- (void)groupExists:(NSString *)groupId callback:(void (^)(NSString *))callback{
+- (void)groupExists:(NSString *)groupId
+           callback:(void (^)(NSString *, NSInteger *))callback{
+
     if([groupId isEqualToString:@""] || ![[self getFirst:groupId numChars:4] isEqualToString:@"grp_"]){
         @throw [NSException exceptionWithName:@"Cannot Call Group Exists"
                                        reason:@"Invalid groupId passed"
@@ -284,16 +316,18 @@ NSString * const platformId = @"41";
     [request addValue:platformVersion forHTTPHeaderField:@"platformVersion"];
     [request addValue:self.authHeader forHTTPHeaderField:@"Authorization"];
     
-    NSURLSessionDataTask *task =
-    [session dataTaskWithRequest:request
-               completionHandler:^(NSData *data, NSURLResponse *response,
-                                   NSError *error) {
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         
-        NSString *result =
-        [[NSString alloc] initWithData:data
-                              encoding:NSUTF8StringEncoding];
-        // Add Call to Callback function passing in result
-        callback(result);
+        // display HTTP errors here
+        NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+        if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+            NSLog(@"groupExists : dataTaskWithRequest HTTP status code: %ld", statusCode);
+        }
+        // Send Result
+        NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        if(callback){
+            callback(result, &statusCode);
+        }
     }];
     [task resume];
 }
@@ -302,8 +336,9 @@ NSString * const platformId = @"41";
     [self createGroup:@"" callback:callback];
 }
 
-- (void)createGroup:(NSString *)description callback:(void (^)(NSString *))callback
-{
+- (void)createGroup:(NSString *)description
+           callback:(void (^)(NSString *))callback{
+    
     NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", self.boundary];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
                                     initWithURL:[[NSURL alloc] initWithString:[self buildURL:@"groups"]]];
@@ -317,20 +352,25 @@ NSString * const platformId = @"41";
     
     NSDictionary *params = @{@"description" : description};
     NSData *body = [self createBodyWithBoundary:self.boundary parameters:params paths:nil fieldName:nil];
-    NSURLSessionDataTask *task =  [session uploadTaskWithRequest:request fromData:body completionHandler:^(NSData *data, NSURLResponse *response,
-                                                                                                           NSError *error) {
-        NSString *result =
-        [[NSString alloc] initWithData:data
-                              encoding:NSUTF8StringEncoding];
-        // Add Call to Callback function passing in result
-        callback(result);
+    NSURLSessionDataTask *task =  [session uploadTaskWithRequest:request fromData:body completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        // display HTTP errors here
+        NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+        if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+            NSLog(@"createGroup : dataTaskWithRequest HTTP status code: %ld", statusCode);
+        }
+        // Send Result
+        NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        if(callback){
+            callback(result);
+        }
     }];
-    
     [task resume];
 }
 
-- (void)addUserToGroup:(NSString *)groupId userId:(NSString *)userId callback:(void (^)(NSString *))callback
-{
+- (void)addUserToGroup:(NSString *)groupId
+                userId:(NSString *)userId
+              callback:(void (^)(NSString *, NSInteger *))callback{
+
     if([userId isEqualToString:@""] || ![[self getFirst:userId numChars:4] isEqualToString:@"usr_"]){
         @throw [NSException exceptionWithName:@"Cannot Call Add User from Group"
                                        reason:@"Invalid userId passed"
@@ -359,20 +399,25 @@ NSString * const platformId = @"41";
     
     NSDictionary *params = @{@"userId" : userId, @"groupId": groupId};
     NSData *body = [self createBodyWithBoundary:self.boundary parameters:params paths:nil fieldName:nil];
-    NSURLSessionDataTask *task =  [session uploadTaskWithRequest:request fromData:body completionHandler:^(NSData *data, NSURLResponse *response,
-                                                                                                           NSError *error) {
-        NSString *result =
-        [[NSString alloc] initWithData:data
-                              encoding:NSUTF8StringEncoding];
-        // Add Call to Callback function passing in result
-        callback(result);
+    NSURLSessionDataTask *task =  [session uploadTaskWithRequest:request fromData:body completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        // display HTTP errors here
+        NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+        if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+            NSLog(@"addUserToGroup : dataTaskWithRequest HTTP status code: %ld", statusCode);
+        }
+        // Send Result
+        NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        if(callback){
+            callback(result, &statusCode);
+        }
     }];
-    
     [task resume];
 }
 
-- (void)removeUserFromGroup:(NSString *)groupId userId:(NSString *)userId callback:(void (^)(NSString *))callback{
-    
+- (void)removeUserFromGroup:(NSString *)groupId
+                     userId:(NSString *)userId
+                   callback:(void (^)(NSString *, NSInteger *))callback{
+
     if([userId isEqualToString:@""] || ![[self getFirst:userId numChars:4] isEqualToString:@"usr_"]){
         @throw [NSException exceptionWithName:@"Cannot Call Remove User from Group"
                                        reason:@"Invalid userId passed"
@@ -400,20 +445,24 @@ NSString * const platformId = @"41";
     
     NSDictionary *params = @{@"userId" : userId, @"groupId": groupId};
     NSData *body = [self createBodyWithBoundary:self.boundary parameters:params paths:nil fieldName:nil];
-    NSURLSessionDataTask *task =  [session uploadTaskWithRequest:request fromData:body completionHandler:^(NSData *data, NSURLResponse *response,
-                                                                                                           NSError *error) {
-        NSString *result =
-        [[NSString alloc] initWithData:data
-                              encoding:NSUTF8StringEncoding];
-        // Add Call to Callback function passing in result
-        callback(result);
+    NSURLSessionDataTask *task =  [session uploadTaskWithRequest:request fromData:body completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        // display HTTP errors here
+        NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+        if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+            NSLog(@"removeUserFromGroup : dataTaskWithRequest HTTP status code: %ld", statusCode);
+        }
+        // Send Result
+        NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        if(callback){
+            callback(result, &statusCode);
+        }
     }];
-    
     [task resume];
 }
 
-- (void)deleteGroup: (NSString *)groupId callback:(void (^)(NSString *))callback{
-    
+- (void)deleteGroup: (NSString *)groupId
+           callback:(void (^)(NSString *))callback{
+
     if([groupId isEqualToString:@""] || ![[self getFirst:groupId numChars:4] isEqualToString:@"grp_"]){
         @throw [NSException exceptionWithName:@"Cannot Call Delete Group"
                                        reason:@"Invalid groupId passed"
@@ -430,23 +479,25 @@ NSString * const platformId = @"41";
     [request addValue:platformVersion forHTTPHeaderField:@"platformVersion"];
     [request addValue:self.authHeader forHTTPHeaderField:@"Authorization"];
     
-    NSURLSessionDataTask *task =
-    [session dataTaskWithRequest:request
-               completionHandler:^(NSData *data, NSURLResponse *response,
-                                   NSError *error) {
-        
-        NSString *result =
-        [[NSString alloc] initWithData:data
-                              encoding:NSUTF8StringEncoding];
-        // Add Call to Callback function passing in result
-        callback(result);
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        // display HTTP errors here
+        NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+        if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+            NSLog(@"deleteGroup : dataTaskWithRequest HTTP status code: %ld", statusCode);
+        }
+        // Send Result
+        NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        if(callback){
+            callback(result);
+        }
     }];
     [task resume];
 }
 
 #pragma mark - Enrollment API Calls
-- (void)getAllVoiceEnrollments:(NSString *)userId callback:(void (^)(NSString *))callback{
-    
+- (void)getAllVoiceEnrollments:(NSString *)userId
+                      callback:(void (^)(NSString *, NSInteger *))callback{
+
     if([userId isEqualToString:@""] || ![[self getFirst:userId numChars:4] isEqualToString:@"usr_"]){
         @throw [NSException exceptionWithName:@"Cannot Get All Voice Enrollments"
                                        reason:@"Invalid userId passed"
@@ -463,22 +514,24 @@ NSString * const platformId = @"41";
     [request addValue:platformVersion forHTTPHeaderField:@"platformVersion"];
     [request addValue:self.authHeader forHTTPHeaderField:@"Authorization"];
     
-    NSURLSessionDataTask *task =
-    [session dataTaskWithRequest:request
-               completionHandler:^(NSData *data, NSURLResponse *response,
-                                   NSError *error) {
-        
-        NSString *result =
-        [[NSString alloc] initWithData:data
-                              encoding:NSUTF8StringEncoding];
-        // Add Call to Callback function passing in result
-        callback(result);
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        // display HTTP errors here
+        NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+        if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+            NSLog(@"getAllVoiceEnrollments : dataTaskWithRequest HTTP status code: %ld", statusCode);
+        }
+        // Send Result
+        NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        if(callback){
+            callback(result, &statusCode);
+        }
     }];
     [task resume];
 }
 
-- (void)getAllFaceEnrollments:(NSString *)userId callback:(void (^)(NSString *))callback{
-    
+- (void)getAllFaceEnrollments:(NSString *)userId
+                     callback:(void (^)(NSString *, NSInteger *))callback{
+
     if([userId isEqualToString:@""] || ![[self getFirst:userId numChars:4] isEqualToString:@"usr_"]){
         @throw [NSException exceptionWithName:@"Cannot Get All Face Enrollments"
                                        reason:@"Invalid userId passed"
@@ -495,22 +548,24 @@ NSString * const platformId = @"41";
     [request addValue:platformVersion forHTTPHeaderField:@"platformVersion"];
     [request addValue:self.authHeader forHTTPHeaderField:@"Authorization"];
     
-    NSURLSessionDataTask *task =
-    [session dataTaskWithRequest:request
-               completionHandler:^(NSData *data, NSURLResponse *response,
-                                   NSError *error) {
-        
-        NSString *result =
-        [[NSString alloc] initWithData:data
-                              encoding:NSUTF8StringEncoding];
-        // Add Call to Callback function passing in result
-        callback(result);
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error){
+        // display HTTP errors here
+        NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+        if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+            NSLog(@"getAllFaceEnrollments : dataTaskWithRequest HTTP status code: %ld", statusCode);
+        }
+        // Send Result
+        NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        if(callback){
+            callback(result, &statusCode);
+        }
     }];
     [task resume];
 }
 
-- (void)getAllVideoEnrollments:(NSString *)userId callback:(void (^)(NSString *))callback{
-    
+- (void)getAllVideoEnrollments:(NSString *)userId
+                      callback:(void (^)(NSString *, NSInteger *))callback{
+
     if([userId isEqualToString:@""] || ![[self getFirst:userId numChars:4] isEqualToString:@"usr_"]){
         @throw [NSException exceptionWithName:@"Cannot Get All Video Enrollments"
                                        reason:@"Invalid userId passed"
@@ -527,21 +582,23 @@ NSString * const platformId = @"41";
     [request addValue:platformVersion forHTTPHeaderField:@"platformVersion"];
     [request addValue:self.authHeader forHTTPHeaderField:@"Authorization"];
     
-    NSURLSessionDataTask *task =
-    [session dataTaskWithRequest:request
-               completionHandler:^(NSData *data, NSURLResponse *response,
-                                   NSError *error) {
-        
-        NSString *result =
-        [[NSString alloc] initWithData:data
-                              encoding:NSUTF8StringEncoding];
-        // Add Call to Callback function passing in result
-        callback(result);
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error){
+        // display HTTP errors here
+        NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+        if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+            NSLog(@"getAllVideoEnrollments : dataTaskWithRequest HTTP status code: %ld", statusCode);
+        }
+        // Send Result
+        NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        if(callback){
+            callback(result, &statusCode);
+        }
     }];
     [task resume];
 }
 
-- (void)deleteAllEnrollments: (NSString *)userId callback:(void (^)(NSString *))callback{
+- (void)deleteAllEnrollments: (NSString *)userId
+                    callback:(void (^)(NSString *, NSInteger *))callback{
     
     if([userId isEqualToString:@""] || ![[self getFirst:userId numChars:4] isEqualToString:@"usr_"]){
         @throw [NSException exceptionWithName:@"Cannot Call Delete All Enrollments"
@@ -558,15 +615,17 @@ NSString * const platformId = @"41";
     [request addValue:platformVersion forHTTPHeaderField:@"platformVersion"];
     [request addValue:self.authHeader forHTTPHeaderField:@"Authorization"];
     
-    NSURLSessionDataTask *task =
-    [session dataTaskWithRequest:request
-               completionHandler:^(NSData *data, NSURLResponse *response,
-                                   NSError *error) {
-        
-        NSString *result =
-        [[NSString alloc] initWithData:data
-                              encoding:NSUTF8StringEncoding];
-        callback(result);
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error){
+        // display HTTP errors here
+        NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+        if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+            NSLog(@"createVoiceEnrollment : dataTaskWithRequest HTTP status code: %ld", statusCode);
+        }
+        // Send Result
+        NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        if(callback){
+            callback(result, &statusCode);
+        }
     }];
     [task resume];
 }
@@ -575,9 +634,8 @@ NSString * const platformId = @"41";
               contentLanguage:(NSString*)contentLanguage
                     audioPath:(NSString*)audioPath
                        phrase:(NSString*)phrase
-                     callback:(void (^)(NSString *))callback
-{
-    
+                     callback:(void (^)(NSString *, NSInteger *))callback {
+
     if([userId isEqualToString:@""] || ![[self getFirst:userId numChars:4] isEqualToString:@"usr_"]){
         @throw [NSException exceptionWithName:@"Cannot Call Video Verification"
                                        reason:@"Invalid userId passed"
@@ -603,23 +661,24 @@ NSString * const platformId = @"41";
     [self addFileToBody:body filePath:audioPath fieldName:@"recording"];
     [self endBody:body];
     
-    NSURLSessionDataTask *task =  [session uploadTaskWithRequest:request fromData:body completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        NSString *result =
-        [[NSString alloc] initWithData:data
-                              encoding:NSUTF8StringEncoding];
-        if(callback){
-            callback(result);
+    NSURLSessionDataTask *task =  [session uploadTaskWithRequest:request fromData:body completionHandler:^(NSData *data, NSURLResponse *response, NSError *error){
+        // display HTTP errors here
+        NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+        if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+            NSLog(@"createVoiceEnrollment : dataTaskWithRequest HTTP status code: %ld", statusCode);
         }
-        
+        // Send Result
+        NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        if(callback){
+            callback(result, &statusCode);
+        }
     }];
-    
     [task resume];
 }
 
 - (void)createFaceEnrollment:(NSString *)userId
                    videoPath:(NSString*)videoPath
-                    callback:(void (^)(NSString *))callback
-{
+                    callback:(void (^)(NSString *, NSInteger *))callback {
     
     if([userId isEqualToString:@""] || ![[self getFirst:userId numChars:4] isEqualToString:@"usr_"]){
         @throw [NSException exceptionWithName:@"Cannot Call Face Enrollment"
@@ -645,15 +704,18 @@ NSString * const platformId = @"41";
     [self addFileToBody:body filePath: videoPath fieldName:@"video"];
     [self endBody:body];
     
-    NSURLSessionDataTask *task =  [session uploadTaskWithRequest:request fromData:body completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        NSString *result =
-        [[NSString alloc] initWithData:data
-                              encoding:NSUTF8StringEncoding];
+    NSURLSessionDataTask *task =  [session uploadTaskWithRequest:request fromData:body completionHandler:^(NSData *data, NSURLResponse *response, NSError *error){
+        // display HTTP errors here
+        NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+        if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+            NSLog(@"createFaceEnrollment : dataTaskWithRequest HTTP status code: %ld", statusCode);
+        }
+        // Send Result
+        NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         if(callback){
-            callback(result);
+            callback(result, &statusCode);
         }
     }];
-    
     [task resume];
 }
 
@@ -661,8 +723,8 @@ NSString * const platformId = @"41";
               contentLanguage:(NSString*)contentLanguage
                     videoPath:(NSString*)videoPath
                        phrase:(NSString*)phrase
-                     callback:(void (^)(NSString *))callback {
-    
+                     callback:(void (^)(NSString *, NSInteger *))callback {
+
     if([userId isEqualToString:@""] || ![[self getFirst:userId numChars:4] isEqualToString:@"usr_"]){
         @throw [NSException exceptionWithName:@"Cannot Call Video Verification"
                                        reason:@"Invalid userId passed"
@@ -688,12 +750,16 @@ NSString * const platformId = @"41";
     [self addFileToBody:body filePath:videoPath fieldName:@"video"];
     [self endBody:body];
     
-    NSURLSessionDataTask *task =  [session uploadTaskWithRequest:request fromData:body completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        NSString *result =
-        [[NSString alloc] initWithData:data
-                              encoding:NSUTF8StringEncoding];
+    NSURLSessionDataTask *task =  [session uploadTaskWithRequest:request fromData:body completionHandler:^(NSData *data, NSURLResponse *response, NSError *error){
+        // display HTTP errors here
+        NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+        if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+            NSLog(@"createVideoEnrollment : dataTaskWithRequest HTTP status code: %ld", statusCode);
+        }
+        // Send Result
+        NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         if(callback){
-            callback(result);
+            callback(result, &statusCode);
         }
     }];
     [task resume];
@@ -704,9 +770,8 @@ NSString * const platformId = @"41";
                     imageData:(NSData*)imageData
                     audioPath:(NSString*)audioPath
                        phrase:(NSString*)phrase
-                     callback:(void (^)(NSString *))callback
-{
-    
+                     callback:(void (^)(NSString *, NSInteger *))callback {
+
     if([userId isEqualToString:@""] || ![[self getFirst:userId numChars:4] isEqualToString:@"usr_"]){
         @throw [NSException exceptionWithName:@"Cannot Create Video Enrollment"
                                        reason:@"Invalid userId passed"
@@ -733,15 +798,18 @@ NSString * const platformId = @"41";
     [self addImageToBody:body imageData:imageData fieldName:@"photo"];
     [self endBody:body];
     
-    NSURLSessionDataTask *task =  [session uploadTaskWithRequest:request fromData:body completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        NSString *result =
-        [[NSString alloc] initWithData:data
-                              encoding:NSUTF8StringEncoding];
+    NSURLSessionDataTask *task =  [session uploadTaskWithRequest:request fromData:body completionHandler:^(NSData *data, NSURLResponse *response, NSError *error){
+        // display HTTP errors here
+        NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+        if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+            NSLog(@"createVideoEnrollment : dataTaskWithRequest HTTP status code: %ld", statusCode);
+        }
+        // Send Result
+        NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         if(callback){
-            callback(result);
+            callback(result, &statusCode);
         }
     }];
-    
     [task resume];
 }
 
@@ -1025,8 +1093,7 @@ NSString * const platformId = @"41";
           contentLanguage:(NSString*)contentLanguage
                 audioPath:(NSString*)audioPath
                    phrase:(NSString*)phrase
-                 callback:(void (^)(NSString *))callback
-{
+                 callback:(void (^)(NSString *, NSInteger *))callback {
     
     if([userId isEqualToString:@""] || ![[self getFirst:userId numChars:4] isEqualToString:@"usr_"]){
         @throw [NSException exceptionWithName:@"Cannot Call Video Verification"
@@ -1053,23 +1120,24 @@ NSString * const platformId = @"41";
     [self addFileToBody:body filePath:audioPath fieldName:@"recording"];
     [self endBody:body];
     
-    NSURLSessionDataTask *task =  [session uploadTaskWithRequest:request fromData:body completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        NSString *result =
-        [[NSString alloc] initWithData:data
-                              encoding:NSUTF8StringEncoding];
-        
+    NSURLSessionDataTask *task =  [session uploadTaskWithRequest:request fromData:body completionHandler:^(NSData *data, NSURLResponse *response, NSError *error){
+        // display HTTP errors here
+        NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+        if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+            NSLog(@"voiceVerification : dataTaskWithRequest HTTP status code: %ld", statusCode);
+        }
+        // Send Result
+        NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         if(callback){
-            callback(result);
+            callback(result, &statusCode);
         }
     }];
-    
     [task resume];
 }
 
 - (void)faceVerification:(NSString *)userId
                videoPath:(NSString*)videoPath
-                callback:(void (^)(NSString *))callback
-{
+                callback:(void (^)(NSString *, NSInteger *))callback {
     
     if([userId isEqualToString:@""] || ![[self getFirst:userId numChars:4] isEqualToString:@"usr_"]){
         @throw [NSException exceptionWithName:@"Cannot Call Face Verification"
@@ -1095,22 +1163,24 @@ NSString * const platformId = @"41";
     [self addFileToBody:body filePath: videoPath fieldName:@"video"];
     [self endBody:body];
     
-    NSURLSessionDataTask *task =  [session uploadTaskWithRequest:request fromData:body completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        NSString *result =
-        [[NSString alloc] initWithData:data
-                              encoding:NSUTF8StringEncoding];
+    NSURLSessionDataTask *task =  [session uploadTaskWithRequest:request fromData:body completionHandler:^(NSData *data, NSURLResponse *response, NSError *error){
+        // display HTTP errors here
+        NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+        if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+            NSLog(@"faceVerification : dataTaskWithRequest HTTP status code: %ld", statusCode);
+        }
+        // Send Result
+        NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         if(callback){
-            callback(result);
+            callback(result, &statusCode);
         }
     }];
-    
     [task resume];
 }
 
 - (void)faceVerification:(NSString *)userId
                imageData:(NSData*)imageData
-                callback:(void (^)(NSString *))callback
-{
+                callback:(void (^)(NSString *, NSInteger *))callback {
     
     if([userId isEqualToString:@""] || ![[self getFirst:userId numChars:4] isEqualToString:@"usr_"]){
         @throw [NSException exceptionWithName:@"Cannot Call Face Verification"
@@ -1136,25 +1206,27 @@ NSString * const platformId = @"41";
     [self addImageToBody:body imageData:imageData fieldName:@"photo"];
     [self endBody:body];
     
-    NSURLSessionDataTask *task =  [session uploadTaskWithRequest:request fromData:body completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        NSString *result =
-        [[NSString alloc] initWithData:data
-                              encoding:NSUTF8StringEncoding];
+    NSURLSessionDataTask *task =  [session uploadTaskWithRequest:request fromData:body completionHandler:^(NSData *data, NSURLResponse *response, NSError *error){
+        // display HTTP errors here
+        NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+        if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+            NSLog(@"faceVerification : dataTaskWithRequest HTTP status code: %ld", statusCode);
+        }
+        // Send Result
+        NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         if(callback){
-            callback(result);
+            callback(result, &statusCode);
         }
     }];
-    
     [task resume];
 }
 
 - (void)faceVerificationWithLiveness:(NSString *)userId
                            videoPath:(NSString*)videoPath
-                            callback:(void (^)(NSString *))callback
-                               lcoId: (NSString *) lcoId
-                        pageCategory: (NSString *) pageCategory
-{
-    
+                            callback:(void (^)(NSString *, NSInteger *))callback
+                               lcoId:(NSString *) lcoId
+                        pageCategory:(NSString *) pageCategory {
+
     if([userId isEqualToString:@""] || ![[self getFirst:userId numChars:4] isEqualToString:@"usr_"] || lcoId == nil){
         @throw [NSException exceptionWithName:@"Cannot Call Face Verification"
                                        reason:@"Invalid userId passed"
@@ -1179,15 +1251,18 @@ NSString * const platformId = @"41";
     [self addFileToBody:body filePath: videoPath fieldName:@"file"];
     [self endBody:body];
     
-    NSURLSessionDataTask *task =  [session uploadTaskWithRequest:request fromData:body completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        NSString *result =
-        [[NSString alloc] initWithData:data
-                              encoding:NSUTF8StringEncoding];
+    NSURLSessionDataTask *task =  [session uploadTaskWithRequest:request fromData:body completionHandler:^(NSData *data, NSURLResponse *response, NSError *error){
+        // display HTTP errors here
+        NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+        if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+            NSLog(@"faceVerificationWithLiveness : dataTaskWithRequest HTTP status code: %ld", statusCode);
+        }
+        // Send Result
+        NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         if(callback){
-            callback(result);
+            callback(result, &statusCode);
         }
     }];
-    
     [task resume];
 }
 
@@ -1196,8 +1271,7 @@ NSString * const platformId = @"41";
                 imageData:(NSData*)imageData
                 audioPath:(NSString*)audioPath
                    phrase:(NSString*)phrase
-                 callback:(void (^)(NSString *))callback
-{
+                 callback:(void (^)(NSString *, NSInteger *))callback {
     
     if([userId isEqualToString:@""] || ![[self getFirst:userId numChars:4] isEqualToString:@"usr_"]){
         @throw [NSException exceptionWithName:@"Cannot Call Video Verification"
@@ -1225,12 +1299,16 @@ NSString * const platformId = @"41";
     [self addImageToBody:body imageData:imageData fieldName:@"photo"];
     [self endBody:body];
     
-    NSURLSessionDataTask *task =  [session uploadTaskWithRequest:request fromData:body completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        NSString *result =
-        [[NSString alloc] initWithData:data
-                              encoding:NSUTF8StringEncoding];
+    NSURLSessionDataTask *task =  [session uploadTaskWithRequest:request fromData:body completionHandler:^(NSData *data, NSURLResponse *response, NSError *error){
+        // display HTTP errors here
+        NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+        if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+            NSLog(@"videoVerification : dataTaskWithRequest HTTP status code: %ld", statusCode);
+        }
+        // Send Result
+        NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         if(callback){
-            callback(result);
+            callback(result, &statusCode);
         }
     }];
     [task resume];
@@ -1240,8 +1318,8 @@ NSString * const platformId = @"41";
           contentLanguage:(NSString*)contentLanguage
                 videoPath:(NSString*)videoPath
                    phrase:(NSString*)phrase
-                 callback:(void (^)(NSString *))callback {
-    
+                 callback:(void (^)(NSString *, NSInteger *))callback {
+
     if([userId isEqualToString:@""] || ![[self getFirst:userId numChars:4] isEqualToString:@"usr_"]){
         @throw [NSException exceptionWithName:@"Cannot Call Video Verification"
                                        reason:@"Invalid userId passed"
@@ -1267,24 +1345,28 @@ NSString * const platformId = @"41";
     [self addFileToBody:body filePath:videoPath fieldName:@"video"];
     [self endBody:body];
     
-    NSURLSessionDataTask *task =  [session uploadTaskWithRequest:request fromData:body completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        NSString *result =
-        [[NSString alloc] initWithData:data
-                              encoding:NSUTF8StringEncoding];
+    NSURLSessionDataTask *task =  [session uploadTaskWithRequest:request fromData:body completionHandler:^(NSData *data, NSURLResponse *response, NSError *error){
+        // display HTTP errors here
+        NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+        if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+            NSLog(@"videoVerification : dataTaskWithRequest HTTP status code: %ld", statusCode);
+        }
+        // Send Result
+        NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         if(callback){
-            callback(result);
+            callback(result, &statusCode);
         }
     }];
     [task resume];
 }
 
 - (void)videoVerificationWithLiveness:(NSString *)lcoId
-                               userId:(NSString*)userId
-                      contentLanguage:(NSString*)contentLanguage
-                            videoPath:(NSString*)videoPath
-                               phrase:(NSString*)phrase
-                         pageCategory: (NSString*) pageCategory
-                             callback:(void (^)(NSString *))callback {
+                               userId:(NSString *)userId
+                      contentLanguage:(NSString *)contentLanguage
+                            videoPath:(NSString *)videoPath
+                               phrase:(NSString *)phrase
+                         pageCategory:(NSString *) pageCategory
+                             callback:(void (^)(NSString *, NSInteger *))callback {
     
     NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; charset=utf-8; boundary=%@", self.boundary];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
@@ -1304,12 +1386,16 @@ NSString * const platformId = @"41";
     [self addFileToBody:body filePath: videoPath fieldName:@"file"];
     [self endBody:body];
     
-    NSURLSessionDataTask *task =  [session uploadTaskWithRequest:request fromData:body completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        NSString *result =
-        [[NSString alloc] initWithData:data
-                              encoding:NSUTF8StringEncoding];
+    NSURLSessionDataTask *task =  [session uploadTaskWithRequest:request fromData:body completionHandler:^(NSData *data, NSURLResponse *response, NSError *error){
+        // display HTTP errors here
+        NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+        if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+            NSLog(@"videoVerificationWithLiveness : dataTaskWithRequest HTTP status code: %ld", statusCode);
+        }
+        // Send Result
+        NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         if(callback){
-            callback(result);
+            callback(result, &statusCode);
         }
     }];
     [task resume];
@@ -1321,8 +1407,7 @@ NSString * const platformId = @"41";
             contentLanguage:(NSString*)contentLanguage
                   audioPath:(NSString*)audioPath
                      phrase:(NSString*)phrase
-                   callback:(void (^)(NSString *))callback
-{
+                   callback:(void (^)(NSString *, NSInteger *))callback {
     
     if([groupId isEqualToString:@""] || ![[self getFirst:groupId numChars:4] isEqualToString:@"grp_"]){
         @throw [NSException exceptionWithName:@"Cannot Call Voice Identification"
@@ -1348,22 +1433,25 @@ NSString * const platformId = @"41";
     [self addFileToBody:body filePath:audioPath fieldName:@"recording"];
     [self endBody:body];
     
-    NSURLSessionDataTask *task =  [session uploadTaskWithRequest:request fromData:body completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        NSString *result =
-        [[NSString alloc] initWithData:data
-                              encoding:NSUTF8StringEncoding];
+    NSURLSessionDataTask *task =  [session uploadTaskWithRequest:request fromData:body completionHandler:^(NSData *data, NSURLResponse *response, NSError *error){
+        // display HTTP errors here
+        NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+        if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+            NSLog(@"voiceIdentification : dataTaskWithRequest HTTP status code: %ld", statusCode);
+        }
+        // Send Result
+        NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         if(callback){
-            callback(result);
+            callback(result, &statusCode);
         }
     }];
-    
     [task resume];
 }
 
 - (void)faceIdentification:(NSString *)groupId
                  imageData:(NSData*)imageData
-                  callback:(void (^)(NSString *))callback{
-    
+                  callback:(void (^)(NSString *, NSInteger *))callback {
+
     if([groupId isEqualToString:@""] || ![[self getFirst:groupId numChars:4] isEqualToString:@"grp_"]){
         @throw [NSException exceptionWithName:@"Cannot Call Face Identification"
                                        reason:@"Invalid groupId passed"
@@ -1388,23 +1476,25 @@ NSString * const platformId = @"41";
     [self addImageToBody:body imageData:imageData fieldName:@"photo"];
     [self endBody:body];
     
-    NSURLSessionDataTask *task =  [session uploadTaskWithRequest:request fromData:body completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        NSString *result =
-        [[NSString alloc] initWithData:data
-                              encoding:NSUTF8StringEncoding];
+    NSURLSessionDataTask *task =  [session uploadTaskWithRequest:request fromData:body completionHandler:^(NSData *data, NSURLResponse *response, NSError *error){
+        // display HTTP errors here
+        NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+        if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+            NSLog(@"faceIdentification : dataTaskWithRequest HTTP status code: %ld", statusCode);
+        }
+        // Send Result
+        NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         if(callback){
-            callback(result);
+            callback(result, &statusCode);
         }
     }];
-    
     [task resume];
 }
 
 - (void)faceIdentification:(NSString *)groupId
                  videoPath:(NSString*)videoPath
-                  callback:(void (^)(NSString *))callback
-{
-    
+                  callback:(void (^)(NSString *, NSInteger *))callback {
+
     if([groupId isEqualToString:@""] || ![[self getFirst:groupId numChars:4] isEqualToString:@"grp_"]){
         @throw [NSException exceptionWithName:@"Cannot Call Face Identification"
                                        reason:@"Invalid groupId passed"
@@ -1429,15 +1519,18 @@ NSString * const platformId = @"41";
     [self addFileToBody:body filePath:videoPath fieldName:@"video"];
     [self endBody:body];
     
-    NSURLSessionDataTask *task =  [session uploadTaskWithRequest:request fromData:body completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        NSString *result =
-        [[NSString alloc] initWithData:data
-                              encoding:NSUTF8StringEncoding];
+    NSURLSessionDataTask *task =  [session uploadTaskWithRequest:request fromData:body completionHandler:^(NSData *data, NSURLResponse *response, NSError *error){
+        // display HTTP errors here
+        NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+        if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+            NSLog(@"faceIdentification : dataTaskWithRequest HTTP status code: %ld", statusCode);
+        }
+        // Send Result
+        NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         if(callback){
-            callback(result);
+            callback(result, &statusCode);
         }
     }];
-    
     [task resume];
 }
 
@@ -1445,8 +1538,7 @@ NSString * const platformId = @"41";
             contentLanguage:(NSString*)contentLanguage
                   videoPath:(NSString*)videoPath
                      phrase:(NSString*)phrase
-                   callback:(void (^)(NSString *))callback
-{
+                   callback:(void (^)(NSString *, NSInteger *))callback {
     
     if([groupId isEqualToString:@""] || ![[self getFirst:groupId numChars:4] isEqualToString:@"grp_"]){
         @throw [NSException exceptionWithName:@"Cannot Call Video Identification"
@@ -1472,15 +1564,18 @@ NSString * const platformId = @"41";
     [self addFileToBody:body filePath:videoPath fieldName:@"video"];
     [self endBody:body];
     
-    NSURLSessionDataTask *task =  [session uploadTaskWithRequest:request fromData:body completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        NSString *result =
-        [[NSString alloc] initWithData:data
-                              encoding:NSUTF8StringEncoding];
+    NSURLSessionDataTask *task =  [session uploadTaskWithRequest:request fromData:body completionHandler:^(NSData *data, NSURLResponse *response, NSError *error){
+        // display HTTP errors here
+        NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+        if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+            NSLog(@"videoIdentification : dataTaskWithRequest HTTP status code: %ld", statusCode);
+        }
+        // Send Result
+        NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         if(callback){
-            callback(result);
+            callback(result, &statusCode);
         }
     }];
-    
     [task resume];
 }
 
@@ -1489,8 +1584,8 @@ NSString * const platformId = @"41";
                   imageData:(NSData*)imageData
                   audioPath:(NSString*)audioPath
                      phrase:(NSString*)phrase
-                   callback:(void (^)(NSString *))callback{
-    
+                   callback:(void (^)(NSString *, NSInteger *))callback {
+
     if([groupId isEqualToString:@""] || ![[self getFirst:groupId numChars:4] isEqualToString:@"grp_"]){
         @throw [NSException exceptionWithName:@"Cannot Call Video Identification"
                                        reason:@"Invalid groupId passed"
@@ -1517,12 +1612,16 @@ NSString * const platformId = @"41";
     [self addImageToBody:body imageData:imageData fieldName:@"photo"];
     [self endBody:body];
     
-    NSURLSessionDataTask *task =  [session uploadTaskWithRequest:request fromData:body completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        NSString *result =
-        [[NSString alloc] initWithData:data
-                              encoding:NSUTF8StringEncoding];
+    NSURLSessionDataTask *task =  [session uploadTaskWithRequest:request fromData:body completionHandler:^(NSData *data, NSURLResponse *response, NSError *error){
+        // display HTTP errors here
+        NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+        if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+            NSLog(@"videoIdentification : dataTaskWithRequest HTTP status code: %ld", statusCode);
+        }
+        // Send Result
+        NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         if(callback){
-            callback(result);
+            callback(result, &statusCode);
         }
     }];
     [task resume];
@@ -1649,10 +1748,10 @@ NSString * const platformId = @"41";
 #pragma mark - Liveness API calls
 - (void)getLivenessID:(NSString *)userId
           countryCode: (NSString *) countryCode
-             callback:(void (^)(NSString *))callback
+             callback:(void (^)(NSString *, NSInteger *))callback
              onFailed:(void(^)(NSError *))onFailed
-          pageCateory: (NSString *) pageCategory
-{
+          pageCateory: (NSString *) pageCategory {
+    
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
                                     initWithURL: [[NSURL alloc] initWithString:[self buildLivenessURLForCountry:countryCode withUserID:userId pageCategory:pageCategory]]];
     NSURLSession *session = [NSURLSession sharedSession];
@@ -1663,17 +1762,17 @@ NSString * const platformId = @"41";
     [request addValue:platformVersion forHTTPHeaderField:@"platformVersion"];
     [request addValue:self.authHeader forHTTPHeaderField:@"Authorization"];
     
-    NSURLSessionDataTask *task =
-    [session dataTaskWithRequest:request
-               completionHandler:^(NSData *data, NSURLResponse *response,
-                                   NSError *error) {
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        // display HTTP errors here
+        NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+        if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+            NSLog(@"getLivenessID : dataTaskWithRequest HTTP status code: %ld", statusCode);
+        }
         if(error){
             onFailed(error);
         } else {
-        NSString *result =
-        [[NSString alloc] initWithData:data
-                              encoding:NSUTF8StringEncoding];
-        callback(result);
+        NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        callback(result, &statusCode);
         }}];
     [task resume];
 }

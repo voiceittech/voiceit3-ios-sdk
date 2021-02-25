@@ -82,11 +82,11 @@
 #pragma mark - Action Methods
     
 -(void)startVerificationProcess {
-    [self.myVoiceIt getAllVoiceEnrollments:_userToVerifyUserId callback:^(NSString * jsonResponse){
+    [self.myVoiceIt getAllVoiceEnrollments:_userToVerifyUserId callback:^(NSString * jsonResponse, NSInteger * statusCode){
       NSDictionary *jsonObj = [Utilities getJSONObject:jsonResponse];
       NSString * responseCode = [jsonObj objectForKey:@"responseCode"];
       if([responseCode isEqualToString:@"SUCC"]){
-          [self.myVoiceIt getAllVideoEnrollments:self.userToVerifyUserId callback:^(NSString * jsonResponse){
+          [self.myVoiceIt getAllVideoEnrollments:self.userToVerifyUserId callback:^(NSString * jsonResponse, NSInteger * statusCode){
               NSDictionary *jsonObj2 = [Utilities getJSONObject:jsonResponse];
               int voiceEnrollmentsCount = [[jsonObj valueForKey:@"count"] intValue];
               int videoEnrollmentsCount = [[jsonObj2 valueForKey:@"count"] intValue];
@@ -194,7 +194,7 @@
     [self setAudioSessionInactive];
     [self stopRecording];
     [self showLoading];
-    [self.myVoiceIt voiceVerification:_userToVerifyUserId contentLanguage: self.contentLanguage audioPath:self.audioPath phrase: self.thePhrase callback:^(NSString * jsonResponse){
+    [self.myVoiceIt voiceVerification:_userToVerifyUserId contentLanguage: self.contentLanguage audioPath:self.audioPath phrase: self.thePhrase callback:^(NSString * jsonResponse, NSInteger * statusCode) {
         [Utilities deleteFile:self.audioPath];
         [self removeLoading];
         NSLog(@"Voice Verification JSON Response : %@", jsonResponse);

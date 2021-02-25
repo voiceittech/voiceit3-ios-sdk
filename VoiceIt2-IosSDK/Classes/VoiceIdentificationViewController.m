@@ -167,7 +167,7 @@
     [self setAudioSessionInactive];
     [self stopRecording];
     [self showLoading];
-    [self.myVoiceIt voiceIdentification:_groupToIdentifyGroupId contentLanguage: self.contentLanguage audioPath:self.audioPath phrase: self.thePhrase callback:^(NSString * jsonResponse){
+    [self.myVoiceIt voiceIdentification:_groupToIdentifyGroupId contentLanguage: self.contentLanguage audioPath:self.audioPath phrase: self.thePhrase callback:^(NSString * jsonResponse, NSInteger * statusCode){
         [Utilities deleteFile:self.audioPath];
         [self removeLoading];
         NSLog(@"Voice Identification JSON Response : %@", jsonResponse);

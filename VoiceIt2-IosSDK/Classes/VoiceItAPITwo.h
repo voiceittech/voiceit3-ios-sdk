@@ -32,107 +32,109 @@
 - (id)init:(UIViewController *)masterViewController apiKey:(NSString *)apiKey apiToken:(NSString *) apiToken styles:(NSMutableDictionary *) styles;
 
 #pragma mark - User API Calls
-- (void)getAllUsers:(void (^)(NSString *))callback;
-- (void)getPhrases:(NSString *)contentLanguage callback:(void (^)(NSString *))callback;
-- (void)createUser:(void (^)(NSString *))callback;
-- (void)checkUserExists:(NSString *)userId callback:(void (^)(NSString *))callback;
-- (void)getGroupsForUser:(NSString *)userId callback:(void (^)(NSString *))callback;
-- (void)deleteUser: (NSString *)userId callback:(void (^)(NSString *))callback;
+- (void)getAllUsers:(void (^)(NSString *, NSInteger *))callback;
+- (void)getPhrases:(NSString *)contentLanguage callback:(void (^)(NSString *, NSInteger *))callback;
+- (void)createUser:(void (^)(NSString *, NSInteger *))callback;
+- (void)checkUserExists:(NSString *)userId callback:(void (^)(NSString *, NSInteger *))callback;
+- (void)getGroupsForUser:(NSString *)userId callback:(void (^)(NSString *, NSInteger *))callback;
+- (void)deleteUser: (NSString *)userId callback:(void (^)(NSString *, NSInteger *))callback;
 
 #pragma mark - Group API Calls
-- (void)getAllGroups:(void (^)(NSString *))callback;
-- (void)getGroup:(NSString *)groupId callback:(void (^)(NSString *))callback;
-- (void)groupExists:(NSString *)groupId callback:(void (^)(NSString *))callback;
+- (void)getAllGroups:(void (^)(NSString *, NSInteger *))callback;
+- (void)getGroup:(NSString *)groupId callback:(void (^)(NSString *, NSInteger *))callback;
+- (void)groupExists:(NSString *)groupId callback:(void (^)(NSString *, NSInteger *))callback;
 - (void)createGroup:(void (^)(NSString *))callback;
 - (void)createGroup:(NSString *)description callback:(void (^)(NSString *))callback;
-- (void)addUserToGroup:(NSString *)groupId userId:(NSString *)userId callback:(void (^)(NSString *))callback;
-- (void)removeUserFromGroup:(NSString *)groupId userId:(NSString *)userId callback:(void (^)(NSString *))callback;
+- (void)addUserToGroup:(NSString *)groupId userId:(NSString *)userId callback:(void (^)(NSString *, NSInteger *))callback;
+- (void)removeUserFromGroup:(NSString *)groupId userId:(NSString *)userId callback:(void (^)(NSString *, NSInteger *))callback;
 - (void)deleteGroup: (NSString *)groupId callback:(void (^)(NSString *))callback;
 
 #pragma mark - Enrollment API Calls
-- (void)getAllVoiceEnrollments:(NSString *)userId callback:(void (^)(NSString *))callback;
-- (void)getAllFaceEnrollments:(NSString *)userId callback:(void (^)(NSString *))callback;
-- (void)getAllVideoEnrollments:(NSString *)userId callback:(void (^)(NSString *))callback;
-- (void)deleteAllEnrollments: (NSString *)userId callback:(void (^)(NSString *))callback;
+- (void)getAllVoiceEnrollments:(NSString *)userId callback:(void (^)(NSString *, NSInteger *))callback;
+- (void)getAllFaceEnrollments:(NSString *)userId callback:(void (^)(NSString *, NSInteger *))callback;
+- (void)getAllVideoEnrollments:(NSString *)userId callback:(void (^)(NSString *, NSInteger *))callback;
+- (void)deleteAllEnrollments:(NSString *)userId callback:(void (^)(NSString *, NSInteger *))callback;
+
 - (void)createVoiceEnrollment:(NSString *)userId
-              contentLanguage:(NSString*)contentLanguage
-                    audioPath:(NSString*)audioPath
-                       phrase:(NSString*)phrase
-                     callback:(void (^)(NSString *))callback;
+              contentLanguage:(NSString *)contentLanguage
+                    audioPath:(NSString *)audioPath
+                       phrase:(NSString *)phrase
+                     callback:(void (^)(NSString *, NSInteger *))callback;
 
 - (void)createFaceEnrollment:(NSString *)userId
-                   videoPath:(NSString*)videoPath
-                    callback:(void (^)(NSString *))callback;
+                   videoPath:(NSString *)videoPath
+                    callback:(void (^)(NSString *, NSInteger *))callback;
 
 - (void)createVideoEnrollment:(NSString *)userId
-              contentLanguage:(NSString*)contentLanguage
-                    imageData:(NSData*)imageData
-                    audioPath:(NSString*)audioPath
-                       phrase:(NSString*)phrase
-                     callback:(void (^)(NSString *))callback;
+              contentLanguage:(NSString *)contentLanguage
+                    imageData:(NSData *)imageData
+                    audioPath:(NSString *)audioPath
+                       phrase:(NSString *)phrase
+                     callback:(void (^)(NSString *, NSInteger *))callback;
 
 - (void)createVideoEnrollment:(NSString *)userId
-              contentLanguage:(NSString*)contentLanguage
-                    videoPath:(NSString*)videoPath
-                       phrase:(NSString*)phrase
-                     callback:(void (^)(NSString *))callback;
+              contentLanguage:(NSString *)contentLanguage
+                    videoPath:(NSString *)videoPath
+                       phrase:(NSString *)phrase
+                     callback:(void (^)(NSString *, NSInteger *))callback;
 
 #pragma mark - Verification API Calls
 
 - (void)voiceVerification:(NSString *)userId
-          contentLanguage:(NSString*)contentLanguage
-                audioPath:(NSString*)audioPath
-                   phrase:(NSString*)phrase
-                 callback:(void (^)(NSString *))callback;
+          contentLanguage:(NSString *)contentLanguage
+                audioPath:(NSString *)audioPath
+                   phrase:(NSString *)phrase
+                 callback:(void (^)(NSString *, NSInteger *))callback;
 
 - (void)faceVerification:(NSString *)userId
-               videoPath:(NSString*)videoPath
-                callback:(void (^)(NSString *))callback;
+               videoPath:(NSString *)videoPath
+                callback:(void (^)(NSString *, NSInteger *))callback;
 
 - (void)faceVerification:(NSString *)userId
-               imageData:(NSData*)imageData
-                callback:(void (^)(NSString *))callback;
+               imageData:(NSData *)imageData
+                callback:(void (^)(NSString *, NSInteger *))callback;
 
 - (void)faceVerificationWithLiveness:(NSString *)userId
-               videoPath:(NSString*)videoPath
-                callback:(void (^)(NSString *))callback
-                lcoId: (NSString *) lcoId
-                        pageCategory: (NSString *) pageCategory;
+                           videoPath:(NSString *)videoPath
+                            callback:(void (^)(NSString *, NSInteger *))callback
+                               lcoId:(NSString *) lcoId
+                        pageCategory:(NSString *) pageCategory;
 
 - (void)videoVerification:(NSString *)userId
-          contentLanguage:(NSString*)contentLanguage
-                videoPath:(NSString*)videoPath
-                  phrase:(NSString*)phrase
-                 callback:(void (^)(NSString *))callback;
+          contentLanguage:(NSString *)contentLanguage
+                videoPath:(NSString *)videoPath
+                   phrase:(NSString *)phrase
+                 callback:(void (^)(NSString *, NSInteger *))callback;
 
 - (void)videoVerification:(NSString *)userId
-          contentLanguage:(NSString*)contentLanguage
-                imageData:(NSData*)imageData
-                audioPath:(NSString*)audioPath
-                   phrase:(NSString*)phrase
-                 callback:(void (^)(NSString *))callback;
+          contentLanguage:(NSString *)contentLanguage
+                imageData:(NSData *)imageData
+                audioPath:(NSString *)audioPath
+                   phrase:(NSString *)phrase
+                 callback:(void (^)(NSString *, NSInteger *))callback;
 
 - (void)videoVerificationWithLiveness:(NSString *)lcoId
-                               userId:(NSString*)userId
-          contentLanguage:(NSString*)contentLanguage
-                videoPath:(NSString*)videoPath
-                   phrase:(NSString*)phrase
-                         pageCategory: (NSString*) pageCategory
-                             callback:(void (^)(NSString *))callback;
+                               userId:(NSString *)userId
+                      contentLanguage:(NSString *)contentLanguage
+                            videoPath:(NSString *)videoPath
+                               phrase:(NSString *)phrase
+                         pageCategory:(NSString *) pageCategory
+                             callback:(void (^)(NSString *, NSInteger *))callback;
+
 
 #pragma mark - Identification API Calls
 - (void)voiceIdentification:(NSString *)groupId
-            contentLanguage:(NSString*)contentLanguage
-                  audioPath:(NSString*)audioPath
-                     phrase:(NSString*)phrase
-                   callback:(void (^)(NSString *))callback;
+            contentLanguage:(NSString *)contentLanguage
+                  audioPath:(NSString *)audioPath
+                     phrase:(NSString *)phrase
+                   callback:(void (^)(NSString *, NSInteger *))callback;
 
 
 #pragma mark - Encapsulated Enrollment Methods
 
 - (void)encapsulatedVoiceEnrollUser:(NSString *)userId
-                    contentLanguage:(NSString*)contentLanguage
-                   voicePrintPhrase:(NSString*)voicePrintPhrase
+                    contentLanguage:(NSString *)contentLanguage
+                   voicePrintPhrase:(NSString *)voicePrintPhrase
            userEnrollmentsCancelled:(void (^)(void))userEnrollmentsCancelled
               userEnrollmentsPassed:(void (^)(NSString *))userEnrollmentsPassed;
 
@@ -141,23 +143,23 @@
              userEnrollmentsPassed:(void (^)(NSString *))userEnrollmentsPassed;
 
 - (void)encapsulatedVideoEnrollUser:(NSString *)userId
-                    contentLanguage:(NSString*)contentLanguage
-                   voicePrintPhrase:(NSString*)voicePrintPhrase
+                    contentLanguage:(NSString *)contentLanguage
+                   voicePrintPhrase:(NSString *)voicePrintPhrase
            userEnrollmentsCancelled:(void (^)(void))userEnrollmentsCancelled
               userEnrollmentsPassed:(void (^)(NSString *))userEnrollmentsPassed;
 
 #pragma mark - Encapsulated Verification Methods
 
 - (void)encapsulatedVoiceVerification:(NSString *)userId
-                      contentLanguage:(NSString*)contentLanguage
-                     voicePrintPhrase:(NSString*)voicePrintPhrase
+                      contentLanguage:(NSString *)contentLanguage
+                     voicePrintPhrase:(NSString *)voicePrintPhrase
             userVerificationCancelled:(void (^)(void))userVerificationCancelled
            userVerificationSuccessful:(void (^)(float, NSString *))userVerificationSuccessful
                userVerificationFailed:(void (^)(float, NSString *))userVerificationFailed;
 
 - (void)encapsulatedVoiceVerification:(NSString *)userId
-                      contentLanguage:(NSString*)contentLanguage
-                     voicePrintPhrase:(NSString*)voicePrintPhrase
+                      contentLanguage:(NSString *)contentLanguage
+                     voicePrintPhrase:(NSString *)voicePrintPhrase
                       numFailsAllowed:(int)numFailsAllowed
             userVerificationCancelled:(void (^)(void))userVerificationCancelled
            userVerificationSuccessful:(void (^)(float, NSString *))userVerificationSuccessful
@@ -171,19 +173,19 @@
           userVerificationSuccessful:(void (^)(float, NSString *))userVerificationSuccessful
               userVerificationFailed:(void (^)(float, NSString *))userVerificationFailed;
 
-- (void)encapsulatedFaceVerification:(NSString*)userId
+- (void)encapsulatedFaceVerification:(NSString *)userId
                  doLivenessDetection:(bool)doLivenessDetection
                       doAudioPrompts:(bool)doAudioPrompts
                      numFailsAllowed:(int)numFailsAllowed
-                     contentLanguage:(NSString*)contentLanguage
+                     contentLanguage:(NSString *)contentLanguage
        livenessChallengeFailsAllowed:(int)livenessChallengeFailsAllowed
            userVerificationCancelled:(void (^)(void))userVerificationCancelled
           userVerificationSuccessful:(void (^)(float, NSString *))userVerificationSuccessful
               userVerificationFailed:(void (^)(float, NSString *))userVerificationFailed;
 
-- (void)encapsulatedVideoVerification:(NSString*)userId
-                      contentLanguage:(NSString*)contentLanguage
-                     voicePrintPhrase:(NSString*)voicePrintPhrase
+- (void)encapsulatedVideoVerification:(NSString *)userId
+                      contentLanguage:(NSString *)contentLanguage
+                     voicePrintPhrase:(NSString *)voicePrintPhrase
                   doLivenessDetection:(bool)doLivenessDetection
                        doAudioPrompts:(bool)doAudioPrompts
             userVerificationCancelled:(void (^)(void))userVerificationCancelled
@@ -191,8 +193,8 @@
                userVerificationFailed:(void (^)(float, float, NSString *))userVerificationFailed;
 
 - (void)encapsulatedVideoVerification:(NSString *)userId
-                      contentLanguage:(NSString*)contentLanguage
-                     voicePrintPhrase:(NSString*)voicePrintPhrase
+                      contentLanguage:(NSString *)contentLanguage
+                     voicePrintPhrase:(NSString *)voicePrintPhrase
                   doLivenessDetection:(bool)doLivenessDetection
                        doAudioPrompts:(bool)doAudioPrompts
                       numFailsAllowed:(int)numFailsAllowed
@@ -204,15 +206,15 @@
 #pragma mark - Encapsulated Identification Methods
 
 - (void)encapsulatedVoiceIdentification:(NSString *)groupId
-                        contentLanguage:(NSString*)contentLanguage
-                       voicePrintPhrase:(NSString*)voicePrintPhrase
+                        contentLanguage:(NSString *)contentLanguage
+                       voicePrintPhrase:(NSString *)voicePrintPhrase
             userIdentificationCancelled:(void (^)(void))userIdentificationCancelled
            userIdentificationSuccessful:(void (^)(float, NSString *, NSString *))userIdentificationSuccessful
                userIdentificationFailed:(void (^)(float, NSString *))userIdentificationFailed;
 
 - (void)encapsulatedVoiceIdentification:(NSString *)groupId
-                        contentLanguage:(NSString*)contentLanguage
-                       voicePrintPhrase:(NSString*)voicePrintPhrase
+                        contentLanguage:(NSString *)contentLanguage
+                       voicePrintPhrase:(NSString *)voicePrintPhrase
                         numFailsAllowed:(int)numFailsAllowed
             userIdentificationCancelled:(void (^)(void))userIdentificationCancelled
            userIdentificationSuccessful:(void (^)(float, NSString *, NSString *))userIdentificationSuccessful
@@ -221,8 +223,9 @@
 
 #pragma mark - Liveness API Calls
 - (void)getLivenessID:(NSString *)userId
-          countryCode: (NSString *) countryCode
-             callback:(void (^)(NSString *))callback
+          countryCode:(NSString *) countryCode
+             callback:(void (^)(NSString *, NSInteger *))callback
              onFailed:(void(^)(NSError *))onFailed
-          pageCateory: (NSString *) pageCategory;
+          pageCateory:(NSString *) pageCategory;
+
 @end

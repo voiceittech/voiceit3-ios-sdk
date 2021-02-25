@@ -110,10 +110,12 @@
     self.audioPromptType = [jsonObj objectForKey:@"audioPrompt"];
     self.result = result;
     
+    // Remove the video file created on last pass
     [Utilities deleteFile:self.videoPath];
     // Remove rotating circle
     [self removeLoading];
 
+    // Failed Liveness and need to retry
     if(!self.success && retry){
         NSLog(@"Liveness Failed and Retry is True : result : %@", result);
         // Play LCO Failed Audio File
@@ -127,6 +129,7 @@
         });
     }
 
+    // Failed liveness all attempts now exit back to app
     if(!self.success && !retry){
         NSLog(@"Liveness Failed and Retry is False : result : %@", result);
         // Play LCO Failed Audio File
@@ -142,12 +145,15 @@
         });
     }
     
+    // Passed Liveness and Passed API 2 Verification
     if(self.success){
         NSLog(@"Liveness Passed and Retry is False : result : %@", self.uiMessage);
         self.isProcessing = NO;
         self.isSuccess = YES;
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.messageLabel setText:self.uiMessage];
+            // Hide Button
+            [self.cancelButton setHidden:YES];
         });
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
             [self dismissViewControllerAnimated: YES completion:^{
@@ -185,7 +191,7 @@
     if(!self.doLivenessDetection) return;
     
     [[self myVoiceIt] getLivenessID:self.userToVerifyUserId countryCode:
-     self.contentLanguage callback:^(NSString *response) {
+     self.contentLanguage callback:^(NSString *response, NSInteger * statusCode) {
         
         NSDictionary *data = [Utilities getJSONObject:response];
         self.lcoStrings = [data valueForKey:@"lcoStrings"];
@@ -485,7 +491,7 @@
         return;
     }
     [self setMessage:@""];
-    [self.myVoiceIt faceVerificationWithLiveness:self.userToVerifyUserId videoPath:self.videoPath callback:^(NSString *jsonResponse){
+    [self.myVoiceIt faceVerificationWithLiveness:self.userToVerifyUserId videoPath:self.videoPath callback:^(NSString * jsonResponse, NSInteger * statusCode){
         [self handleLivenessResponse:jsonResponse];
     } lcoId: self.lcoId pageCategory:@"verification"];
 }
@@ -495,7 +501,7 @@
     if(!self.continueRunning){
         return;
     }
-    [self.myVoiceIt faceVerification:self.userToVerifyUserId imageData:self.finalCapturedPhotoData callback:^(NSString * jsonResponse){
+    [self.myVoiceIt faceVerification:self.userToVerifyUserId imageData:self.finalCapturedPhotoData callback:^(NSString * jsonResponse, NSInteger * statusCode ){
         [self finishVerification:jsonResponse];
     }];
 }
@@ -524,11 +530,11 @@
 }
 
 -(void)startVerificationProcess{
-    [self.myVoiceIt getAllFaceEnrollments:_userToVerifyUserId callback:^(NSString * jsonResponse){
+    [self.myVoiceIt getAllFaceEnrollments:_userToVerifyUserId callback:^(NSString * jsonResponse, NSInteger * statusCode){
         NSDictionary *jsonObj = [Utilities getJSONObject:jsonResponse];
         NSString * responseCode = [jsonObj objectForKey:@"responseCode"];
         if([responseCode isEqualToString:@"SUCC"]){
-            [self.myVoiceIt getAllVideoEnrollments:self.userToVerifyUserId callback:^(NSString * jsonResponse){
+            [self.myVoiceIt getAllVideoEnrollments:self.userToVerifyUserId callback:^(NSString * jsonResponse, NSInteger * statusCode){
                 NSDictionary *jsonObj2 = [Utilities getJSONObject:jsonResponse];
                 int faceEnrollmentsCount = [[jsonObj valueForKey:@"count"] intValue];
                 int videoEnrollmentsCount = [[jsonObj2 valueForKey:@"count"] intValue];
@@ -683,7 +689,7 @@ didOutputMetadataObjects:(NSArray<__kindof AVMetadataObject *> *)metadataObjects
             [self.faceRectangleLayer setHidden:YES];
         }
         
-        if(self.doLivenessDetection && !self.isRecording && !self.lookingIntoCam && !self.isProcessing){
+        if(self.doLivenessDetection && !self.isRecording && !self.lookingIntoCam && !self.isProcessing && [self.progressView isHidden]){
             [self setMessage:[ResponseManager getMessage:@"LOOK_INTO_CAM"]];
             [self.cancelButton setTitle:[ResponseManager getMessage:@"Cancel"] forState:UIControlStateNormal];
         }

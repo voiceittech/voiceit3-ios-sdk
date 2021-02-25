@@ -84,7 +84,7 @@
     [self cleanupEverything];
 }
 
-#pragma mark - Liveness
+#pragma mark - Liveness Data
 
 -(void)handleLivenessResponse: (NSString*)result{
     NSDictionary *jsonObj = [Utilities getJSONObject:result];
@@ -94,9 +94,14 @@
     self.audioPromptType = [jsonObj objectForKey:@"audioPrompt"];
     self.result = result;
     
+    // Remove rotating circle
+    [self removeLoading];
+
+    // Failed Liveness and need to retry
     if(!self.success && retry){
-        [self removeLoading];
+        NSLog(@"Liveness Failed and Retry is True : result : %@", result);
         [self playSound:self.audioPromptType];
+        // Display message on UI
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.messageLabel setText:self.uiMessage];
         });
@@ -104,11 +109,13 @@
             [self startVerificationProcess];
         });
     }
-    
+
+    // Failed liveness all attempts now exit back to app
     if(!self.success && !retry){
-        [self removeLoading];
+        NSLog(@"Liveness Failed and Retry is False : result : %@", result);
         // Play LCO Failed Audio File
         [self playSound:self.audioPromptType];
+        // Display message on UI
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.messageLabel setText:self.uiMessage];
         });
@@ -119,11 +126,12 @@
         });
     }
     
+    // Passed Liveness and Passed API 2 Verification
     if(self.success){
-        [self removeLoading];
-        [self playSound:self.audioPromptType];
+        NSLog(@"Liveness Passed and Retry is False : result : %@", self.uiMessage);
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.messageLabel setText:self.uiMessage];
+            // Hide Button
             [self.cancelButton setHidden:YES];
         });
         
@@ -132,6 +140,7 @@
                 [self userVerificationSuccessful](0.0, 0.0, self.uiMessage);
             }];
         });
+        [self playSound:self.audioPromptType];
     }
 }
 
@@ -139,7 +148,7 @@
     [self.messageLabel setText: [ResponseManager getMessage:@"LOOK_INTO_CAM"]];
     [self.cancelButton setTitle:[ResponseManager getMessage:@"Cancel"] forState:UIControlStateNormal];
     [[self myVoiceIt] getLivenessID:self.userToVerifyUserId countryCode:
-     self.contentLanguage callback:^(NSString *response) {
+     self.contentLanguage callback:^(NSString *response, NSInteger * statusCode) {
         NSDictionary *data = [Utilities getJSONObject:response];
         self.lcoStrings = [data valueForKey:@"lcoStrings"];
         self.isChallengeRetrieved = [data valueForKey:@"success"];
@@ -417,7 +426,7 @@
 }
 
 -(void)checkEnrollments{
-    [self.myVoiceIt getAllVideoEnrollments:_userToVerifyUserId callback:^(NSString * jsonResponse){
+    [self.myVoiceIt getAllVideoEnrollments:_userToVerifyUserId callback:^(NSString * jsonResponse, NSInteger * statusCode){
         NSDictionary *jsonObj = [Utilities getJSONObject:jsonResponse];
         NSString * responseCode = [jsonObj objectForKey:@"responseCode"];
         if([responseCode isEqualToString:@"SUCC"]){
@@ -610,7 +619,7 @@ didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL
       fromConnections:(NSArray *)connections
                 error:(NSError *)error
 {
-    [self.myVoiceIt videoVerificationWithLiveness:self.lcoId userId: self.userToVerifyUserId contentLanguage:self.contentLanguage videoPath:[outputFileURL path] phrase:self.thePhrase pageCategory:@"verification" callback:^(NSString * result) {
+    [self.myVoiceIt videoVerificationWithLiveness:self.lcoId userId: self.userToVerifyUserId contentLanguage:self.contentLanguage videoPath:[outputFileURL path] phrase:self.thePhrase pageCategory:@"verification" callback:^(NSString * result, NSInteger * statusCode) {
         [self handleLivenessResponse: result];
     }];
     
@@ -673,7 +682,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     if(!self.continueRunning){
         return;
     }
-    [self.myVoiceIt videoVerification:self.userToVerifyUserId contentLanguage: self.contentLanguage imageData:self.finalCapturedPhotoData audioPath:self.audioPath phrase:self.thePhrase callback:^(NSString * jsonResponse){
+    [self.myVoiceIt videoVerification:self.userToVerifyUserId contentLanguage: self.contentLanguage imageData:self.finalCapturedPhotoData audioPath:self.audioPath phrase:self.thePhrase callback:^(NSString * jsonResponse, NSInteger * statusCode){
         [Utilities deleteFile:self.audioPath];
         self.imageNotSaved = YES;
         [self removeLoading];
