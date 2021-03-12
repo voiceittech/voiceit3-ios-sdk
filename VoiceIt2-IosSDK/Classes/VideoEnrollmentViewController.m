@@ -127,8 +127,8 @@
     self.cameraBorderLayer.cornerRadius = circleWidth / 2;
 
     // Setup Rectangle Around Face
+    self.faceRectangleLayer = [[CALayer alloc] init];
     [Utilities setupFaceRectangle:self.faceRectangleLayer];
-
     [rootLayer addSublayer:self.cameraBorderLayer];
     [rootLayer addSublayer:self.progressCircle];
     [rootLayer addSublayer:self.previewLayer];
@@ -189,6 +189,7 @@
     NSLog(@"Starting RECORDING");
     self.isRecording = YES;
     self.imageNotSaved = YES;
+    
     self.cameraBorderLayer.backgroundColor = [UIColor clearColor].CGColor;
     AVAudioSession *audioSession = [AVAudioSession sharedInstance];
     NSError *err;
@@ -366,6 +367,10 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 }
 
 - (void)audioRecorderDidFinishRecording:(AVAudioRecorder *)recorder successfully:(BOOL)flag{
+    NSLog(@"AUDIO RECORDED FINISHED SUCCESS = %d", flag);
+    if(!self.continueRunning){
+        return;
+    }
     [self stopRecording];
     if(self.imageNotSaved){
         [self startDelayedRecording:3.0];

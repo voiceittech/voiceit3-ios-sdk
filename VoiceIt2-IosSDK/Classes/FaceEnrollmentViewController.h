@@ -20,9 +20,9 @@
 
 #pragma mark -  Graphics/UI/Constraints/Animations
 @property CGFloat originalMessageLeftConstraintContstant;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *messageleftConstraint;
-@property (weak, nonatomic) IBOutlet UILabel *messageLabel;
-@property (weak, nonatomic) IBOutlet SpinningView *progressView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint * messageleftConstraint;
+@property (weak, nonatomic) IBOutlet UILabel * messageLabel;
+@property (weak, nonatomic) IBOutlet SpinningView * progressView;
 @property  CGPoint cameraCenterPoint;
 @property CAShapeLayer * progressCircle;
 @property CALayer * cameraBorderLayer;
@@ -31,9 +31,9 @@
 #pragma mark -  Camera Related Stuff
 @property AVCaptureSession * captureSession;
 @property AVCaptureDevice * videoDevice;
-@property AVCaptureVideoPreviewLayer *previewLayer;
-@property (nonatomic, strong) NSData *finalCapturedPhotoData;
-@property(nonatomic, strong) AVCaptureVideoDataOutput *videoDataOutput;
+@property AVCaptureVideoPreviewLayer * previewLayer;
+@property (nonatomic, strong) NSData * finalCapturedPhotoData;
+@property(nonatomic, strong) AVCaptureVideoDataOutput * videoDataOutput;
 @property(nonatomic, strong) dispatch_queue_t videoDataOutputQueue;
 
 #pragma mark -  Boolean Switches

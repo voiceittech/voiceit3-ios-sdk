@@ -9,11 +9,9 @@
 #import "VoiceItAPITwo.h"
 #import "Styles.h"
 
-NSString * const host = @"https://staging-api.voiceit.io/";
-NSString * const livenessHost = @"https://45918c42cb47.ngrok.io/";
-//NSString * const livenessHost = @"https://staging-liveness.voiceit.io/v1/";
-//NSString * const livenessHost = @"https://liveness.voiceit.io/v1/";
-NSString * const platformVersion = @"2.2.2";
+NSString * const host = @"https://api.voiceit.io/";
+NSString * const livenessHost = @"https://liveness.voiceit.io/v1/";
+NSString * const platformVersion = @"2.2.3";
 NSString * const platformId = @"41";
 @implementation VoiceItAPITwo
 

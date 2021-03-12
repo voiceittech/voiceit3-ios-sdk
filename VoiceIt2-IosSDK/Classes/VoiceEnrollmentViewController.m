@@ -118,7 +118,7 @@
     [self.audioRecorder recordForDuration:4.8];
 }
 
--(void)recordingStopped{
+-(void)stopRecording{
     self.isRecording = NO;
 }
 
@@ -195,11 +195,12 @@
 }
 
 - (void)audioRecorderDidFinishRecording:(AVAudioRecorder *)recorder successfully:(BOOL)flag{
+    NSLog(@"AUDIO RECORDED FINISHED SUCCESS = %d", flag);
     if(!self.continueRunning){
         return;
     }
     [self setAudioSessionInactive];
-    [self recordingStopped];
+    [self stopRecording];
     [self showLoading];
     [self.myVoiceIt createVoiceEnrollment:self.userToEnrollUserId contentLanguage:self.contentLanguage audioPath:self.audioPath phrase: self.thePhrase callback:^(NSString * jsonResponse, NSInteger * statusCode){
         [Utilities deleteFile:self.audioPath];

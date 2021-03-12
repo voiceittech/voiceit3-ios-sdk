@@ -36,7 +36,6 @@
     self.circleLayer.fillColor = nil;
     self.circleLayer.strokeColor = [Styles getMainCGColor];
     [[self layer] addSublayer:self.circleLayer];
-    NSLog(@"Setup Finished");
 }
 
 -(void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag{

@@ -123,8 +123,8 @@
     self.cameraBorderLayer.cornerRadius = circleWidth / 2;
 
     // Setup Rectangle Around Face
+    self.faceRectangleLayer = [[CALayer alloc] init];
     [Utilities setupFaceRectangle:self.faceRectangleLayer];
-
     [rootLayer addSublayer:self.cameraBorderLayer];
     [rootLayer addSublayer:self.progressCircle];
     [rootLayer addSublayer:self.previewLayer];

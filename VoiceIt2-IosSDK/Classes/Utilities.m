@@ -124,22 +124,34 @@
     }
 }
 
-+(void)setupFaceRectangle:(CALayer *)faceRectangleLayer{
-    faceRectangleLayer = [[CALayer alloc] init];
-    faceRectangleLayer.zPosition = 1;
-    faceRectangleLayer.borderColor = [Styles getMainCGColor];
-    faceRectangleLayer.borderWidth  = 1.5;
-    faceRectangleLayer.opacity = 0.5;
-    [faceRectangleLayer setHidden:YES];
++(void) setupFaceRectangle:(CALayer *)faceRectangleLayer{
+    __block CALayer * faceRectangleLayerToUse  = faceRectangleLayer;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        faceRectangleLayerToUse.zPosition = 1;
+        faceRectangleLayerToUse.borderColor = [Styles getMainCGColor];
+        faceRectangleLayerToUse.borderWidth  = 3.5;
+        faceRectangleLayerToUse.opacity = 0.5;
+        faceRectangleLayerToUse.hidden = YES;
+        [faceRectangleLayerToUse setHidden:YES];
+    });
 }
 
-+(void)showFaceRectangle:(CALayer *)faceRectangleLayer face:(AVMetadataObject *)face {
-    [faceRectangleLayer setHidden:NO];
-    CGFloat padding = 20.0;
-    CGFloat halfPadding = padding/3;
-    CGRect faceRectangle = CGRectMake(face.bounds.origin.x - halfPadding, face.bounds.origin.y - halfPadding, face.bounds.size.width, face.bounds.size.height + padding);
-    faceRectangleLayer.frame = faceRectangle;
-    faceRectangleLayer.cornerRadius = 10.0;
++(void) showFaceRectangle:(CALayer *)faceRectangleLayer face:(AVMetadataObject *)face {
+    __block CALayer * faceRectangleLayerToUse  = faceRectangleLayer;
+    __block AVMetadataObject * faceToUse  = face;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSLog(@"show Face Rectangle");
+        [faceRectangleLayerToUse setHidden:NO];
+        faceRectangleLayerToUse.hidden = NO;
+        faceRectangleLayerToUse.zPosition = 1;
+        CGFloat xPadding = 2.5;
+        CGFloat yPadding = -10.0;
+        CGFloat heightPadding = 20.0;
+        CGRect faceRectangle = CGRectMake(faceToUse.bounds.origin.x + xPadding, faceToUse.bounds.origin.y + yPadding, faceToUse.bounds.size.width, faceToUse.bounds.size.height + heightPadding);
+        faceRectangleLayerToUse.frame = faceRectangle;
+        faceRectangleLayerToUse.drawsAsynchronously = YES;
+        faceRectangleLayerToUse.cornerRadius = 10.0;
+    });
 }
 
 +(void)setBottomCornersForCancelButton:(UIButton *)cancelButton{
