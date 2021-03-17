@@ -123,7 +123,7 @@
 }
 
 -(void)startEnrollmentProcess {
-    [self.myVoiceIt deleteAllEnrollments:self.userToEnrollUserId callback:^(NSString * deleteEnrollmentsJSONResponse, NSInteger * statusCode){
+    [self.myVoiceIt deleteAllEnrollments:self.userToEnrollUserId callback:^(NSString * deleteEnrollmentsJSONResponse){
                 NSLog(@"DELETING ENROLLMENTS IN THE BEGINNING %@",deleteEnrollmentsJSONResponse);
                 [self startDelayedRecording:0.0];
     }];
@@ -182,7 +182,7 @@
         [[self navigationController] dismissViewControllerAnimated:YES completion:^{
             [[self myNavController] userEnrollmentsCancelled];
         }];
-        [self.myVoiceIt deleteAllEnrollments:self.userToEnrollUserId callback:^(NSString * deleteEnrollmentsJSONResponse, NSInteger * statusCode){}];
+        [self.myVoiceIt deleteAllEnrollments:self.userToEnrollUserId callback:^(NSString * deleteEnrollmentsJSONResponse){}];
     });
 }
 
@@ -202,7 +202,7 @@
     [self setAudioSessionInactive];
     [self stopRecording];
     [self showLoading];
-    [self.myVoiceIt createVoiceEnrollment:self.userToEnrollUserId contentLanguage:self.contentLanguage audioPath:self.audioPath phrase: self.thePhrase callback:^(NSString * jsonResponse, NSInteger * statusCode){
+    [self.myVoiceIt createVoiceEnrollment:self.userToEnrollUserId contentLanguage:self.contentLanguage audioPath:self.audioPath phrase: self.thePhrase callback:^(NSString * jsonResponse){
         [Utilities deleteFile:self.audioPath];
         [self removeLoading];
         NSLog(@"Voice Enrollment JSON Response : %@", jsonResponse);

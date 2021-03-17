@@ -185,7 +185,7 @@
     if(!self.doLivenessDetection) return;
         
     [[self myVoiceIt] getLivenessID:self.userToVerifyUserId countryCode:
-     self.contentLanguage callback:^(NSString *response, NSInteger * statusCode) {
+     self.contentLanguage callback:^(NSString *response) {
         
         NSDictionary *data = [Utilities getJSONObject:response];
         self.lcoStrings = [data valueForKey:@"lcoStrings"];
@@ -520,7 +520,7 @@
     [self clearCircleAnimations];
     [self showUploadingCircle];
     [self setMessage:@""];
-    [self.myVoiceIt faceVerificationWithLiveness:self.userToVerifyUserId videoPath:self.videoPath callback:^(NSString * jsonResponse, NSInteger * statusCode){
+    [self.myVoiceIt faceVerificationWithLiveness:self.userToVerifyUserId videoPath:self.videoPath callback:^(NSString * jsonResponse){
         [self handleLivenessResponse:jsonResponse];
     } lcoId: self.lcoId pageCategory:@"verification"];
 }
@@ -532,7 +532,7 @@
     }
     [self clearCircleAnimations];
     [self showUploadingCircle];
-    [self.myVoiceIt faceVerification:self.userToVerifyUserId imageData:self.finalCapturedPhotoData callback:^(NSString * jsonResponse, NSInteger * statusCode ){
+    [self.myVoiceIt faceVerification:self.userToVerifyUserId imageData:self.finalCapturedPhotoData callback:^(NSString * jsonResponse){
         [self finishVerification:jsonResponse];
     }];
 }
@@ -567,11 +567,11 @@
     if (!self.continueRunning) {
         return;
     }
-    [self.myVoiceIt getAllFaceEnrollments:_userToVerifyUserId callback:^(NSString * jsonResponse, NSInteger * statusCode){
+    [self.myVoiceIt getAllFaceEnrollments:_userToVerifyUserId callback:^(NSString * jsonResponse){
         NSDictionary *jsonObj = [Utilities getJSONObject:jsonResponse];
         NSString * responseCode = [jsonObj objectForKey:@"responseCode"];
         if([responseCode isEqualToString:@"SUCC"]){
-            [self.myVoiceIt getAllVideoEnrollments:self.userToVerifyUserId callback:^(NSString * jsonResponse, NSInteger * statusCode){
+            [self.myVoiceIt getAllVideoEnrollments:self.userToVerifyUserId callback:^(NSString * jsonResponse){
                 NSDictionary *jsonObj2 = [Utilities getJSONObject:jsonResponse];
                 int faceEnrollmentsCount = [[jsonObj valueForKey:@"count"] intValue];
                 int videoEnrollmentsCount = [[jsonObj2 valueForKey:@"count"] intValue];

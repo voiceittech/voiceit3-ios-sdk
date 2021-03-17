@@ -184,7 +184,7 @@
     if(!self.doLivenessDetection) return;
     
     [[self myVoiceIt] getLivenessID:self.userToVerifyUserId countryCode:
-     self.contentLanguage callback:^(NSString *response, NSInteger * statusCode) {
+     self.contentLanguage callback:^(NSString *response) {
         
         NSDictionary *data = [Utilities getJSONObject:response];
         self.lcoStrings = [data valueForKey:@"lcoStrings"];
@@ -497,7 +497,7 @@
     if (!self.continueRunning) {
         return;
     }
-        [self.myVoiceIt getAllVideoEnrollments:_userToVerifyUserId callback:^(NSString * jsonResponse, NSInteger * statusCode){
+        [self.myVoiceIt getAllVideoEnrollments:_userToVerifyUserId callback:^(NSString * jsonResponse){
             NSDictionary *jsonObj = [Utilities getJSONObject:jsonResponse];
             NSString * responseCode = [jsonObj objectForKey:@"responseCode"];
             if([responseCode isEqualToString:@"SUCC"]){
@@ -800,7 +800,7 @@ didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL
     if (!self.continueRunning) {
         return;
     }
-    [self.myVoiceIt videoVerificationWithLiveness:self.lcoId userId: self.userToVerifyUserId contentLanguage:self.contentLanguage videoPath:[outputFileURL path] phrase:self.thePhrase pageCategory:@"verification" callback:^(NSString * result, NSInteger * statusCode) {
+    [self.myVoiceIt videoVerificationWithLiveness:self.lcoId userId: self.userToVerifyUserId contentLanguage:self.contentLanguage videoPath:[outputFileURL path] phrase:self.thePhrase pageCategory:@"verification" callback:^(NSString * result) {
         [self handleLivenessResponse: result];
     }];
     
@@ -878,7 +878,7 @@ didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL
     [self.messageLabel setText:@""];
     [self showUploadingCircle];
     NSLog(@"Making API2 videoVerication call to server");
-    [self.myVoiceIt videoVerification:self.userToVerifyUserId contentLanguage: self.contentLanguage imageData:self.finalCapturedPhotoData audioPath:self.audioPath phrase:self.thePhrase callback:^(NSString * jsonResponse, NSInteger * statusCode){
+    [self.myVoiceIt videoVerification:self.userToVerifyUserId contentLanguage: self.contentLanguage imageData:self.finalCapturedPhotoData audioPath:self.audioPath phrase:self.thePhrase callback:^(NSString * jsonResponse){
         [Utilities deleteFile:self.audioPath];
         self.imageIsSaved = NO;
         

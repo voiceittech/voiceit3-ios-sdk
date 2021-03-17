@@ -266,7 +266,7 @@
         if(!self.continueRunning){
             return;
         }
-        [self.myVoiceIt createFaceEnrollment:self.userToEnrollUserId videoPath:self.videoPath callback:^(NSString * jsonResponse, NSInteger * statusCode){
+        [self.myVoiceIt createFaceEnrollment:self.userToEnrollUserId videoPath:self.videoPath callback:^(NSString * jsonResponse){
             [Utilities deleteFile:self.videoPath];
             [self removeLoading];
             NSLog(@"Face Enrollment JSON Response : %@", jsonResponse);
@@ -274,6 +274,7 @@
             NSLog(@"Response Code is %@ and message is : %@", [jsonObj objectForKey:@"responseCode"], [jsonObj objectForKey:@"message"]);
             NSString * responseCode = [jsonObj objectForKey:@"responseCode"];
             if([responseCode isEqualToString:@"SUCC"]){
+                [[self myNavController] userEnrollmentsPassed](jsonResponse);
                 [self takeToFinishedView:jsonResponse];
             } else {
                 if([Utilities isBadResponseCode:responseCode]){
@@ -294,7 +295,7 @@
 }
 
 -(void)startEnrollmentProcess {
-    [self.myVoiceIt deleteAllEnrollments:self.userToEnrollUserId callback:^(NSString * deleteEnrollmentsJSONResponse, NSInteger * statusCode){
+    [self.myVoiceIt deleteAllEnrollments:self.userToEnrollUserId callback:^(NSString * deleteEnrollmentsJSONResponse){
                 [self makeLabelFlyIn: [ResponseManager getMessage:@"GET_ENROLLED"]];
                 [self startDelayedRecording:2.0];
     }];
@@ -330,7 +331,7 @@
         [[self navigationController] dismissViewControllerAnimated:YES completion:^{
             [[self myNavController] userEnrollmentsCancelled];
         }];
-        [self.myVoiceIt deleteAllEnrollments:self.userToEnrollUserId callback:^(NSString * deleteEnrollmentsJSONResponse, NSInteger * statusCode){}];
+        [self.myVoiceIt deleteAllEnrollments:self.userToEnrollUserId callback:^(NSString * deleteEnrollmentsJSONResponse){}];
     });
 }
 
