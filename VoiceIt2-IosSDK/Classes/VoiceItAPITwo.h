@@ -31,6 +31,8 @@
 - (id)init:(UIViewController *)masterViewController apiKey:(NSString *)apiKey apiToken:(NSString *) apiToken;
 - (id)init:(UIViewController *)masterViewController apiKey:(NSString *)apiKey apiToken:(NSString *) apiToken styles:(NSMutableDictionary *) styles;
 
+- (void)setNotificationURL:(NSString *) notificationURL;
+
 #pragma mark - User API Calls
 - (void)getAllUsers:(void (^)(NSString *))callback;
 - (void)getPhrases:(NSString *)contentLanguage callback:(void (^)(NSString *))callback;
@@ -105,6 +107,7 @@
                 videoPath:(NSString *)videoPath
                    phrase:(NSString *)phrase
                  callback:(void (^)(NSString *))callback;
+
 
 - (void)videoVerification:(NSString *)userId
           contentLanguage:(NSString *)contentLanguage

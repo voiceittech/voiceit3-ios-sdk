@@ -13,6 +13,7 @@ NSString * const host = @"https://api.voiceit.io/";
 NSString * const livenessHost = @"https://liveness.voiceit.io/v1/";
 NSString * const platformVersion = @"2.2.5";
 NSString * const platformId = @"41";
+NSString * notificationURL = @"";
 @implementation VoiceItAPITwo
 
 #pragma mark - Constructor
@@ -28,7 +29,14 @@ NSString * const platformId = @"41";
     self.masterViewController = masterViewController;
 #pragma mark - Save Styles Passed to Styles Class
     [Styles set:styles];
+//    [self setNotificationURL:@"khg"];
     return self;
+}
+
+- (void)setNotificationURL:(NSString *)nURL{
+    NSString *url = @"?notificationURL=";
+    url = [url stringByAppendingString:nURL];
+    notificationURL = url;
 }
 
 #pragma mark - Phrase API Calls
@@ -37,7 +45,7 @@ NSString * const platformId = @"41";
           callback:(void (^)(NSString *))callback
 {
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
-                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@/%@",[self buildURL:@"phrases"], contentLanguage]]];
+                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@/%@%@",[self buildURL:@"phrases"], contentLanguage, notificationURL]]];
     NSURLSession *session = [NSURLSession sharedSession];
     [request setHTTPMethod:@"GET"];
     [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
@@ -61,7 +69,7 @@ NSString * const platformId = @"41";
 - (void)getAllUsers:(void (^)(NSString *))callback
 {
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
-                                    initWithURL:[[NSURL alloc] initWithString:[self buildURL:@"users"]]];
+                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@%@",[self buildURL:@"users"], notificationURL]]];
     NSURLSession *session = [NSURLSession sharedSession];
     [request setHTTPMethod:@"GET"];
     [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
@@ -91,7 +99,7 @@ NSString * const platformId = @"41";
     }
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
-                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@/%@",[self buildURL:@"users"], userId]]];
+                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@/%@%@",[self buildURL:@"users"], userId, notificationURL]]];
     NSURLSession *session = [NSURLSession sharedSession];
     [request setHTTPMethod:@"GET"];
     [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
@@ -121,7 +129,7 @@ NSString * const platformId = @"41";
     }
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
-                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@/%@/%@",[self buildURL:@"users"], userId, @"groups"]]
+                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@/%@/%@%@",[self buildURL:@"users"], userId, @"groups", notificationURL]]
                                     ];
     NSURLSession *session = [NSURLSession sharedSession];
     [request setHTTPMethod:@"GET"];
@@ -144,7 +152,7 @@ NSString * const platformId = @"41";
 - (void)createUser:(void (^)(NSString *))callback
 {
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
-                                    initWithURL:[[NSURL alloc] initWithString:[self buildURL:@"users"]]];
+                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@%@",[self buildURL:@"users"], notificationURL]]];
     NSURLSession *session = [NSURLSession sharedSession];
     [request setHTTPMethod:@"POST"];
     [request addValue:platformId forHTTPHeaderField:@"platformId"];
@@ -172,7 +180,7 @@ NSString * const platformId = @"41";
     }
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
-                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@/%@",[self buildURL:@"users"], userId]]];
+                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@/%@%@",[self buildURL:@"users"], userId,notificationURL]]];
     NSURLSession *session = [NSURLSession sharedSession];
     [request setHTTPMethod:@"DELETE"];
     [request addValue:platformId forHTTPHeaderField:@"platformId"];
@@ -195,7 +203,7 @@ NSString * const platformId = @"41";
 - (void)getAllGroups:(void (^)(NSString *))callback
 {
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
-                                    initWithURL:[[NSURL alloc] initWithString:[self buildURL:@"groups"]]];
+                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@%@",[self buildURL:@"groups"], notificationURL]]];
     NSURLSession *session = [NSURLSession sharedSession];
     [request setHTTPMethod:@"GET"];
     [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
@@ -225,7 +233,7 @@ NSString * const platformId = @"41";
     }
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
-                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@/%@",[self buildURL:@"groups"], groupId]]];
+                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@/%@%@",[self buildURL:@"groups"], groupId,notificationURL]]];
     
     NSURLSession *session = [NSURLSession sharedSession];
     [request setHTTPMethod:@"GET"];
@@ -256,7 +264,7 @@ NSString * const platformId = @"41";
     }
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
-                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@/%@/exists",[self buildURL:@"groups"], groupId]]];
+                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@/%@/exists%@",[self buildURL:@"groups"], groupId, notificationURL]]];
     
     NSURLSession *session = [NSURLSession sharedSession];
     [request setHTTPMethod:@"GET"];
@@ -285,7 +293,7 @@ NSString * const platformId = @"41";
     
     NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", self.boundary];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
-                                    initWithURL:[[NSURL alloc] initWithString:[self buildURL:@"groups"]]];
+                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@%@",[self buildURL:@"groups"], notificationURL]]];
     NSURLSession *session = [NSURLSession sharedSession];
     [request setHTTPMethod:@"POST"];
     
@@ -324,10 +332,9 @@ NSString * const platformId = @"41";
         return;
     }
     
-    
     NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", self.boundary];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
-                                    initWithURL:[[NSURL alloc] initWithString:[self buildURL:@"groups/addUser"]]];
+                                    initWithURL:[[NSURL alloc] initWithString:[ [NSString alloc] initWithFormat:@"%@%@",[self buildURL:@"groups/addUser"], notificationURL]]];
     NSURLSession *session = [NSURLSession sharedSession];
     [request setHTTPMethod:@"PUT"];
     
@@ -368,7 +375,7 @@ NSString * const platformId = @"41";
     
     NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", self.boundary];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
-                                    initWithURL:[[NSURL alloc] initWithString:[self buildURL:@"groups/removeUser"]]];
+                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@%@",[self buildURL:@"groups/removeUser"], notificationURL]]];
     NSURLSession *session = [NSURLSession sharedSession];
     [request setHTTPMethod:@"PUT"];
     
@@ -401,7 +408,7 @@ NSString * const platformId = @"41";
     
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
-                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@/%@",[self buildURL:@"groups"], groupId]]];
+                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@/%@%@",[self buildURL:@"groups"], groupId,notificationURL]]];
     NSURLSession *session = [NSURLSession sharedSession];
     [request setHTTPMethod:@"DELETE"];
     [request addValue:platformId forHTTPHeaderField:@"platformId"];
@@ -431,7 +438,7 @@ NSString * const platformId = @"41";
     
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
-                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@/%@",[self buildURL:@"enrollments/voice"], userId]]];
+                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@/%@%@",[self buildURL:@"enrollments/voice"], userId, notificationURL]]];
     NSURLSession *session = [NSURLSession sharedSession];
     [request setHTTPMethod:@"GET"];
     [request addValue:platformId forHTTPHeaderField:@"platformId"];
@@ -460,7 +467,7 @@ NSString * const platformId = @"41";
     
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
-                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@/%@",[self buildURL:@"enrollments/face"], userId]]];
+                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@/%@%@",[self buildURL:@"enrollments/face"], userId,notificationURL]]];
     NSURLSession *session = [NSURLSession sharedSession];
     [request setHTTPMethod:@"GET"];
     [request addValue:platformId forHTTPHeaderField:@"platformId"];
@@ -489,7 +496,7 @@ NSString * const platformId = @"41";
     
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
-                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@/%@",[self buildURL:@"enrollments/video"], userId]]];
+                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@/%@%@",[self buildURL:@"enrollments/video"], userId,notificationURL]]];
     NSURLSession *session = [NSURLSession sharedSession];
     [request setHTTPMethod:@"GET"];
     [request addValue:platformId forHTTPHeaderField:@"platformId"];
@@ -517,7 +524,7 @@ NSString * const platformId = @"41";
     }
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
-                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@/%@/all",[self buildURL:@"enrollments"], userId]]];
+                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@/%@/all%@",[self buildURL:@"enrollments"], userId,notificationURL]]];
     NSURLSession *session = [NSURLSession sharedSession];
     [request setHTTPMethod:@"DELETE"];
     [request addValue:platformId forHTTPHeaderField:@"platformId"];
@@ -547,9 +554,10 @@ NSString * const platformId = @"41";
         return;
     }
     
+    
     NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", self.boundary];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
-                                    initWithURL:[[NSURL alloc] initWithString:[self buildURL:@"enrollments/voice"]]];
+                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@%@",[self buildURL:@"enrollments/voice"], notificationURL]]];
     NSURLSession *session = [NSURLSession sharedSession];
     [request setHTTPMethod:@"POST"];
     
@@ -588,7 +596,8 @@ NSString * const platformId = @"41";
     
     NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; charset=utf-8; boundary=%@", self.boundary];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
-                                    initWithURL:[[NSURL alloc] initWithString:[self buildURL:@"enrollments/face"]]];
+                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@%@",[self buildURL:@"enrollments/face"], notificationURL]]];
+    NSLog(notificationURL);
     NSURLSession *session = [NSURLSession sharedSession];
     [request setHTTPMethod:@"POST"];
     
@@ -628,7 +637,7 @@ NSString * const platformId = @"41";
     
     NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; charset=utf-8; boundary=%@", self.boundary];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
-                                    initWithURL:[[NSURL alloc] initWithString:[self buildURL:@"enrollments/video"]]];
+                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@%@",[self buildURL:@"enrollments/video"], notificationURL]]];
     NSURLSession *session = [NSURLSession sharedSession];
     [request setHTTPMethod:@"POST"];
     
@@ -670,7 +679,7 @@ NSString * const platformId = @"41";
     
     NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", self.boundary];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
-                                    initWithURL:[[NSURL alloc] initWithString:[self buildURL:@"enrollments/video"]]];
+                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@%@",[self buildURL:@"enrollments/video"], notificationURL]]];
     NSURLSession *session = [NSURLSession sharedSession];
     [request setHTTPMethod:@"POST"];
     
@@ -988,7 +997,7 @@ NSString * const platformId = @"41";
     
     NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; charset=utf-8; boundary=%@", self.boundary];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
-                                    initWithURL:[[NSURL alloc] initWithString:[self buildURL:@"verification/voice"]]];
+                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@%@",[self buildURL:@"verification/voice"], notificationURL]]];
     NSURLSession *session = [NSURLSession sharedSession];
     [request setHTTPMethod:@"POST"];
     
@@ -1027,7 +1036,7 @@ NSString * const platformId = @"41";
     
     NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; charset=utf-8; boundary=%@", self.boundary];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
-                                    initWithURL:[[NSURL alloc] initWithString:[self buildURL:@"verification/face"]]];
+                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@%@",[self buildURL:@"verification/face"], notificationURL]]];
     NSURLSession *session = [NSURLSession sharedSession];
     [request setHTTPMethod:@"POST"];
     
@@ -1065,7 +1074,7 @@ NSString * const platformId = @"41";
     
     NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; charset=utf-8; boundary=%@", self.boundary];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
-                                    initWithURL:[[NSURL alloc] initWithString:[self buildURL:@"verification/face"]]];
+                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@%@",[self buildURL:@"verification/face"], notificationURL]]];
     NSURLSession *session = [NSURLSession sharedSession];
     [request setHTTPMethod:@"POST"];
     
@@ -1105,7 +1114,7 @@ NSString * const platformId = @"41";
     
     NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; charset=utf-8; boundary=%@", self.boundary];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
-                                    initWithURL:[[NSURL alloc] initWithString:[self buildLivenessURL:@"face" pageCategory:pageCategory]]];
+                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@%@",[self buildLivenessURL:@"face" pageCategory:pageCategory], notificationURL]]];
     NSURLSession *session = [NSURLSession sharedSession];
     [request setHTTPMethod:@"POST"];
     
@@ -1143,10 +1152,10 @@ NSString * const platformId = @"41";
                                      userInfo:nil];
         return;
     }
-    
+
     NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; charset=utf-8; boundary=%@", self.boundary];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
-                                    initWithURL:[[NSURL alloc] initWithString:[self buildURL:@"verification/video"]]];
+                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@%@",[self buildURL:@"verification/video"], notificationURL]]];
     NSURLSession *session = [NSURLSession sharedSession];
     [request setHTTPMethod:@"POST"];
     
@@ -1188,7 +1197,7 @@ NSString * const platformId = @"41";
     
     NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; charset=utf-8; boundary=%@", self.boundary];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
-                                    initWithURL:[[NSURL alloc] initWithString:[self buildURL:@"verification/video"]]];
+                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@%@",[self buildURL:@"verification/video"], notificationURL]]];
     NSURLSession *session = [NSURLSession sharedSession];
     [request setHTTPMethod:@"POST"];
     
@@ -1223,8 +1232,9 @@ NSString * const platformId = @"41";
                              callback:(void (^)(NSString *))callback {
     
     NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; charset=utf-8; boundary=%@", self.boundary];
+    
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
-                                    initWithURL:[[NSURL alloc] initWithString:[self buildLivenessURL:@"video" pageCategory:pageCategory]]];
+                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@%@",[self buildLivenessURL:@"video" pageCategory:pageCategory], notificationURL]]];
     NSURLSession *session = [NSURLSession sharedSession];
     [request setHTTPMethod:@"POST"];
     
@@ -1266,8 +1276,10 @@ NSString * const platformId = @"41";
     }
     
     NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; charset=utf-8; boundary=%@", self.boundary];
+    
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
-                                    initWithURL:[[NSURL alloc] initWithString:[self buildURL:@"identification/voice"]]];
+                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@%@",[self buildURL:@"identification/voice"], notificationURL]]];
+    
     NSURLSession *session = [NSURLSession sharedSession];
     [request setHTTPMethod:@"POST"];
     [request setValue:contentType forHTTPHeaderField: @"Content-Type"];
@@ -1304,8 +1316,9 @@ NSString * const platformId = @"41";
     }
     
     NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; charset=utf-8; boundary=%@", self.boundary];
+    
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
-                                    initWithURL:[[NSURL alloc] initWithString:[self buildURL:@"identification/face"]]];
+                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@%@",[self buildURL:@"identification/face"], notificationURL]]];
     NSURLSession *session = [NSURLSession sharedSession];
     [request setHTTPMethod:@"POST"];
     
@@ -1343,7 +1356,7 @@ NSString * const platformId = @"41";
     
     NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; charset=utf-8; boundary=%@", self.boundary];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
-                                    initWithURL:[[NSURL alloc] initWithString:[self buildURL:@"identification/face"]]];
+                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@%@",[self buildURL:@"identification/voice"], notificationURL]]];
     NSURLSession *session = [NSURLSession sharedSession];
     [request setHTTPMethod:@"POST"];
     [request setValue:contentType forHTTPHeaderField: @"Content-Type"];
@@ -1383,7 +1396,7 @@ NSString * const platformId = @"41";
     
     NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; charset=utf-8; boundary=%@", self.boundary];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
-                                    initWithURL:[[NSURL alloc] initWithString:[self buildURL:@"identification/video"]]];
+                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@%@",[self buildURL:@"identification/video"], notificationURL]]];
     NSURLSession *session = [NSURLSession sharedSession];
     [request setHTTPMethod:@"POST"];
     [request setValue:contentType forHTTPHeaderField: @"Content-Type"];
@@ -1424,7 +1437,7 @@ NSString * const platformId = @"41";
     
     NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; charset=utf-8; boundary=%@", self.boundary];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
-                                    initWithURL:[[NSURL alloc] initWithString:[self buildURL:@"identification/video"]]];
+                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@%@",[self buildURL:@"identification/video"], notificationURL]]];
     NSURLSession *session = [NSURLSession sharedSession];
     [request setHTTPMethod:@"POST"];
     
@@ -1576,8 +1589,10 @@ NSString * const platformId = @"41";
              onFailed:(void(^)(NSError *))onFailed
           pageCateory: (NSString *) pageCategory {
     
+    
+    
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
-                                    initWithURL: [[NSURL alloc] initWithString:[self buildLivenessURLForCountry:countryCode withUserID:userId pageCategory:pageCategory]]];
+                                    initWithURL: [[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@%@",[self buildLivenessURLForCountry:countryCode withUserID:userId pageCategory:pageCategory], notificationURL]]];
     NSURLSession *session = [NSURLSession sharedSession];
     [request setHTTPMethod:@"GET"];
     [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
