@@ -61,6 +61,7 @@
 "NFEF"= "Sorry, not enough face enrollments detected.\nPlease enroll before verifying.";
 "NFEF_IDENTIFICATION"= "Sorry, not enough face enrollments detected.\nPlease enroll before identification.";
 "NEHSD" = "Sorry, I couldn't quite catch that.\nPlease speak slower.";
+"NSPE" = "Enrollment not similar to previous enrollments";
 "STTF" = "Sorry, I couldn't understand you.\nPlease make sure you are saying \"%@\"";
 "SSTQ" = "Sorry, I couldn't quite hear you.\nPlease speak louder.";
 "SSTL" = "Oh! Its getting a little too loud in here.\nLet's try this again, speaking at a normal volume";

@@ -402,7 +402,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
                         }];
                     });
                 }
-                else if([responseCode isEqualToString:@"STTF"] || [responseCode isEqualToString:@"PDNM"]){
+                else if([responseCode isEqualToString:@"NSPE"] || [responseCode isEqualToString:@"STTF"] || [responseCode isEqualToString:@"PDNM"]){
                     [self startDelayedRecording:3.0];
                     [self makeLabelFlyIn:[ResponseManager getMessage: responseCode variable:self.thePhrase]];
                 } else {
