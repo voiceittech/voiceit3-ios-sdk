@@ -11,7 +11,7 @@
 
 NSString * const host = @"https://api.voiceit.io/";
 NSString * const livenessHost = @"https://liveness.voiceit.io/v1/";
-NSString * const platformVersion = @"2.2.5";
+NSString * const platformVersion = @"2.2.6";
 NSString * const platformId = @"41";
 NSString * notificationURL = @"";
 @implementation VoiceItAPITwo
@@ -597,7 +597,6 @@ NSString * notificationURL = @"";
     NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; charset=utf-8; boundary=%@", self.boundary];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
                                     initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@%@",[self buildURL:@"enrollments/face"], notificationURL]]];
-    NSLog(notificationURL);
     NSURLSession *session = [NSURLSession sharedSession];
     [request setHTTPMethod:@"POST"];
     
