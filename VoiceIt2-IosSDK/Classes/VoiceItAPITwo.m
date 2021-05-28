@@ -1104,9 +1104,14 @@ NSString * notificationURL = @"";
                                lcoId:(NSString *) lcoId
                         pageCategory:(NSString *) pageCategory {
 
-    if([userId isEqualToString:@""] || ![[self getFirst:userId numChars:4] isEqualToString:@"usr_"] || lcoId == nil){
+    if([userId isEqualToString:@""] || ![[self getFirst:userId numChars:4] isEqualToString:@"usr_"]){
         @throw [NSException exceptionWithName:@"Cannot Call Face Verification"
                                        reason:@"Invalid userId passed"
+                                     userInfo:nil];
+        return;
+    } else if (lcoId == nil) {
+        @throw [NSException exceptionWithName:@"Cannot Call Face Verification"
+                                       reason:@"LCO  id is nil, please contact support"
                                      userInfo:nil];
         return;
     }
