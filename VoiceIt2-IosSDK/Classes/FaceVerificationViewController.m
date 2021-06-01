@@ -804,7 +804,18 @@ didOutputMetadataObjects:(NSArray<__kindof AVMetadataObject *> *)metadataObjects
         
         if(!self.doLivenessDetection){
             CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
-            if (pixelBuffer == NULL) { return; }
+            if (pixelBuffer == NULL) {
+                // Programmatically create white image to send
+                CGSize size = CGSizeMake(640, 480);
+                UIGraphicsBeginImageContextWithOptions(size, YES, 0);
+                [[UIColor whiteColor] setFill];
+                UIRectFill(CGRectMake(0, 0, size.width, size.height));
+                UIImage *uimage = UIGraphicsGetImageFromCurrentImageContext();
+                UIGraphicsEndImageContext();
+                CIImage* image = [[CIImage alloc] initWithCGImage:uimage.CGImage];
+                [self saveImageData:image];
+                return;
+            }
             
             // Create CIImage for faceDetector
             CIImage *image = [CIImage imageWithCVImageBuffer:pixelBuffer];
