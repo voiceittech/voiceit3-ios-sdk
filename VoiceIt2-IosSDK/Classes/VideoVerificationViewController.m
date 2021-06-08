@@ -120,6 +120,18 @@ float initialBrightnessVV = 0.0;
     });
 }
 
+- (void) exitWithResponse:(NSString *) jsonResponse {
+    NSLog(@"%@", jsonResponse);
+    NSDictionary *jsonObj = [Utilities getJSONObject:jsonResponse];
+    NSString * responseCode = [jsonObj objectForKey:@"responseCode"];
+    [self setMessage:[ResponseManager getMessage: responseCode]];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        [self dismissViewControllerAnimated: YES completion:^{
+            [self userVerificationFailed](0.0, 0.0, jsonResponse);
+        }];
+    });
+}
+
 #pragma mark - Liveness Data
 
 -(void) handleLivenessResponse: (NSString*)result{
@@ -502,6 +514,21 @@ float initialBrightnessVV = 0.0;
     if (!self.continueRunning) {
         return;
     }
+    
+    //Check if User Id is correct
+    if (![Utilities checkUserId:self.userToVerifyUserId]){
+        NSString *response = @"{\"responseCode\":\"CREDENTIAL_ERROR\",\"message\":\"Please make sure your userId and credentials are correct\"}";
+        [self exitWithResponse:response];
+        return;
+    }
+    
+    //Check if there is Internet Connection
+    if (![Utilities checkNetwork]){
+        NSString *response = @"{\"responseCode\":\"NETWORK_ERROR\",\"message\":\"Please make sure you are connected to the internet\"}";
+        [self exitWithResponse:response];
+        return;
+    }
+    
         [self.myVoiceIt getAllVideoEnrollments:_userToVerifyUserId callback:^(NSString * jsonResponse){
             NSDictionary *jsonObj = [Utilities getJSONObject:jsonResponse];
             NSString * responseCode = [jsonObj objectForKey:@"responseCode"];
@@ -834,7 +861,18 @@ didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL
     if(self.lookingIntoCamCounter > 5 && !self.imageIsSaved && !self.doLivenessDetection){
         // Convert to CIPixelBuffer for faceDetector
         CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
-        if (pixelBuffer == NULL) { return; }
+        if (pixelBuffer == NULL) {
+            // Programmatically create white image to send
+            CGSize size = CGSizeMake(640, 480);
+            UIGraphicsBeginImageContextWithOptions(size, YES, 0);
+            [[UIColor whiteColor] setFill];
+            UIRectFill(CGRectMake(0, 0, size.width, size.height));
+            UIImage *uimage = UIGraphicsGetImageFromCurrentImageContext();
+            UIGraphicsEndImageContext();
+            CIImage* image = [[CIImage alloc] initWithCGImage:uimage.CGImage];
+            [self saveImageData:image];
+            return;
+        }
         
         // Create CIImage for faceDetector
         CIImage *image = [CIImage imageWithCVImageBuffer:pixelBuffer];

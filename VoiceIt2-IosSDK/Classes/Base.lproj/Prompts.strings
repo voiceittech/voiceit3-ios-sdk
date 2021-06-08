@@ -81,3 +81,7 @@
 "FACE_RIGHT" = "Please turn your face to the right and back";
 "LIVENESS_SUCCESS" = "Challenge passed!";
 "LIVENESS_TRY_AGAIN" = "Failed liveness! Please try again";
+
+/* Error Handling */
+"NETWORK_ERROR" = "Please make sure you are connected to the internet";
+"CREDENTIAL_ERROR" = "Please make sure your userId and credentials are correct";

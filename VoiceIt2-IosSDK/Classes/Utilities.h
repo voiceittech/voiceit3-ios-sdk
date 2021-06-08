@@ -19,6 +19,8 @@
 +(CGColorRef)cgColorFromHexString:(NSString *)hexString;
 +(NSDictionary *)getJSONObject:(NSString *)jsonString;
 +(BOOL)isStrSame:(NSString *)firstString secondString:(NSString *) secondString;
++(BOOL)checkNetwork;
++(BOOL) checkUserId: (NSString *) userId;
 +(NSData *)imageFromVideo:(NSURL *)videoURL atTime:(NSTimeInterval)time;
 +(NSDictionary *)getRecordingSettings;
 +(UIStoryboard *)getVoiceItStoryBoard;
@@ -26,6 +28,7 @@
 +(void)deleteFile:(NSString *)filePath;
 +(void)setupFaceRectangle:(CALayer *)faceRectangleLayer;
 +(void)showFaceRectangle:(CALayer *)faceRectangleLayer face:(AVMetadataObject *)face;
++(NSString*) getFirst:(NSString *)str numChars:(int)numChars;
 +(void)setBottomCornersForCancelButton:(UIButton *)cancelButton;
 +(bool)isBadResponseCode:(NSString*) responseCode;
 +(CGFloat)normalizedPowerLevelFromDecibels:(AVAudioRecorder *)audioRecorder;

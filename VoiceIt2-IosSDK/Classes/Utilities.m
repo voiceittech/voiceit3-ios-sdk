@@ -8,8 +8,13 @@
 
 #import "Utilities.h"
 #import "Styles.h"
+#import "Reachability.h"
 
 @implementation Utilities
+
++(NSString*) getFirst:(NSString *)str numChars:(int)numChars{
+    return [str substringWithRange:NSMakeRange(0, numChars)];
+}
 
 /* Utility Methods */
 +(UIColor *)uiColorFromHexString:(NSString *)hexString {
@@ -18,6 +23,29 @@
     [scanner setScanLocation:1]; // bypass '#' character
     [scanner scanHexInt:&rgbValue];
     return [UIColor colorWithRed:((rgbValue & 0xFF0000) >> 16)/255.0 green:((rgbValue & 0xFF00) >> 8)/255.0 blue:(rgbValue & 0xFF)/255.0 alpha:1.0];
+}
+
++(BOOL) checkNetwork {
+    Reachability *networkReachability = [Reachability reachabilityForInternetConnection];
+    NetworkStatus networkStatus = [networkReachability currentReachabilityStatus];
+    if (networkStatus == NotReachable) {
+        return false;
+    }
+    return true;
+}
+
++(BOOL) checkUserId: (NSString *) userId {
+    if ([userId isEqualToString:@""] || ![[self getFirst:userId numChars:4] isEqualToString:@"usr_"]){
+        return false;
+    }
+    return true;
+}
+
++(BOOL) checkGroupId: (NSString *) groupId {
+    if ([groupId isEqualToString:@""] || ![[self getFirst:groupId numChars:4] isEqualToString:@"grp_"]){
+        return false;
+    }
+    return true;
 }
 
 +(UIColor *)getGreenColor {

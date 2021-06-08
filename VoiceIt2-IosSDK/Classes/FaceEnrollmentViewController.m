@@ -300,6 +300,20 @@ float initialBrightnessFE = 0.0;
 }
 
 -(void)startEnrollmentProcess {
+    //Check if User Id is correct
+    if (![Utilities checkUserId:self.userToEnrollUserId]){
+        NSString *response = @"{\"responseCode\":\"CREDENTIAL_ERROR\",\"message\":\"Please make sure your userId and credentials are correct\"}";
+        [self exitWithResponse:response];
+        return;
+    }
+    
+    //Check if there is Internet Connection
+    if (![Utilities checkNetwork]){
+        NSString *response = @"{\"responseCode\":\"NETWORK_ERROR\",\"message\":\"Please make sure you are connected to the internet\"}";
+        [self exitWithResponse:response];
+        return;
+    }
+    
     [self.myVoiceIt deleteAllEnrollments:self.userToEnrollUserId callback:^(NSString * deleteEnrollmentsJSONResponse){
                 [self makeLabelFlyIn: [ResponseManager getMessage:@"GET_ENROLLED"]];
                 [self startDelayedRecording:2.0];
@@ -331,12 +345,27 @@ float initialBrightnessFE = 0.0;
     });
 }
 
--(void)cancelClicked{
+-(void) cancelClicked{
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.5 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         [[self navigationController] dismissViewControllerAnimated:YES completion:^{
             [[self myNavController] userEnrollmentsCancelled];
         }];
         [self.myVoiceIt deleteAllEnrollments:self.userToEnrollUserId callback:^(NSString * deleteEnrollmentsJSONResponse){}];
+    });
+}
+
+-(void) exitWithResponse:(NSString *) jsonResponse {
+    NSLog(@"%@", jsonResponse);
+    NSDictionary *jsonObj = [Utilities getJSONObject:jsonResponse];
+    NSString * responseCode = [jsonObj objectForKey:@"responseCode"];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.messageLabel setText: [ResponseManager getMessage: responseCode]];
+        [self.messageLabel setAdjustsFontSizeToFitWidth:YES];
+    });
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        [[self navigationController] dismissViewControllerAnimated:YES completion:^{
+            [[self myNavController] userEnrollmentsCancelled];
+        }];
     });
 }
 

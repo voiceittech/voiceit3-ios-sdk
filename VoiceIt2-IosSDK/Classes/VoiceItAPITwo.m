@@ -8,8 +8,9 @@
 
 #import "VoiceItAPITwo.h"
 #import "Styles.h"
+#import "Reachability.h"
 
-NSString * const host = @"https://api.voiceit.io/";
+NSString * const host = @"https://staging-api.voiceit.io/";
 NSString * const livenessHost = @"https://liveness.voiceit.io/v1/";
 NSString * const platformVersion = @"2.2.6";
 NSString * const platformId = @"41";
@@ -29,7 +30,7 @@ NSString * notificationURL = @"";
     self.masterViewController = masterViewController;
 #pragma mark - Save Styles Passed to Styles Class
     [Styles set:styles];
-//    [self setNotificationURL:@"khg"];
+    
     return self;
 }
 
@@ -711,13 +712,6 @@ NSString * notificationURL = @"";
            userEnrollmentsCancelled:(void (^)(void))userEnrollmentsCancelled
               userEnrollmentsPassed:(void (^)(NSString *))userEnrollmentsPassed{
     
-    if([userId isEqualToString:@""] || ![[self getFirst:userId numChars:4] isEqualToString:@"usr_"]){
-        @throw [NSException exceptionWithName:@"Cannot Create Voice Enrollment"
-                                       reason:@"Invalid userId passed"
-                                     userInfo:nil];
-        return;
-    }
-    
     MainNavigationController * controller = (MainNavigationController *) [[Utilities getVoiceItStoryBoard] instantiateViewControllerWithIdentifier:@"mainNavController"];
     controller.enrollmentType = voice;
     controller.uniqueId = userId;
@@ -734,13 +728,6 @@ NSString * notificationURL = @"";
              userEnrollmentsPassed:(void (^)(NSString *))userEnrollmentsPassed
 {
     
-    if([userId isEqualToString:@""] || ![[self getFirst:userId numChars:4] isEqualToString:@"usr_"]){
-        @throw [NSException exceptionWithName:@"Cannot Create Face Enrollment"
-                                       reason:@"Invalid userId passed"
-                                     userInfo:nil];
-        return;
-    }
-    
     MainNavigationController * controller = (MainNavigationController *) [[Utilities getVoiceItStoryBoard] instantiateViewControllerWithIdentifier:@"mainNavController"];
     controller.enrollmentType = face;
     controller.uniqueId = userId;
@@ -756,13 +743,6 @@ NSString * notificationURL = @"";
            userEnrollmentsCancelled:(void (^)(void))userEnrollmentsCancelled
               userEnrollmentsPassed:(void (^)(NSString *))userEnrollmentsPassed
 {
-    
-    if([userId isEqualToString:@""] || ![[self getFirst:userId numChars:4] isEqualToString:@"usr_"]){
-        @throw [NSException exceptionWithName:@"Cannot Create Video Enrollment"
-                                       reason:@"Invalid userId passed"
-                                     userInfo:nil];
-        return;
-    }
     
     MainNavigationController * controller = (MainNavigationController *) [[Utilities getVoiceItStoryBoard] instantiateViewControllerWithIdentifier:@"mainNavController"];
     controller.enrollmentType = video;
@@ -800,13 +780,6 @@ NSString * notificationURL = @"";
            userVerificationSuccessful:(void (^)(float, NSString *))userVerificationSuccessful
                userVerificationFailed:(void (^)(float, NSString *))userVerificationFailed
 {
-    
-    if([userId isEqualToString:@""] || ![[self getFirst:userId numChars:4] isEqualToString:@"usr_"]){
-        @throw [NSException exceptionWithName:@"Cannot Do Video Verification"
-                                       reason:@"Invalid userId passed"
-                                     userInfo:nil];
-        return;
-    }
     
     VoiceVerificationViewController *verifyVoice = [[Utilities getVoiceItStoryBoard] instantiateViewControllerWithIdentifier:@"verifyVoiceVC"];
     verifyVoice.modalPresentationStyle = UIModalPresentationOverCurrentContext;
@@ -851,13 +824,6 @@ NSString * notificationURL = @"";
           userVerificationSuccessful:(void (^)(float, NSString *))userVerificationSuccessful
               userVerificationFailed:(void (^)(float, NSString *))userVerificationFailed
 {
-    
-    if([userId isEqualToString:@""] || ![[self getFirst:userId numChars:4] isEqualToString:@"usr_"]){
-        @throw [NSException exceptionWithName:@"Cannot Do Face Verification"
-                                       reason:@"Invalid userId passed"
-                                     userInfo:nil];
-        return;
-    }
     
     FaceVerificationViewController *faceVerificationVC = [[Utilities getVoiceItStoryBoard] instantiateViewControllerWithIdentifier:@"faceVerificationVC"];
     faceVerificationVC.modalPresentationStyle = UIModalPresentationOverCurrentContext;
@@ -908,12 +874,6 @@ NSString * notificationURL = @"";
                userVerificationFailed:(void (^)(float, float, NSString *))userVerificationFailed
 {
     
-    if([userId isEqualToString:@""] || ![[self getFirst:userId numChars:4] isEqualToString:@"usr_"]){
-        @throw [NSException exceptionWithName:@"Cannot Do Video Verification"
-                                       reason:@"Invalid userId passed"
-                                     userInfo:nil];
-        return;
-    }
     
     VideoVerificationViewController *verifyVC = [[Utilities getVoiceItStoryBoard] instantiateViewControllerWithIdentifier:@"videoVerifyVC"];
     verifyVC.modalPresentationStyle = UIModalPresentationOverCurrentContext;
@@ -957,13 +917,6 @@ NSString * notificationURL = @"";
            userIdentificationSuccessful:(void (^)(float, NSString *, NSString *))userIdentificationSuccessful
                userIdentificationFailed:(void (^)(float, NSString *))userIdentificationFailed
 {
-    
-    if([groupId isEqualToString:@""] || ![[self getFirst:groupId numChars:4] isEqualToString:@"grp_"]){
-        @throw [NSException exceptionWithName:@"Cannot Call Encapsulated Voice Identification"
-                                       reason:@"Invalid groupId passed"
-                                     userInfo:nil];
-        return;
-    }
     
     VoiceIdentificationViewController *identifyVC = [[Utilities getVoiceItStoryBoard] instantiateViewControllerWithIdentifier:@"identifyVoiceVC"];
     identifyVC.modalPresentationStyle = UIModalPresentationOverCurrentContext;
@@ -1103,13 +1056,7 @@ NSString * notificationURL = @"";
                             callback:(void (^)(NSString *))callback
                                lcoId:(NSString *) lcoId
                         pageCategory:(NSString *) pageCategory {
-
-    if([userId isEqualToString:@""] || ![[self getFirst:userId numChars:4] isEqualToString:@"usr_"]){
-        @throw [NSException exceptionWithName:@"Cannot Call Face Verification"
-                                       reason:@"Invalid userId passed"
-                                     userInfo:nil];
-        return;
-    } else if (lcoId == nil) {
+    if (lcoId == nil) {
         @throw [NSException exceptionWithName:@"Cannot Call Face Verification"
                                        reason:@"LCO  id is nil, please contact support"
                                      userInfo:nil];
@@ -1272,13 +1219,6 @@ NSString * notificationURL = @"";
                      phrase:(NSString*)phrase
                    callback:(void (^)(NSString *))callback {
     
-    if([groupId isEqualToString:@""] || ![[self getFirst:groupId numChars:4] isEqualToString:@"grp_"]){
-        @throw [NSException exceptionWithName:@"Cannot Call Voice Identification"
-                                       reason:@"Invalid groupId passed"
-                                     userInfo:nil];
-        return;
-    }
-    
     NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; charset=utf-8; boundary=%@", self.boundary];
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
@@ -1311,13 +1251,6 @@ NSString * notificationURL = @"";
 - (void)faceIdentification:(NSString *)groupId
                  imageData:(NSData*)imageData
                   callback:(void (^)(NSString *))callback {
-
-    if([groupId isEqualToString:@""] || ![[self getFirst:groupId numChars:4] isEqualToString:@"grp_"]){
-        @throw [NSException exceptionWithName:@"Cannot Call Face Identification"
-                                       reason:@"Invalid groupId passed"
-                                     userInfo:nil];
-        return;
-    }
     
     NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; charset=utf-8; boundary=%@", self.boundary];
     
@@ -1350,13 +1283,6 @@ NSString * notificationURL = @"";
 - (void)faceIdentification:(NSString *)groupId
                  videoPath:(NSString*)videoPath
                   callback:(void (^)(NSString *))callback {
-
-    if([groupId isEqualToString:@""] || ![[self getFirst:groupId numChars:4] isEqualToString:@"grp_"]){
-        @throw [NSException exceptionWithName:@"Cannot Call Face Identification"
-                                       reason:@"Invalid groupId passed"
-                                     userInfo:nil];
-        return;
-    }
     
     NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; charset=utf-8; boundary=%@", self.boundary];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
@@ -1391,13 +1317,6 @@ NSString * notificationURL = @"";
                      phrase:(NSString*)phrase
                    callback:(void (^)(NSString *))callback {
     
-    if([groupId isEqualToString:@""] || ![[self getFirst:groupId numChars:4] isEqualToString:@"grp_"]){
-        @throw [NSException exceptionWithName:@"Cannot Call Video Identification"
-                                       reason:@"Invalid groupId passed"
-                                     userInfo:nil];
-        return;
-    }
-    
     NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; charset=utf-8; boundary=%@", self.boundary];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
                                     initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@%@",[self buildURL:@"identification/video"], notificationURL]]];
@@ -1431,13 +1350,6 @@ NSString * notificationURL = @"";
                   audioPath:(NSString*)audioPath
                      phrase:(NSString*)phrase
                    callback:(void (^)(NSString *))callback {
-
-    if([groupId isEqualToString:@""] || ![[self getFirst:groupId numChars:4] isEqualToString:@"grp_"]){
-        @throw [NSException exceptionWithName:@"Cannot Call Video Identification"
-                                       reason:@"Invalid groupId passed"
-                                     userInfo:nil];
-        return;
-    }
     
     NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; charset=utf-8; boundary=%@", self.boundary];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]

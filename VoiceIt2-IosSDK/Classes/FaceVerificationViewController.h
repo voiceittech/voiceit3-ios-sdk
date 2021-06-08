@@ -51,6 +51,7 @@
 @property int lookingIntoCamCounter;
 @property int failCounter;
 @property int failsAllowed;
+@property int error;
 @property int numberOfLivenessFailsAllowed;
 
 #pragma mark -  Developer Passed Options

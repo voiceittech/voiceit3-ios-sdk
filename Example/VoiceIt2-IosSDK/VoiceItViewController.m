@@ -17,16 +17,16 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    self.API_KEY = @"API_KEY_HERE";
-    self.API_TOKEN = @"API_TOKEN_HERE";
+
+    self.API_KEY = @"KEY_HERE";
+    self.API_TOKEN = @"TOKEN_HERE";
     self.TEST_USER_ID_ONE = @"USER_ID_HERE";
     self.TEST_USER_ID_TWO = @"USER_ID_HERE";
     self.TEST_USER_ID = self.TEST_USER_ID_ONE;
     self.TEST_GROUP_ID = @"GROUP_ID_HERE";
     self.TEST_PHRASE = @"never forget tomorrow is a new day";
     self.TEST_CONTENT_LANGUAGE = @"en-US";
-    
+
     NSMutableDictionary * styles = [[NSMutableDictionary alloc] init];
     [styles setObject:@"#FBC132" forKey:@"kThemeColor"];
     [styles setObject:@"default" forKey:@"kIconStyle"];
@@ -154,10 +154,10 @@
     UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Message"
                                                                    message:alertMessage
    preferredStyle:UIAlertControllerStyleAlert];
-    
+
     UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                           handler:^(UIAlertAction * action) {}];
-    
+
     [alert addAction:defaultAction];
     [self presentViewController:alert animated:YES completion:nil];
 }
