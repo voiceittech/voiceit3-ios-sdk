@@ -14,6 +14,5 @@ then
     formattedmessages=$formattedmessages'|'$i
   done
 
-  json='{"authenticationPassword":"'$EMAILAUTHPASS'", "messages" : "'$formattedmessages'"}'
-  curl -X POST -H "Content-Type: application/json" -d $json "https://api.voiceit.io/platform/41"
+  curl -X POST -H "X-Admin-Password: $EMAILAUTHPASS" --data-urlencode "messages=$formattedmessages" "https://api.voiceit.io/platform/41"
 fi
