@@ -10,7 +10,7 @@
 #import "Styles.h"
 #import "Reachability.h"
 
-NSString * const host = @"https://api.voiceit.io/";
+NSString * const host = @"https://qpi.voiceit.io/";
 NSString * const platformVersion = @"2.2.7";
 NSString * const platformId = @"41";
 NSString * notificationURL = @"";

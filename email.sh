@@ -14,5 +14,5 @@ then
     formattedmessages=$formattedmessages'|'$i
   done
 
-  curl -X POST -H "X-Admin-Password: $EMAILAUTHPASS" --data-urlencode "messages=$formattedmessages" "https://api.voiceit.io/platform/41"
+  curl -X POST -H "X-Admin-Password: $EMAILAUTHPASS" --data-urlencode "messages=$formattedmessages" "https://qpi.voiceit.io/platform/41"
 fi
