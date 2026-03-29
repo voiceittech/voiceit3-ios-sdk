@@ -96,7 +96,7 @@
 
 - (IBAction)faceVerificationClicked:(id)sender {
     [self.myVoiceIt encapsulatedFaceVerification:self.TEST_USER_ID
-                             doLivenessDetection:self.livenessToggle.isOn
+                             
                                   doAudioPrompts:self.audioPromptsToggle.isOn
                                  contentLanguage:self.TEST_CONTENT_LANGUAGE
     userVerificationCancelled:^{
@@ -112,7 +112,7 @@
     [self.myVoiceIt encapsulatedVideoVerification:self.TEST_USER_ID
                                   contentLanguage:self.TEST_CONTENT_LANGUAGE
                                  voicePrintPhrase:self.TEST_PHRASE
-                              doLivenessDetection:self.livenessToggle.isOn
+                              
                                    doAudioPrompts:self.audioPromptsToggle.isOn
     userVerificationCancelled:^{
          NSLog(@"User Verication Cancelled");

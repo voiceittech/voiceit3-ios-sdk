@@ -249,7 +249,6 @@ myVoiceIt?.encapsulatedVoiceVerification("USER_ID_HERE", contentLanguage: "CONTE
 
 #### Encapsulated Face Verification
 
-Verify user with given userId(begins with 'usr_') and a parameter to enable or disable liveness detection. Note: Immediately upon calling this method it displays a view controller with a camera preview that verifies the user's face and provides relevant callbacks for whether the verification was successful or not, and the associated face confidence.
 
 ##### *Swift*
 ```swift
@@ -276,7 +275,6 @@ myVoiceIt?.encapsulatedFaceVerification("USER_ID_HERE", doAudioPrompts:true, use
 
 #### Encapsulated Video Verification
 
-Verify user with given userId(begins with 'usr_') , contentLanguage('en-US','es-ES' etc.) and a parameter to enable or disable liveness detection. Note: Immediately upon calling this method it displays a view controller with a camera preview that verifies the user and provides relevant callbacks for whether the verification was successful or not, and the associated voice and face confidences.
 
 ##### *Swift*
 ```swift
@@ -328,7 +326,6 @@ myVoiceIt?.encapsulatedVoiceIdentification("GROUP_ID_HERE", contentLanguage: "CO
 
 #### Encapsulated Face Identification
 
-Identify a user in a group with a given groupId(begins with 'grp_') and a parameter to enable or disable liveness detection. Note: Immediately upon calling this method it displays a view controller with a camera preview that identifies the user's face and provides relevant callbacks for whether the identification was successful or not, and the associated face confidence.
 
 ##### *Swift*
 ```swift
@@ -355,7 +352,6 @@ myVoiceIt?.encapsulatedFaceIdentification("GROUP_ID_HERE", doAudioPrompts:true, 
 
 #### Encapsulated Video Identification
 
-Identify user in group with given groupId(begins with 'grp_'), contentLanguage('en-US','es-ES' etc.)  and a parameter to enable or disable liveness detection. Note: Immediately upon calling this method it displays a view controller with a camera preview that identifies the user and provides relevant callbacks for whether the identification was successful or not, and the associated voice and face confidences.
 
 ##### *Swift*
 ```swift
