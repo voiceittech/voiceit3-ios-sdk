@@ -1,5 +1,11 @@
-<img src="https://raw.githubusercontent.com/voiceittech/VoiceIt3-IosSDK/master/Graphics/ios.png" width="100%" style="width:100%">
+<img src="https://raw.githubusercontent.com/voiceittech/VoiceIt3-IosSDK/main/Graphics/ios.png" width="100%" style="width:100%">
 
+
+[![Version](https://img.shields.io/badge/version-2.2.7-blue)](https://github.com/voiceittech/VoiceIt3-IosSDK)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green)](https://github.com/voiceittech/VoiceIt3-IosSDK/blob/main/LICENSE)
+[![Platform](https://img.shields.io/badge/platform-iOS%2013%2B-lightgrey)](https://github.com/voiceittech/VoiceIt3-IosSDK)
+[![Swift Package Manager](https://img.shields.io/badge/SPM-compatible-brightgreen)](https://swift.org/package-manager/)
+[![VoiceIt API](https://img.shields.io/badge/VoiceIt-API%203.0-blue)](https://voiceit.io)
 
 A fully comprehensive SDK that gives you access to VoiceIt's API 3.0 featuring Voice + Face Verification and Identification with built-in user interfaces.
 
@@ -20,8 +26,6 @@ A fully comprehensive SDK that gives you access to VoiceIt's API 3.0 featuring V
       * [Encapsulated Face Verification](#encapsulated-face-verification)
       * [Encapsulated Video Verification](#encapsulated-video-verification)
       * [Encapsulated Voice Identification](#encapsulated-voice-identification)
-      * [Encapsulated Face Identification](#encapsulated-face-identification)
-      * [Encapsulated Video Identification](#encapsulated-video-identification)
   * [User API Calls](#user-api-calls)
       * [Get All Users](#get-all-users)
       * [Create User](#create-user)
@@ -54,7 +58,7 @@ A fully comprehensive SDK that gives you access to VoiceIt's API 3.0 featuring V
 
 
 ## UI Previews
-The following gifs show the UI for Voice Verification, Face Verification, and Video Verification, respectively.
+The following show the UI for Voice Verification, Face Verification, and Video Verification.
 
 <div style="background: #000 !important;">
   <img width="290px" src="./Graphics/voiceVerification.png" style="display: inline-block !important"/><img width="290px" src="./Graphics/faceVerification.png" style="display: inline-block !important;"/><img width="290px" src="./Graphics/videoVerification.png" style="display: inline-block !important;"/>
@@ -62,7 +66,7 @@ The following gifs show the UI for Voice Verification, Face Verification, and Vi
 
 ## Getting Started
 
-Contact us at <a href="mailto:support@voiceit.tech" target="_blank">support@voiceit.tech</a> to get started with an account to use API 3.0.
+Sign up at [voiceit.io/pricing](https://voiceit.io/pricing) to get your API Key and Token.
 
 <img src="./Graphics/getcredentials.png" alt="API Key and Token" width="400px" />
 
@@ -88,12 +92,8 @@ Add the following keys to your **Info.plist**:
 
 ## Requirements 
 
-#### Deployment Target (IOS Version)
-Please make sure that the minimum Deployment Target for your project is IOS 11
-
-#### API Key and Token 
-
-Contact us at <a href="mailto:support@voiceit.tech" target="_blank">support@voiceit.tech</a> to get started with an account to use API 3.0.
+#### Deployment Target (iOS Version)
+Please make sure that the minimum Deployment Target for your project is iOS 13.
 
 #### Voiceprint Phrases
 
@@ -104,6 +104,7 @@ Make sure you review your Voiceprint Phrases by navigating to <a href="https://d
 All strings utilized in the encapsulated views for the SDK and the prompts provided to the user can be modified by editing the strings in the Prompts.strings file located at
 
 ```
+VoiceIt3-IosSDK/Classes/Base.lproj/Prompts.strings
 ```
 
 ## API Calls
@@ -240,7 +241,7 @@ myVoiceIt?.encapsulatedVoiceVerification("USER_ID_HERE", contentLanguage: "CONTE
     NSLog(@"User Cancelled Verification");
 } userVerificationSuccessful:^(float voiceConfidence, NSString * jsonResponse){
     NSLog(@"User Verification Successful, voiceConfidence : %g",voiceConfidence);
-} userVerificationFailed:^(float faceConfidence, float voiceConfidence, NSString * jsonResponse){
+} userVerificationFailed:^(float voiceConfidence, NSString * jsonResponse){
     NSLog(@"User Verification Failed, voiceConfidence : %g",voiceConfidence);
 }];
 ```
@@ -319,57 +320,6 @@ myVoiceIt?.encapsulatedVoiceIdentification("GROUP_ID_HERE", contentLanguage: "CO
     NSLog(@"User Identification Successful, userId: %@ voiceConfidence : %g",foundUserId, voiceConfidence);
 } userIdentificationFailed:^(float faceConfidence, float voiceConfidence, NSString * jsonResponse){
     NSLog(@"User Identification Failed, voiceConfidence : %g",voiceConfidence);
-}];
-```
-
-#### Encapsulated Face Identification
-
-
-##### *Swift*
-```swift
-myVoiceIt?.encapsulatedFaceIdentification("GROUP_ID_HERE", doAudioPrompts:true, userIdentificationCancelled: {
-    print("User Cancelled Identification");
-}, userIdentificationSuccessful: {(faceConfidence, foundUserId, jsonResponse) in
-    print("User Identification Successful userId : \(foundUserId) faceConfidence : \(faceConfidence)")
-}, userIdentificationFailed: { (faceConfidence, jsonResponse) in
-    print("User Identification Failed, faceConfidence is \(faceConfidence)")
-})
-```
-
-##### *Objective-C*
-```objc
-[self.myVoiceIt encapsulatedFaceIdentification:@"GROUP_ID_HERE" doAudioPrompts:YES userIdentificationCancelled:^{
-    NSLog(@"User Cancelled Identification");
-} userIdentificationSuccessful:^(float faceConfidence, NSString * foundUserId, NSString * jsonResponse){
-    NSLog(@"User Identification Successful userId: %@ faceConfidence : %g", foundUserId, faceConfidence);
-} userIdentificationFailed:^(float faceConfidence, NSString * jsonResponse){
-    NSLog(@"User Identification Failed, faceConfidence : %g",faceConfidence);
-}];
-```
-
-
-#### Encapsulated Video Identification
-
-
-##### *Swift*
-```swift
-myVoiceIt?.encapsulatedVideoIdentification("GROUP_ID_HERE", contentLanguage: "CONTENT_LANGUAGE_HERE", voicePrintPhrase: "my face and voice identify me", doAudioPrompts:true, userIdentificationCancelled: {
-    print("User Cancelled Identification");
-}, userIdentificationSuccessful: {(faceConfidence, voiceConfidence, foundUserId, jsonResponse) in
-    print("User Identification Successful, voiceConfidence is \(voiceConfidence), faceConfidence is \(faceConfidence)")
-}, userIdentificationFailed: { (faceConfidence, voiceConfidence, jsonResponse) in
-    print("User Identification Failed, voiceConfidence is \(voiceConfidence), faceConfidence is \(faceConfidence)")
-})
-```
-
-##### *Objective-C*
-```objc
-[self.myVoiceIt encapsulatedVideoIdentification:@"GROUP_ID_HERE" contentLanguage:@"CONTENT_LANGUAGE_HERE" voicePrintPhrase:@"my face and voice identify me" doAudioPrompts:YES userIdentificationCancelled:^{
-    NSLog(@"User Cancelled Identification");
-} userIdentificationSuccessful:^(float faceConfidence, float voiceConfidence, NSString * foundUserId, NSString * jsonResponse){
-    NSLog(@"User Identification Successful, userId: %@, voiceConfidence : %g , faceConfidence : %g", foundUserId, voiceConfidence, faceConfidence);
-} userIdentificationFailed:^(float faceConfidence ,float voiceConfidence, NSString * jsonResponse){
-    NSLog(@"User Identification Failed, voiceConfidence : %g , faceConfidence : %g",voiceConfidence, faceConfidence);
 }];
 ```
 
@@ -816,7 +766,7 @@ Identify user's face inside group with the given groupId(begins with 'grp_') and
 
 ##### *Swift*
 ```swift
-myVoiceIt?.faceIdentification("GROUP_ID_HERE", videoPath: "FILE_PATH_TO_VIDEO_FOR_IDENTIFICATION_HERE",
+myVoiceIt?.faceIdentification("GROUP_ID_HERE", videoPath: "FILE_PATH_TO_VIDEO_FOR_IDENTIFICATION_HERE", callback: {
     jsonResponse in
     print("JSON RESPONSE: \(jsonResponse!)")
 })

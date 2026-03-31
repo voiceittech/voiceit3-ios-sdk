@@ -1190,7 +1190,7 @@ NSString * notificationURL = @"";
 
     NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; charset=utf-8; boundary=%@", self.boundary];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
-                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@%@",[self buildURL:@"identification/voice"], notificationURL]]];
+                                    initWithURL:[[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"%@%@",[self buildURL:@"identification/face"], notificationURL]]];
     NSURLSession *session = [NSURLSession sharedSession];
     [request setHTTPMethod:@"POST"];
     [request setValue:contentType forHTTPHeaderField: @"Content-Type"];
