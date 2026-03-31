@@ -66,7 +66,7 @@ The built-in biometric capture UI works with both Swift and Objective-C. The fol
 
 ## Getting Started
 
-Sign up at [voiceit.io/pricing](https://voiceit.io/pricing) to get your API Key and Token.
+Sign up for a 10-Day paid trial at [voiceit.io/pricing](https://voiceit.io/pricing) to get your API Key and Token.
 
 <img src="./Graphics/getcredentials.png" alt="API Key and Token" width="400px" />
 
