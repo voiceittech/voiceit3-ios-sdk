@@ -61,7 +61,7 @@ A fully comprehensive SDK that gives you access to VoiceIt's API 3.0 featuring V
 The built-in biometric capture UI works with both Swift and Objective-C. The following show Voice Verification, Face Verification, and Video Verification.
 
 <div style="background: #000 !important;">
-  <img width="290px" src="./Graphics/voiceVerification.png" style="display: inline-block !important"/><img width="290px" src="./Graphics/faceVerification.png" style="display: inline-block !important;"/><img width="290px" src="./Graphics/videoVerification.png" style="display: inline-block !important;"/>
+  <img width="290px" src="./Graphics/voiceVerification.png?v=2" style="display: inline-block !important"/><img width="290px" src="./Graphics/faceVerification.png?v=2" style="display: inline-block !important;"/><img width="290px" src="./Graphics/videoVerification.png?v=2" style="display: inline-block !important;"/>
 </div>
 
 ## Getting Started
