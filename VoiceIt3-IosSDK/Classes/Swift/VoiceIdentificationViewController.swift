@@ -52,7 +52,7 @@ class VIVoiceIdentificationViewController: UIViewController {
 
     private func setupAudioCallbacks() {
         audioManager.onPowerLevelUpdate = { [weak self] level in
-            if let waveform = self?.waveformView as? SCSiriWaveformView {
+            if let waveform = self?.waveformView as? WaveformView {
                 waveform.update(withLevel: level)
             }
         }
