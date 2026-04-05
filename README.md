@@ -798,6 +798,13 @@ myVoiceIt?.videoIdentification("GROUP_ID_HERE", contentLanguage: "CONTENT_LANGUA
 } ];
 ```
 
+
+## Support
+
+If you find this SDK useful, please consider giving it a star on GitHub — it helps others discover the project!
+
+[![GitHub stars](https://img.shields.io/github/stars/voiceittech/VoiceIt3-IosSDK?style=social)](https://github.com/voiceittech/VoiceIt3-IosSDK/stargazers)
+
 ## Author
 
 VoiceIt Technologies, <a href="mailto:support@voiceit.tech" target="_blank">support@voiceit.tech</a>
