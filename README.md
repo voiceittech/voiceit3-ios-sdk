@@ -2,6 +2,7 @@
 
 
 [![Build](https://github.com/voiceittech/VoiceIt3-IosSDK/actions/workflows/test.yml/badge.svg)](https://github.com/voiceittech/VoiceIt3-IosSDK/actions/workflows/test.yml)
+[![Dependabot](https://img.shields.io/badge/dependabot-enabled-025e8c?logo=dependabot)](https://github.com/voiceittech/VoiceIt3-IosSDK/security/dependabot)
 [![Version](https://img.shields.io/badge/version-2.2.7-blue)](https://github.com/voiceittech/VoiceIt3-IosSDK)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](https://github.com/voiceittech/VoiceIt3-IosSDK/blob/main/LICENSE)
 [![Platform](https://img.shields.io/badge/platform-iOS%2013%2B-lightgrey)](https://github.com/voiceittech/VoiceIt3-IosSDK)
