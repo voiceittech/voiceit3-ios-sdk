@@ -26,6 +26,7 @@
 
 /* Prompts for Enrollment, Verification & Identification Flow */
 "LOOK_INTO_CAM" = "Please look into the camera";
+"VIDEO_LOOK_INTO_CAM" = "Look into the camera and say \"%@\"";
 "GET_ENROLLED" = "There you are, let's get you enrolled";
 "GET_VERIFIED" = "There you are, let's get you verified";
 "READY_FOR_VOICE_VERIFICATION" = "Please get ready to verify your voice";

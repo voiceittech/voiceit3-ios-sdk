@@ -52,7 +52,7 @@ class VIVideoVerificationViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        messageLabel.text = VoiceItResponseManager.getMessage("LOOK_INTO_CAM")
+        messageLabel.text = VoiceItResponseManager.getMessage("VIDEO_LOOK_INTO_CAM", variable: (self.navigationController as? VIMainNavigationController)?.voicePrintPhrase ?? "")
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -192,7 +192,7 @@ class VIVideoVerificationViewController: UIViewController {
                         self.lookingIntoCamCounter = 0
                         self.imageData = nil
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                            self.messageLabel.text = VoiceItResponseManager.getMessage("LOOK_INTO_CAM")
+                            self.messageLabel.text = VoiceItResponseManager.getMessage("VIDEO_LOOK_INTO_CAM", variable: (self.navigationController as? VIMainNavigationController)?.voicePrintPhrase ?? "")
                         }
                     }
                 }

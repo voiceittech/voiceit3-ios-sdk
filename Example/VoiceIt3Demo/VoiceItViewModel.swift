@@ -5,7 +5,7 @@ class VoiceItViewModel: ObservableObject {
     @Published var apiKey = ""
     @Published var apiToken = ""
     @Published var userId = ""
-    @Published var phrase = "never forget tomorrow is a new day"
+    @Published var phrase = "Never forget tomorrow is a new day"
     @Published var contentLanguage = "en-US"
     @Published var showAlert = false
     @Published var alertMessage = ""

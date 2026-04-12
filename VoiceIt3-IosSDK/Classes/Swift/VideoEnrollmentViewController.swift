@@ -57,7 +57,8 @@ class VIVideoEnrollmentViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         originalConstraint = messageleftConstraint.constant
-        messageLabel.text = VoiceItResponseManager.getMessage("LOOK_INTO_CAM")
+        let phrase = (navigationController as? VIMainNavigationController)?.voicePrintPhrase ?? ""
+        messageLabel.text = VoiceItResponseManager.getMessage("VIDEO_LOOK_INTO_CAM", variable: phrase)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -210,8 +211,9 @@ class VIVideoEnrollmentViewController: UIViewController {
                         self.enrollmentStarted = false
                         self.lookingIntoCamCounter = 0
                         self.imageData = nil
+                        let videoPhrase = (self.navigationController as? VIMainNavigationController)?.voicePrintPhrase ?? ""
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                            self.messageLabel.text = VoiceItResponseManager.getMessage("LOOK_INTO_CAM")
+                            self.messageLabel.text = VoiceItResponseManager.getMessage("VIDEO_LOOK_INTO_CAM", variable: videoPhrase)
                         }
                     }
                 } else {
@@ -226,8 +228,9 @@ class VIVideoEnrollmentViewController: UIViewController {
                         self.enrollmentStarted = false
                         self.lookingIntoCamCounter = 0
                         self.imageData = nil
+                        let videoPhrase = (self.navigationController as? VIMainNavigationController)?.voicePrintPhrase ?? ""
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                            self.messageLabel.text = VoiceItResponseManager.getMessage("LOOK_INTO_CAM")
+                            self.messageLabel.text = VoiceItResponseManager.getMessage("VIDEO_LOOK_INTO_CAM", variable: videoPhrase)
                         }
                     }
                 }
