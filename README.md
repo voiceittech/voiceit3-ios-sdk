@@ -3,7 +3,7 @@
 
 [![Build](https://github.com/voiceittech/voiceit3-iossdk/actions/workflows/test.yml/badge.svg)](https://github.com/voiceittech/voiceit3-iossdk/actions/workflows/test.yml)
 [![Dependabot](https://img.shields.io/github/issues-pr/voiceittech/voiceit3-iossdk/dependencies?label=dependabot&logo=dependabot&color=025e8c)](https://github.com/voiceittech/voiceit3-iossdk/pulls?q=is%3Apr+label%3Adependencies)
-[![Version](https://img.shields.io/badge/version-3.1.2-blue)](https://github.com/voiceittech/voiceit3-iossdk)
+[![Version](https://img.shields.io/badge/version-3.2.0-blue)](https://github.com/voiceittech/voiceit3-iossdk)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](https://github.com/voiceittech/voiceit3-iossdk/blob/main/LICENSE)
 [![Platform](https://img.shields.io/badge/platform-iOS%2015%2B-lightgrey)](https://github.com/voiceittech/voiceit3-iossdk)
 [![Swift Package Manager](https://img.shields.io/badge/SPM-compatible-brightgreen)](https://swift.org/package-manager/)

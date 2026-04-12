@@ -8,7 +8,7 @@ import UIKit
     // MARK: - Constants
 
     static let defaultHost = "https://api.voiceit.io/"
-    static let platformVersion = "3.0.0"
+    static let platformVersion = "3.2.0"
     static let platformId = "41"
 
     // MARK: - Properties
