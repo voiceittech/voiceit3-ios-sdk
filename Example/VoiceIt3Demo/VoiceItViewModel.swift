@@ -12,6 +12,19 @@ class VoiceItViewModel: ObservableObject {
 
     private var voiceIt: VoiceItAPIThree?
 
+    init() {
+        let args = ProcessInfo.processInfo.arguments
+        if let idx = args.firstIndex(of: "--apiKey"), idx + 1 < args.count {
+            apiKey = args[idx + 1]
+        }
+        if let idx = args.firstIndex(of: "--apiToken"), idx + 1 < args.count {
+            apiToken = args[idx + 1]
+        }
+        if let idx = args.firstIndex(of: "--userId"), idx + 1 < args.count {
+            userId = args[idx + 1]
+        }
+    }
+
     private func initSDK() -> Bool {
         guard !apiKey.isEmpty, !apiToken.isEmpty else {
             alertMessage = "Please enter your API Key and API Token"

@@ -38,37 +38,38 @@ jobs:
           APP_PATH=$(find ~/Library/Developer/Xcode/DerivedData -name "VoiceIt3Demo.app" -path "*/Build/Products/Debug-iphonesimulator/*" | head -1)
           xcrun simctl install "$DEVICE_ID" "$APP_PATH"
 
-      - name: Capture Top Screenshot
+      - name: Create Test User
+        run: |
+          RESPONSE=$(curl -s -X POST "https://api.voiceit.io/users" \
+            -u "${{ secrets.VOICEIT_API_KEY }}:${{ secrets.VOICEIT_API_TOKEN }}")
+          USER_ID=$(echo $RESPONSE | python3 -c "import sys,json; print(json.load(sys.stdin)['userId'])")
+          echo "USER_ID=$USER_ID" >> $GITHUB_ENV
+          echo "Created user: $USER_ID"
+
+      - name: Capture Demo Screenshots (no credentials)
         run: |
           mkdir -p Graphics
+
+          # Launch without credentials for clean demo screenshots
           xcrun simctl launch "$DEVICE_ID" io.voiceit.VoiceIt3Demo
           sleep 4
+
+          # Top screenshot
           xcrun simctl io "$DEVICE_ID" screenshot /tmp/demo_top_full.png
           sips -Z 800 /tmp/demo_top_full.png --out Graphics/demo_top.png
 
-      - name: Scroll Down and Capture Bottom Screenshot
-        run: |
-          # Activate simulator window
+          # Scroll down for bottom screenshot
           open -a Simulator
           sleep 2
-
-          # Get simulator window position and size
           WINDOW_INFO=$(osascript -e 'tell application "System Events" to get {position, size} of front window of process "Simulator"')
-          echo "Window info: $WINDOW_INFO"
-
-          # Parse window coordinates
           WIN_X=$(echo $WINDOW_INFO | cut -d',' -f1 | tr -d ' ')
           WIN_Y=$(echo $WINDOW_INFO | cut -d',' -f2 | tr -d ' ')
           WIN_W=$(echo $WINDOW_INFO | cut -d',' -f3 | tr -d ' ')
           WIN_H=$(echo $WINDOW_INFO | cut -d',' -f4 | tr -d ' ')
-
           CENTER_X=$((WIN_X + WIN_W / 2))
           START_Y=$((WIN_Y + WIN_H * 75 / 100))
           END_Y=$((WIN_Y + WIN_H * 25 / 100))
 
-          echo "Dragging from ($CENTER_X, $START_Y) to ($CENTER_X, $END_Y)"
-
-          # Scroll down by dragging up
           cliclick "dd:$CENTER_X,$START_Y" "du:$CENTER_X,$END_Y"
           sleep 1
           cliclick "dd:$CENTER_X,$START_Y" "du:$CENTER_X,$END_Y"
@@ -77,135 +78,88 @@ jobs:
           xcrun simctl io "$DEVICE_ID" screenshot /tmp/demo_bottom_full.png
           sips -Z 800 /tmp/demo_bottom_full.png --out Graphics/demo_bottom.png
 
-      - name: Create Test User and Enter Credentials
-        run: |
-          # Create a test user
-          RESPONSE=$(curl -s -X POST "https://api.voiceit.io/users" \
-            -u "${{ secrets.VOICEIT_API_KEY }}:${{ secrets.VOICEIT_API_TOKEN }}")
-          USER_ID=$(echo $RESPONSE | python3 -c "import sys,json; print(json.load(sys.stdin)['userId'])")
-          echo "USER_ID=$USER_ID" >> $GITHUB_ENV
-          echo "Created user: $USER_ID"
-
-          # Scroll back to top first
-          open -a Simulator
-          sleep 1
-
-          WINDOW_INFO=$(osascript -e 'tell application "System Events" to get {position, size} of front window of process "Simulator"')
-          WIN_X=$(echo $WINDOW_INFO | cut -d',' -f1 | tr -d ' ')
-          WIN_Y=$(echo $WINDOW_INFO | cut -d',' -f2 | tr -d ' ')
-          WIN_W=$(echo $WINDOW_INFO | cut -d',' -f3 | tr -d ' ')
-          WIN_H=$(echo $WINDOW_INFO | cut -d',' -f4 | tr -d ' ')
-          CENTER_X=$((WIN_X + WIN_W / 2))
-
-          # Scroll back up
-          TOP_Y=$((WIN_Y + WIN_H * 25 / 100))
-          BOT_Y=$((WIN_Y + WIN_H * 75 / 100))
-          cliclick "dd:$CENTER_X,$TOP_Y" "du:$CENTER_X,$BOT_Y"
-          sleep 1
-          cliclick "dd:$CENTER_X,$TOP_Y" "du:$CENTER_X,$BOT_Y"
-          sleep 1
-
-          # Tap API Key field and type
-          API_KEY_Y=$((WIN_Y + WIN_H * 28 / 100))
-          cliclick "c:$CENTER_X,$API_KEY_Y"
-          sleep 0.5
-          cliclick "t:${{ secrets.VOICEIT_API_KEY }}"
-          sleep 0.3
-
-          # Tap API Token field and type
-          API_TOKEN_Y=$((WIN_Y + WIN_H * 34 / 100))
-          cliclick "c:$CENTER_X,$API_TOKEN_Y"
-          sleep 0.5
-          cliclick "t:${{ secrets.VOICEIT_API_TOKEN }}"
-          sleep 0.3
-
-          # Tap User ID field and type
-          USER_ID_Y=$((WIN_Y + WIN_H * 40 / 100))
-          cliclick "c:$CENTER_X,$USER_ID_Y"
-          sleep 0.5
-          cliclick "t:$USER_ID"
-          sleep 0.3
-
-          # Dismiss keyboard
-          osascript -e 'tell application "System Events" to key code 36'
-          sleep 1
+          # Terminate app
+          xcrun simctl terminate "$DEVICE_ID" io.voiceit.VoiceIt3Demo
+          sleep 2
 
       - name: Capture Voice Enrollment Screenshot
         run: |
+          # Launch with credentials via launch arguments
+          xcrun simctl launch "$DEVICE_ID" io.voiceit.VoiceIt3Demo \
+            --apiKey "${{ secrets.VOICEIT_API_KEY }}" \
+            --apiToken "${{ secrets.VOICEIT_API_TOKEN }}" \
+            --userId "$USER_ID"
+          sleep 4
+
+          # Get window coordinates
           open -a Simulator
           sleep 1
-
           WINDOW_INFO=$(osascript -e 'tell application "System Events" to get {position, size} of front window of process "Simulator"')
           WIN_X=$(echo $WINDOW_INFO | cut -d',' -f1 | tr -d ' ')
           WIN_Y=$(echo $WINDOW_INFO | cut -d',' -f2 | tr -d ' ')
           WIN_W=$(echo $WINDOW_INFO | cut -d',' -f3 | tr -d ' ')
           WIN_H=$(echo $WINDOW_INFO | cut -d',' -f4 | tr -d ' ')
+          echo "WINDOW_INFO=$WINDOW_INFO" >> $GITHUB_ENV
+          echo "WIN_X=$WIN_X" >> $GITHUB_ENV
+          echo "WIN_Y=$WIN_Y" >> $GITHUB_ENV
+          echo "WIN_W=$WIN_W" >> $GITHUB_ENV
+          echo "WIN_H=$WIN_H" >> $GITHUB_ENV
           CENTER_X=$((WIN_X + WIN_W / 2))
+          echo "CENTER_X=$CENTER_X" >> $GITHUB_ENV
 
-          # Tap Voice Enrollment button (approximately 65% down the screen)
+          # Tap Voice Enrollment button
           VOICE_BTN_Y=$((WIN_Y + WIN_H * 65 / 100))
           cliclick "c:$CENTER_X,$VOICE_BTN_Y"
-          sleep 3
+          sleep 4
 
           xcrun simctl io "$DEVICE_ID" screenshot /tmp/voice_full.png
           sips -Z 800 /tmp/voice_full.png --out Graphics/voiceVerification.png
-          echo "Voice enrollment screenshot captured"
 
-          # Wait for it to finish and go back
-          sleep 6
-          # Tap back / close (top-left area)
-          BACK_X=$((WIN_X + 40))
-          BACK_Y=$((WIN_Y + 60))
-          cliclick "c:$BACK_X,$BACK_Y"
+          # Wait for timeout and go back
+          sleep 8
+          xcrun simctl terminate "$DEVICE_ID" io.voiceit.VoiceIt3Demo
           sleep 2
 
       - name: Capture Face Enrollment Screenshot
         run: |
+          xcrun simctl launch "$DEVICE_ID" io.voiceit.VoiceIt3Demo \
+            --apiKey "${{ secrets.VOICEIT_API_KEY }}" \
+            --apiToken "${{ secrets.VOICEIT_API_TOKEN }}" \
+            --userId "$USER_ID"
+          sleep 4
+
           open -a Simulator
           sleep 1
 
-          WINDOW_INFO=$(osascript -e 'tell application "System Events" to get {position, size} of front window of process "Simulator"')
-          WIN_X=$(echo $WINDOW_INFO | cut -d',' -f1 | tr -d ' ')
-          WIN_Y=$(echo $WINDOW_INFO | cut -d',' -f2 | tr -d ' ')
-          WIN_W=$(echo $WINDOW_INFO | cut -d',' -f3 | tr -d ' ')
-          WIN_H=$(echo $WINDOW_INFO | cut -d',' -f4 | tr -d ' ')
-          CENTER_X=$((WIN_X + WIN_W / 2))
-
-          # Tap Face Enrollment button (approximately 71% down)
+          # Tap Face Enrollment button
           FACE_BTN_Y=$((WIN_Y + WIN_H * 71 / 100))
           cliclick "c:$CENTER_X,$FACE_BTN_Y"
-          sleep 4
+          sleep 5
 
           xcrun simctl io "$DEVICE_ID" screenshot /tmp/face_full.png
           sips -Z 800 /tmp/face_full.png --out Graphics/faceVerification.png
-          echo "Face enrollment screenshot captured"
 
-          sleep 4
-          BACK_X=$((WIN_X + 40))
-          BACK_Y=$((WIN_Y + 60))
-          cliclick "c:$BACK_X,$BACK_Y"
+          xcrun simctl terminate "$DEVICE_ID" io.voiceit.VoiceIt3Demo
           sleep 2
 
       - name: Capture Video Enrollment Screenshot
         run: |
+          xcrun simctl launch "$DEVICE_ID" io.voiceit.VoiceIt3Demo \
+            --apiKey "${{ secrets.VOICEIT_API_KEY }}" \
+            --apiToken "${{ secrets.VOICEIT_API_TOKEN }}" \
+            --userId "$USER_ID"
+          sleep 4
+
           open -a Simulator
           sleep 1
 
-          WINDOW_INFO=$(osascript -e 'tell application "System Events" to get {position, size} of front window of process "Simulator"')
-          WIN_X=$(echo $WINDOW_INFO | cut -d',' -f1 | tr -d ' ')
-          WIN_Y=$(echo $WINDOW_INFO | cut -d',' -f2 | tr -d ' ')
-          WIN_W=$(echo $WINDOW_INFO | cut -d',' -f3 | tr -d ' ')
-          WIN_H=$(echo $WINDOW_INFO | cut -d',' -f4 | tr -d ' ')
-          CENTER_X=$((WIN_X + WIN_W / 2))
-
-          # Tap Video Enrollment button (approximately 77% down)
+          # Tap Video Enrollment button
           VIDEO_BTN_Y=$((WIN_Y + WIN_H * 77 / 100))
           cliclick "c:$CENTER_X,$VIDEO_BTN_Y"
-          sleep 4
+          sleep 5
 
           xcrun simctl io "$DEVICE_ID" screenshot /tmp/video_full.png
           sips -Z 800 /tmp/video_full.png --out Graphics/videoVerification.png
-          echo "Video enrollment screenshot captured"
 
       - name: Delete Test User
         if: always()
