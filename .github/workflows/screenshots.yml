@@ -13,10 +13,19 @@ jobs:
       - name: Install cliclick
         run: brew install cliclick
 
-      - name: Boot Simulator and Clean Status Bar
+      - name: Create and Boot Simulator
         run: |
-          DEVICE_ID=$(xcrun simctl list devices available | grep "iPhone 16" | head -1 | grep -oE '[A-F0-9-]{36}')
+          # List available runtimes and create a simulator if needed
+          xcrun simctl list runtimes
+          RUNTIME=$(xcrun simctl list runtimes | grep -i "iOS" | tail -1 | grep -oE 'com\.apple\.[^ ]+')
+          echo "Using runtime: $RUNTIME"
+          # Create device if iPhone 16 doesn't exist
+          DEVICE_ID=$(xcrun simctl list devices available | grep "iPhone" | head -1 | grep -oE '[A-F0-9-]{36}')
+          if [ -z "$DEVICE_ID" ]; then
+            DEVICE_ID=$(xcrun simctl create "VoiceItDemo" "iPhone 16" "$RUNTIME")
+          fi
           echo "DEVICE_ID=$DEVICE_ID" >> $GITHUB_ENV
+          echo "Using device: $DEVICE_ID"
           xcrun simctl boot "$DEVICE_ID" 2>/dev/null || true
           sleep 5
           xcrun simctl status_bar "$DEVICE_ID" override \
@@ -30,10 +39,10 @@ jobs:
         run: |
           cd Example
           xcodebuild -project VoiceIt3Demo.xcodeproj -scheme VoiceIt3Demo \
-            -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
+            -destination 'generic/platform=iOS Simulator' \
             -resolvePackageDependencies
           xcodebuild -project VoiceIt3Demo.xcodeproj -scheme VoiceIt3Demo \
-            -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
+            -destination 'generic/platform=iOS Simulator' \
             build
           APP_PATH=$(find ~/Library/Developer/Xcode/DerivedData -name "VoiceIt3Demo.app" -path "*/Build/Products/Debug-iphonesimulator/*" | head -1)
           xcrun simctl install "$DEVICE_ID" "$APP_PATH"

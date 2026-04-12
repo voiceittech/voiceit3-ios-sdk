@@ -8,9 +8,9 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - name: Build SDK
-        run: xcodebuild -scheme VoiceIt3-IosSDK -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' build
+        run: xcodebuild -scheme VoiceIt3-IosSDK -destination 'platform=iOS Simulator,generic/platform=iOS Simulator' build
       - name: Build Example
         run: |
           cd Example
-          xcodebuild -project VoiceIt3Demo.xcodeproj -scheme VoiceIt3Demo -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' -resolvePackageDependencies
-          xcodebuild -project VoiceIt3Demo.xcodeproj -scheme VoiceIt3Demo -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' build
+          xcodebuild -project VoiceIt3Demo.xcodeproj -scheme VoiceIt3Demo -destination 'platform=iOS Simulator,generic/platform=iOS Simulator' -resolvePackageDependencies
+          xcodebuild -project VoiceIt3Demo.xcodeproj -scheme VoiceIt3Demo -destination 'platform=iOS Simulator,generic/platform=iOS Simulator' build
