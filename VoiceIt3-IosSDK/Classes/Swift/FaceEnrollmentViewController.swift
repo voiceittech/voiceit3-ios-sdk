@@ -110,6 +110,7 @@ class VIFaceEnrollmentViewController: UIViewController {
         )
         cameraBorderLayer.cornerRadius = circleWidth / 2
         cameraBorderLayer.masksToBounds = true
+        cameraBorderLayer.backgroundColor = UIColor(red: 0.17, green: 0.21, blue: 0.27, alpha: 1.0).cgColor
 
         cameraManager.previewLayer?.frame = CGRect(
             x: 0, y: 0,
