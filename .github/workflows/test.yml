@@ -7,10 +7,12 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v6
+      - name: List Available Simulators
+        run: xcrun simctl list devices available | grep "iPhone" | head -5
       - name: Build SDK
-        run: xcodebuild -scheme VoiceIt3-IosSDK -destination 'platform=iOS Simulator,generic/platform=iOS Simulator' build
+        run: xcodebuild -scheme VoiceIt3-IosSDK -destination 'generic/platform=iOS Simulator' build
       - name: Build Example
         run: |
           cd Example
-          xcodebuild -project VoiceIt3Demo.xcodeproj -scheme VoiceIt3Demo -destination 'platform=iOS Simulator,generic/platform=iOS Simulator' -resolvePackageDependencies
-          xcodebuild -project VoiceIt3Demo.xcodeproj -scheme VoiceIt3Demo -destination 'platform=iOS Simulator,generic/platform=iOS Simulator' build
+          xcodebuild -project VoiceIt3Demo.xcodeproj -scheme VoiceIt3Demo -destination 'generic/platform=iOS Simulator' -resolvePackageDependencies
+          xcodebuild -project VoiceIt3Demo.xcodeproj -scheme VoiceIt3Demo -destination 'generic/platform=iOS Simulator' build
