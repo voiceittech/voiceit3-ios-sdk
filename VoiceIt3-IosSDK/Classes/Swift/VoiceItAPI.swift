@@ -30,8 +30,25 @@ import UIKit
         super.init()
     }
 
+    // Characters allowed in a single URL query value. Starts from
+    // CharacterSet.urlQueryAllowed (RFC 3986 query chars) and removes
+    // the query-component delimiters so a literal '&', '=', '+', or '#'
+    // in the notification URL cannot inject or truncate our query string.
+    private static let urlQueryValueAllowed: CharacterSet = {
+        var set = CharacterSet.urlQueryAllowed
+        set.remove(charactersIn: "&=+#")
+        return set
+    }()
+
     @objc public func setNotificationURL(_ url: String) {
-        notificationParam = url.isEmpty ? "" : "?notificationURL=\(url)"
+        if url.isEmpty {
+            notificationParam = ""
+            return
+        }
+        let encoded = url.addingPercentEncoding(
+            withAllowedCharacters: Self.urlQueryValueAllowed
+        ) ?? ""
+        notificationParam = "?notificationURL=\(encoded)"
     }
 
     // MARK: - Generic Request
