@@ -56,10 +56,10 @@ import Network
 
     @objc public static var recordingSettings: [String: Any] {
         [
-            AVSampleRateKey: 44100.0,
+            AVSampleRateKey: 48000.0,
             AVFormatIDKey: kAudioFormatLinearPCM,
             AVLinearPCMBitDepthKey: 16,
-            AVNumberOfChannelsKey: 2,
+            AVNumberOfChannelsKey: 1,
             AVLinearPCMIsBigEndianKey: false,
             AVLinearPCMIsFloatKey: false,
         ]
