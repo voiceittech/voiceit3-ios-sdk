@@ -1,7 +1,7 @@
 <img src="https://raw.githubusercontent.com/voiceittech/voiceit3-ios-sdk/main/Graphics/ios.png" width="100%" style="width:100%">
 
 
-[![Build](https://github.com/voiceittech/voiceit3-ios-sdk/actions/workflows/test.yml/badge.svg)](https://github.com/voiceittech/voiceit3-ios-sdk/actions/workflows/test.yml)
+[![Build](https://github.com/voiceittech/voiceit3-ios-sdk/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/voiceittech/voiceit3-ios-sdk/actions/workflows/test.yml)
 [![Dependabot](https://img.shields.io/github/issues-pr/voiceittech/voiceit3-ios-sdk/dependencies?label=dependabot&logo=dependabot&color=025e8c)](https://github.com/voiceittech/voiceit3-ios-sdk/pulls?q=is%3Apr+label%3Adependencies)
 [![Version](https://img.shields.io/badge/version-3.2.0-blue)](https://github.com/voiceittech/voiceit3-ios-sdk)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](https://github.com/voiceittech/voiceit3-ios-sdk/blob/main/LICENSE)
